@@ -1,16 +1,9 @@
-image: maven:latest
-
-stages:
-    - build
-    - test
-
 build:
   stage: build
   script:
-    - mvn $MAVEN_CLI_OPTS compile
+    - echo "Hello, $GITLAB_USER_LOGIN!"
 
 test:
   stage: test
   script:
-    - mvn $MAVEN_CLI_OPTS test
-
+    - echo "This job tests something"
