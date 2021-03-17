@@ -1,0 +1,9 @@
+server:
+  port: 8081
+
+keycloak:
+  realm: FHNW-LST-MI
+  auth-server-url: http://localhost:8080/auth
+  resource: rest-api
+  bearer-only: true
+  enabled: false
