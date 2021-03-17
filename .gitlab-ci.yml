@@ -3,18 +3,12 @@ stages:
     - test
 
 build:
-    stage: build
-    script:
-        - echo "Building"
-        - mkdir build
-        - touch build/info.txt
-    artifacts:
-        paths:
-            - build/
-
+  stage: build
+  script:
+    - mvn $MAVEN_CLI_OPTS compile
 
 test:
-    stage: test
-    script:
-        - echo "Testing"
-        - test -f "build/info.txt"
+  stage: test
+  script:
+    - mvn $MAVEN_CLI_OPTS test
+
