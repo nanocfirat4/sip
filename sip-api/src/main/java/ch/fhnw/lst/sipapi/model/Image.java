@@ -63,10 +63,10 @@ public class Image {
             joinColumns = {@JoinColumn(name = "image_id",referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "hashtag_id",referencedColumnName = "id")}
     )
-    private List<Comment> imageHashtagsList = new ArrayList<>();
+    private List<Hashtag> imageHashtagsList = new ArrayList<>();
 
-    public void addHashtag(Comment comment){
-        imageHashtagsList.add(comment);
+    public void addHashtag(Hashtag hashtag){
+        imageHashtagsList.add(hashtag);
     }
 
     public Image(String description, String thumbnail, Integer pacs_id, Date timestamp) {

@@ -10,7 +10,7 @@ import static javax.persistence.GenerationType.SEQUENCE;
 
 @Entity(name = "Hashtag")
 @Table(name = "hashtag")
-public class hashtag {
+public class Hashtag {
     @Id
     @SequenceGenerator(
             name = "tag_sequence",
@@ -38,10 +38,17 @@ public class hashtag {
         imageList.add(image);
     }
 
-    public hashtag() {
+    @ManyToMany(mappedBy = "searchFavHashtagsList")
+    private List<Search_Favorites> searchFavList = new ArrayList<>();
+
+    public void addSearch_Favorites(Search_Favorites searchFavorites){
+        searchFavList.add(searchFavorites);
     }
 
-    public hashtag(String hashtagtxt, Date timestamp) {
+    public Hashtag() {
+    }
+
+    public Hashtag(String hashtagtxt, Date timestamp) {
         this.hashtagtxt = hashtagtxt;
         this.timestamp = timestamp;
     }
