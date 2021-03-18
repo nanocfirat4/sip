@@ -3,7 +3,7 @@ services:
   sip_db:
       image: postgres
       volumes:
-        - ./sipDB/:/var/lib/postgresql/data
+        - ./sipapiDB/:/var/lib/postgresql/data
       environment:
         POSTGRES_DB: sipapi
         POSTGRES_USER: sip
