@@ -9,14 +9,14 @@ services:
         POSTGRES_USER: keycloak
         POSTGRES_PASSWORD: password
       ports:
-        - 5432:5432
+        - 5431:5432
         
   keycloak:
       image: quay.io/keycloak/keycloak:latest
       environment:
         DB_VENDOR: POSTGRES
         DB_ADDR: keycloak_db
-        DB_PORT: 5432
+        DB_PORT: 5431
         DB_DATABASE: keycloak
         DB_USER: keycloak
         DB_SCHEMA: public
