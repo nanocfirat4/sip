@@ -14,12 +14,12 @@ public class Search_Favorites {
 
     @Id
     @SequenceGenerator(
-            name = "image_sequence",
-            sequenceName = "image_sequence",
+            name = "searchFav_sequence",
+            sequenceName = "searchFav_sequence",
             allocationSize = 1)
     @GeneratedValue(
             strategy = SEQUENCE,
-            generator = "image_sequence")
+            generator = "searchFav_sequence")
     @Column(
             name = "id",
             updatable = false)
