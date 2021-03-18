@@ -20,7 +20,7 @@ public class ImageService {
     }
     public Image findById(Long id){
         return imageRepository.findById(id).orElseThrow(() ->
-                new ResourceNotFoundException("no such course with id "+id));
+                new ResourceNotFoundException("no such Image with id "+id));
     }
     public Image save(Image image){
         return imageRepository.save(image);
