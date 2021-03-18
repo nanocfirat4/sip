@@ -1,6 +1,7 @@
 version: '3'
+
 services:
-  keycloak_db:
+  keycloakDB:
       image: postgres
       volumes:
         - ./keycloakDB/:/var/lib/postgresql/data
@@ -8,22 +9,21 @@ services:
         POSTGRES_DB: keycloak
         POSTGRES_USER: keycloak
         POSTGRES_PASSWORD: password
-      ports:
-        - 5431:5432
+
         
   keycloak:
       image: quay.io/keycloak/keycloak:latest
       environment:
         DB_VENDOR: POSTGRES
-        DB_ADDR: keycloak_db
-        DB_PORT: 5431
+        DB_ADDR: keycloakDB
         DB_DATABASE: keycloak
         DB_USER: keycloak
         DB_SCHEMA: public
         DB_PASSWORD: password
+        DB_PORT: 5432
         KEYCLOAK_USER: admin
         KEYCLOAK_PASSWORD: Pa55w0rd
       ports:
         - 8080:8080
       depends_on:
-        - keycloak_db
+        - postgres
