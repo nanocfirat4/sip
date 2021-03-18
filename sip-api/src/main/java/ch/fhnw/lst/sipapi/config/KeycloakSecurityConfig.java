@@ -1,6 +1,6 @@
 package ch.fhnw.lst.sipapi.config;
 
-import org.keycloak.adapters.KeycloakConfigResolver;
+import  org.keycloak.adapters.KeycloakConfigResolver;
 import org.keycloak.adapters.springboot.KeycloakSpringBootConfigResolver;
 import org.keycloak.adapters.springsecurity.authentication.KeycloakAuthenticationProvider;
 import org.keycloak.adapters.springsecurity.config.KeycloakWebSecurityConfigurerAdapter;
@@ -17,7 +17,7 @@ import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.web.authentication.session.RegisterSessionAuthenticationStrategy;
 import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
 
-//@Profile("keycloak")
+@Profile("keycloak")
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(jsr250Enabled = true)
@@ -28,7 +28,7 @@ public class KeycloakSecurityConfig extends KeycloakWebSecurityConfigurerAdapter
     super.configure(http);
     http.cors().and().
     authorizeRequests()
-        .antMatchers("/api/*").authenticated()
+        .antMatchers("/api/**").authenticated()
         .anyRequest()
         .permitAll();
     http.csrf().disable();
