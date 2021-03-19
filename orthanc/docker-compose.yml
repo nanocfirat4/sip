@@ -1,6 +1,15 @@
 version: '3.1'
 
 services:
+  orthancDB:
+      image: postgres
+      volumes:
+        - ./orthancDB/:/var/lib/postgresql/data
+      environment:
+        POSTGRES_DB: orthanc
+        POSTGRES_USER: orthanc
+        POSTGRES_PASSWORD: orthanc
+
   orthanc:
     image: jodogne/orthanc-plugins:1.9.1
     command: /run/secrets/  # Path to the configuration files (stored as secrets)
@@ -11,6 +20,8 @@ services:
       - ./orthancDB/:/var/lib/orthanc/db/
     secrets:
       - orthanc.json
+    depends_on:
+        - orthancDB
 secrets:
   orthanc.json:
     file: orthanc.json
