@@ -82,7 +82,7 @@ public class CourseControllerTest {
         Image douglas = new Image(
                 "hitchhiker's guide",
                 "~/Betelgeuse/Five",
-                42, Timestamp.from(Instant.now()));
+                42);
         List<Image> allImages = Arrays.asList(douglas);
         given(service.findAll()).willReturn(allImages);
 

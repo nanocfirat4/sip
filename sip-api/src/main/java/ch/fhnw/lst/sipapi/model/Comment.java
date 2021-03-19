@@ -1,5 +1,7 @@
 package ch.fhnw.lst.sipapi.model;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import javax.persistence.*;
 
 import java.util.ArrayList;
@@ -28,7 +30,9 @@ public class Comment {
 
     @Column(
             name = "timestamp",
-            nullable = false)
+            nullable = false,
+            updatable = false)
+    @CreationTimestamp
     private Date timestamp;
 
     @ManyToMany(mappedBy = "imageCommentsList")
@@ -38,9 +42,8 @@ public class Comment {
         imageList.add(image);
     }
 
-    public Comment(String commenttxt, Date timestamp) {
+    public Comment(String commenttxt) {
         this.commenttxt = commenttxt;
-        this.timestamp = timestamp;
     }
 
     public Comment() {
@@ -64,9 +67,5 @@ public class Comment {
 
     public Date getTimestamp() {
         return timestamp;
-    }
-
-    public void setTimestamp(Date timestamp) {
-        this.timestamp = timestamp;
     }
 }

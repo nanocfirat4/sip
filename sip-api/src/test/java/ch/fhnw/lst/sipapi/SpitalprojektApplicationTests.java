@@ -9,8 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.sql.Timestamp;
 import java.time.Instant;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class SpitalprojektApplicationTests {
@@ -28,10 +27,11 @@ class SpitalprojektApplicationTests {
 		douglas.setThumbnail("~/Betelgeuse/Five");
 		int fourtyTwo = 42;
 		douglas.setPacs_id(fourtyTwo);
-		douglas.setTimestamp(Timestamp.from(Instant.now()));
 		imageRepository.save(douglas);
 		assertNotNull(douglas.getId());
 		assertEquals(fourtyTwo,douglas.getPacs_id());
+		assertEquals(douglas.getDescription(), "hitchhiker's guide");
+		assertEquals(douglas.getThumbnail(), "~/Betelgeuse/Five");
 	}
 
 }

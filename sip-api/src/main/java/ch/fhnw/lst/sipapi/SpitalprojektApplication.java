@@ -23,7 +23,7 @@ public class SpitalprojektApplication {
 			Image douglas = new Image(
 					"hitchhiker's guide",
 					"~/Betelgeuse/Five",
-					42, Timestamp.from(Instant.now()));
+					42);
 			imageRepository.save(douglas);
 		};
 	}*/

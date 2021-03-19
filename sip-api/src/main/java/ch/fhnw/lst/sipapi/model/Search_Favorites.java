@@ -1,5 +1,7 @@
 package ch.fhnw.lst.sipapi.model;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import javax.persistence.*;
 
 import java.util.ArrayList;
@@ -56,17 +58,18 @@ public class Search_Favorites {
 
     @Column(
             name = "timestamp",
-            nullable = false)
+            nullable = false,
+            updatable = false)
+    @CreationTimestamp
     private Date timestamp;
 
     public Search_Favorites() {
     }
 
-    public Search_Favorites(String albumname, String description, String textTokens, Date timestamp) {
+    public Search_Favorites(String albumname, String description, String textTokens) {
         this.albumname = albumname;
         this.description = description;
         this.textTokens = textTokens;
-        this.timestamp = timestamp;
     }
 
     public Long getId() {
@@ -111,9 +114,5 @@ public class Search_Favorites {
 
     public Date getTimestamp() {
         return timestamp;
-    }
-
-    public void setTimestamp(Date timestamp) {
-        this.timestamp = timestamp;
     }
 }

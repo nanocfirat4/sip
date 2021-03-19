@@ -1,5 +1,7 @@
 package ch.fhnw.lst.sipapi.model;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import javax.persistence.*;
 
 import java.util.ArrayList;
@@ -28,7 +30,9 @@ public class Hashtag {
 
     @Column(
             name = "timestamp",
-            nullable = false)
+            nullable = false,
+            updatable = false)
+    @CreationTimestamp
     private Date timestamp;
 
     @ManyToMany(mappedBy = "imageHashtagsList")
@@ -48,9 +52,8 @@ public class Hashtag {
     public Hashtag() {
     }
 
-    public Hashtag(String hashtagtxt, Date timestamp) {
+    public Hashtag(String hashtagtxt) {
         this.hashtagtxt = hashtagtxt;
-        this.timestamp = timestamp;
     }
 
     public Long getId() {
@@ -71,9 +74,5 @@ public class Hashtag {
 
     public Date getTimestamp() {
         return timestamp;
-    }
-
-    public void setTimestamp(Date timestamp) {
-        this.timestamp = timestamp;
     }
 }
