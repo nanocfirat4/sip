@@ -16,8 +16,10 @@ public class CommentService {
     CommentRepository commentRepository;
 
     public List<Comment> findAll(){
+
         return commentRepository.findAll();
     }
+
     public Comment findById(Long id){
         return commentRepository.findById(id).orElseThrow(() ->
                 new ResourceNotFoundException("no such Comment with id "+id));
