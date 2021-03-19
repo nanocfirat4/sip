@@ -17,7 +17,7 @@ public class SpitalprojektApplication {
 		SpringApplication.run(SpitalprojektApplication.class, args);
 	}
 
-	@Bean
+/*	@Bean
 	CommandLineRunner commandLineRunner(ImageRepository imageRepository){
 		return args -> {
 			Image douglas = new Image(
@@ -26,5 +26,5 @@ public class SpitalprojektApplication {
 					42, Timestamp.from(Instant.now()));
 			imageRepository.save(douglas);
 		};
-	}
+	}*/
 }

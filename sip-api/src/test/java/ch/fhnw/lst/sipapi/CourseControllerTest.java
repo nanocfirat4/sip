@@ -1,7 +1,6 @@
-package ch.fhnw.lst.sipapi.integration;
+package ch.fhnw.lst.sipapi;
 
 
-import ch.fhnw.lst.sipapi.SpitalprojektApplication;
 import ch.fhnw.lst.sipapi.model.Image;
 import ch.fhnw.lst.sipapi.service.ImageService;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
@@ -50,10 +49,16 @@ public class CourseControllerTest {
       .withExposedPorts(8080)
       .withClasspathResourceMapping("/keycloak.json", "/tmp/keycloak.json", BindMode.READ_ONLY)
       .withEnv(Map.of(
-        "KEYCLOAK_USER", "admin",
-        "KEYCLOAK_PASSWORD", "admin",
-        "DB_VENDOR", "h2",
-        "KEYCLOAK_IMPORT", "/tmp/keycloak.json"
+                  "DB_VENDOR", "POSTGRES",
+                  "DB_ADDR","keycloakDB",
+                  "DB_DATABASE","keycloak",
+                  "DB_USER","keycloak",
+                  "DB_SCHEMA","public",
+                  "DB_PASSWORD","password",
+                  "DB_PORT","5432",
+                  "KEYCLOAK_USER","admin",
+                  "KEYCLOAK_PASSWORD","Pa55w0rd",
+                  "KEYCLOAK_IMPORT", "/tmp/keycloak.json"
       ));
 
     //@Autowired
@@ -101,8 +106,8 @@ public class CourseControllerTest {
         .grantType(OAuth2Constants.PASSWORD)
         .realm("FHNW-LST-MI")
         .clientId("web-app")
-        .username("stawiskm")
-        .password("password")
+        .username(username)
+        .password(password)
         .resteasyClient(
             new ResteasyClientBuilder()
                 .connectionPoolSize(10).build()

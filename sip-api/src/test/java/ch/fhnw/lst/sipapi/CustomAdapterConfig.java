@@ -1,4 +1,4 @@
-package ch.fhnw.lst.sipapi.integration;
+package ch.fhnw.lst.sipapi;
 
 import org.keycloak.adapters.springboot.KeycloakSpringBootProperties;
 import org.keycloak.representations.adapters.config.AdapterConfig;
