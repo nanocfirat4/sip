@@ -11,8 +11,8 @@
     "Port": 5432,
     "Host": "orthancDB",
     "Database": "orthanc",
-    "Username": "orthanc",
-    "Password": "orthanc",
+    "Username": "administrator",
+    "Password": "MyS3cureP@55!!",
     "EnableSsl": false,
     "Lock": false
   },
