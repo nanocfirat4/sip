@@ -1,0 +1,53 @@
+version: '3.1'
+
+services:
+# PostgreSQL Database
+  postgres:
+      image: postgres
+      volumes:
+        - ../dockerizeServices:/docker-entrypoint-initdb.d
+        - ../postgresDB/:/var/lib/postgresql/data
+      environment:
+        POSTGRES_MULTIPLE_DATABASES: "keycloak,orthanc,sipapi"
+        POSTGRES_USER: administrator
+        POSTGRES_PASSWORD: MyS3cureP@55!!
+
+
+#keycloak
+  keycloak:
+      image: jboss/keycloak:12.0.3
+      environment:
+        DB_VENDOR: POSTGRES
+        DB_ADDR: postgres
+        DB_DATABASE: keycloak
+        DB_USER: administrator
+        DB_SCHEMA: public
+        DB_PASSWORD: MyS3cureP@55!!
+        DB_PORT: 5432
+        KEYCLOAK_USER: admin
+        KEYCLOAK_PASSWORD: Pa55w0rd
+      ports:
+        - 8080:8080
+      depends_on:
+        - postgres
+
+
+
+# Orthanc
+  orthanc:
+    image: jodogne/orthanc-plugins:1.9.1
+    command: /run/secrets/  # Path to the configuration files (stored as secrets)
+    ports:
+      - 4242:4242
+      - 8042:8042
+    secrets:
+      - orthanc.json
+    depends_on:
+        - postgres
+        
+# Orthanc configuration
+secrets:
+  orthanc.json:
+    file: ../orthanc.json
+    
+    
