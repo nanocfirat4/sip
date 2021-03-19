@@ -1,6 +1,8 @@
 package ch.fhnw.lst.sipapi;
 
+import ch.fhnw.lst.sipapi.model.Hashtag;
 import ch.fhnw.lst.sipapi.model.Image;
+import ch.fhnw.lst.sipapi.repository.HashtagRepository;
 import ch.fhnw.lst.sipapi.repository.ImageRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +32,19 @@ class SpitalprojektApplicationTests {
 		imageRepository.save(douglas);
 		assertNotNull(douglas.getId());
 		assertEquals(fourtyTwo,douglas.getPacs_id());
-		assertEquals(douglas.getDescription(), "hitchhiker's guide");
-		assertEquals(douglas.getThumbnail(), "~/Betelgeuse/Five");
+		assertEquals("hitchhiker's guide", douglas.getDescription());
+		assertEquals("~/Betelgeuse/Five", douglas.getThumbnail());
+	}
+
+	@Autowired
+	HashtagRepository hashtagRepository;
+	@Test
+	public void hashtagRepoSaveHashtag(){
+		Hashtag douglas = new Hashtag();
+		douglas.setHashtagtxt("hitchhiker");
+		hashtagRepository.save(douglas);
+		assertNotNull(douglas.getId());
+		assertEquals("hitchhiker", douglas.getHashtagtxt());
 	}
 
 }
