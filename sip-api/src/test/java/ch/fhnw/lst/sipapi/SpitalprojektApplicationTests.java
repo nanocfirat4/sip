@@ -27,11 +27,10 @@ class SpitalprojektApplicationTests {
 		Image douglas = new Image();
 		douglas.setDescription("hitchhiker's guide");
 		douglas.setThumbnail("~/Betelgeuse/Five");
-		String fourtyTwo = "42/fourty/two";
-		douglas.setPacs_id(fourtyTwo);
+		douglas.setPacs_id("42/fourty/two");
 		imageRepository.save(douglas);
 		assertNotNull(douglas.getId());
-		assertEquals(fourtyTwo,douglas.getPacs_id());
+		assertEquals("42/fourty/two",douglas.getPacs_id());
 		assertEquals("hitchhiker's guide", douglas.getDescription());
 		assertEquals("~/Betelgeuse/Five", douglas.getThumbnail());
 	}

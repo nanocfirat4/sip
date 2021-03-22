@@ -33,7 +33,8 @@ public class DatabaseLoader implements CommandLineRunner {
         logger.info("Start Databaseloader");
         File dir = new File("Pictures/Raw");
         File[] files = dir.listFiles();
-        for(int i = 0; i < files.length; i++){
+        if(files != null)
+            for (int i = 0; i < files.length; i++) {
             if(files[i].getName().equals("Rawxt.txt"))continue;
             createThumbnail(files[i]);
             String description = getDescription(files[i].getName());
