@@ -2,11 +2,20 @@ package ch.fhnw.lst.sipapi;
 
 import ch.fhnw.lst.sipapi.model.Image;
 import ch.fhnw.lst.sipapi.repository.ImageRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 import javax.imageio.ImageIO;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -14,23 +23,45 @@ import java.io.IOException;
 
 @Component
 public class DatabaseLoader implements CommandLineRunner {
+    final Logger logger = LoggerFactory.getLogger(DatabaseLoader.class);
+
     @Autowired
     private ImageRepository imageRepository;
 
     @Override
     public void run(String ... strings) throws Exception{
+        logger.info("Start Databaseloader");
         File dir = new File("Pictures/Raw");
         File[] files = dir.listFiles();
         for(int i = 0; i < files.length; i++){
+            if(files[i].getName().equals("Rawxt.txt"))continue;
             createThumbnail(files[i]);
-
+            String description = getDescription(files[i].getName());
             Image imageToLoad = new Image(
-                    ("Betelgeuse"+i),
+                    description,
                     "Pictures/Thumb/"+files[i].getName(),
-                    files[i].getAbsolutePath()
-            );
+                    "Pictures/Raw/"+files[i].getName());
             this.imageRepository.save(imageToLoad);
         }
+    }
+
+    private String getDescription(String name) throws ParserConfigurationException, IOException, SAXException {
+        logger.trace("get descriptions from pic of XML");
+        File xmlFile = new File("Pictures/allImageMetadata.xml");
+        DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+        Document document = documentBuilder.parse(xmlFile);
+        NodeList nodeList = document.getElementsByTagName("image");
+        for(int x=0,size= nodeList.getLength(); x<size; x++) {
+            String actualName = nodeList.item(x).getAttributes().getNamedItem("src").getNodeValue();
+            if(actualName.equals(name)){
+                Element node = (Element) nodeList.item(x);
+                String description = node.getElementsByTagName("description").item(0).getTextContent();
+                logger.trace("Found description: "+description);
+                return description;
+            }
+        }
+        return "No description";
     }
 
     private void createThumbnail(File file) throws IOException {
