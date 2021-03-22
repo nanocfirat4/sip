@@ -27,7 +27,7 @@ class SpitalprojektApplicationTests {
 		Image douglas = new Image();
 		douglas.setDescription("hitchhiker's guide");
 		douglas.setThumbnail("~/Betelgeuse/Five");
-		int fourtyTwo = 42;
+		String fourtyTwo = "42/fourty/two";
 		douglas.setPacs_id(fourtyTwo);
 		imageRepository.save(douglas);
 		assertNotNull(douglas.getId());
