@@ -12,7 +12,7 @@ spring:
   datasource:
     password: MyS3cureP@55!!
     url: jdbc:postgresql://localhost:5432/sipapi
-    username: sip
+    username: administrator
   jpa:
     hibernate:
       ddl-auto: create
