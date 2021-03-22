@@ -6,7 +6,7 @@ keycloak:
   auth-server-url: http://localhost:8080/auth
   resource: rest-api
   bearer-only: true
-  enabled: false
+  enabled: true
 
 spring:
   datasource:

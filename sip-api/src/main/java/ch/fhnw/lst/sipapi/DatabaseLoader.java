@@ -2,6 +2,8 @@ package ch.fhnw.lst.sipapi;
 
 import ch.fhnw.lst.sipapi.model.Image;
 import ch.fhnw.lst.sipapi.repository.ImageRepository;
+import jdk.javadoc.internal.doclets.formats.html.SourceToHTMLConverter;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -26,8 +28,8 @@ public class DatabaseLoader implements CommandLineRunner {
 
             Image imageToLoad = new Image(
                     ("Betelgeuse"+i),
-                    "Pictures/Thumb/"+files[i].getName(),
-                    files[i].getAbsolutePath()
+                    "Pictures/Raw/"+files[i].getName(),
+                    "Pictures/Thumb/"+files[i].getName()
             );
             this.imageRepository.save(imageToLoad);
         }
