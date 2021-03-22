@@ -11,6 +11,8 @@ services:
         POSTGRES_MULTIPLE_DATABASES: "keycloak,orthanc,sipapi"
         POSTGRES_USER: administrator
         POSTGRES_PASSWORD: MyS3cureP@55!!
+      ports:
+        - 5432:5432
 
 
 #keycloak
