@@ -10,7 +10,7 @@ keycloak:
 
 spring:
   datasource:
-    password: password
+    password: MyS3cureP@55!!
     url: jdbc:postgresql://localhost:5432/sipapi
     username: sip
   jpa:

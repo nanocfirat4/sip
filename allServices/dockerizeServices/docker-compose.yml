@@ -25,7 +25,7 @@ services:
         DB_PASSWORD: MyS3cureP@55!!
         DB_PORT: 5432
         KEYCLOAK_USER: admin
-        KEYCLOAK_PASSWORD: Pa55w0rd
+        KEYCLOAK_PASSWORD: "k3YS4s3cur1ty!"
       ports:
         - 8080:8080
       depends_on:
