@@ -39,8 +39,9 @@ public class Image {
 
     @Column(
             name = "pacs_id",
+            columnDefinition = "TEXT",
             nullable = false)
-    private Integer pacs_id;
+    private String pacs_id;
 
     @Column(
             name = "timestamp",
@@ -73,7 +74,7 @@ public class Image {
         imageHashtagsList.add(hashtag);
     }
 
-    public Image(String description, String thumbnail, Integer pacs_id) {
+    public Image(String description, String thumbnail, String pacs_id) {
         this.description = description;
         this.thumbnail = thumbnail;
         this.pacs_id = pacs_id;
@@ -108,11 +109,11 @@ public class Image {
         this.thumbnail = thumbnail;
     }
 
-    public Integer getPacs_id() {
+    public String getPacs_id() {
         return pacs_id;
     }
 
-    public void setPacs_id(Integer pacs_id) {
+    public void setPacs_id(String pacs_id) {
         this.pacs_id = pacs_id;
     }
 
