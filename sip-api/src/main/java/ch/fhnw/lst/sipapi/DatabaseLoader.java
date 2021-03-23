@@ -28,8 +28,8 @@ public class DatabaseLoader implements CommandLineRunner {
 
             Image imageToLoad = new Image(
                     ("Betelgeuse"+i),
-                    "Pictures/Raw/"+files[i].getName(),
-                    "Pictures/Thumb/"+files[i].getName()
+                    "Pictures/Thumb/"+files[i].getName(),
+                    "Pictures/Raw/"+files[i].getName()
             );
             this.imageRepository.save(imageToLoad);
         }

@@ -31,19 +31,18 @@ class ThumbnailList extends Component {
         const { isLoading, images } = this.state;
 
         const handleSliderChange = (event, newValue) => {
-            var items = document.getElementsByClassName("thumbnail")
+            var items = document.getElementsByClassName("thumbnail_img")
 
             for (var i = 0; i < items.length; i++) {
                 items[i].style.width = (newValue + "px");
-                items[i].style.height = (newValue * 0.8 + "px");
+                items[i].style.height = (newValue + "px");
             }
         };
         
         return (
-            isLoading ? <>yes{    console.log('Starting Request')}</> : (
+            isLoading ? <p>Loading...</p> : (
                 <div className="mt-3">
                     <Slider
-                        defaultValue={30}
                         getAriaValueText={this.valuetext}
                         aria-labelledby="discrete-slider"
                         valueLabelDisplay="auto"
@@ -57,22 +56,12 @@ class ThumbnailList extends Component {
                     />
                     <div class="row">
                         <div id="thumbnail_view">
-                            <Thumbnail />
-                            <Thumbnail />
-                            <Thumbnail />
-                            <Thumbnail />
-                            <Thumbnail />
-                            <Thumbnail />
-                            <Thumbnail />
-                            <Thumbnail />
-                            <Thumbnail />
-                            <Thumbnail />
-                            <Thumbnail />
-                            <Thumbnail />
+                            {images.map(image =>
+                                <Thumbnail imgName={image.thumbnail} id={image.id} description={image.description} />
+                            )}
                         </div>
                         <div id="comments_tags">
-                            Kommentare und Tags<br></br>
-                            {keycloak.token}
+                            Kommentare und Tags
                 </div>
                     </div>
                     <table className="table">
@@ -82,6 +71,7 @@ class ThumbnailList extends Component {
                         <tbody>
                             {images.map(image =>
                                 <tr key={image.id}>
+                                    <td>{image.id}</td>
                                     <td>{image.description}</td>
                                     <td>{image.thumbnail}</td>
                                     <td>{image.pacs_id}</td>

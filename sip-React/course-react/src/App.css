@@ -39,20 +39,6 @@
 
 
 
-.thumbnail {
-  width: 250px;
-  height: 200px;
-  border: 1px solid;
-  margin: 5px;
-
-  display: inline-block;
-}
-
-.thumbnail_checkbox {
-  position:absolute;
-  bottom:0;
-  right:0;
-}
 
 #thumbnail_view {
   width: 70%;
@@ -63,3 +49,4 @@
   width: 30%;
   border: 2px solid;
 }
+

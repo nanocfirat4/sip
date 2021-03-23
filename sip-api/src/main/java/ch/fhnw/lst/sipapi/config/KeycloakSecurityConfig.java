@@ -1,5 +1,7 @@
 package ch.fhnw.lst.sipapi.config;
 
+import java.util.Arrays;
+
 import org.keycloak.adapters.KeycloakConfigResolver;
 import org.keycloak.adapters.springboot.KeycloakSpringBootConfigResolver;
 import org.keycloak.adapters.springsecurity.authentication.KeycloakAuthenticationProvider;
@@ -15,6 +17,9 @@ import org.springframework.security.core.authority.mapping.SimpleAuthorityMapper
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.web.authentication.session.RegisterSessionAuthenticationStrategy;
 import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
 @EnableWebSecurity
@@ -24,12 +29,23 @@ public class KeycloakSecurityConfig extends KeycloakWebSecurityConfigurerAdapter
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     super.configure(http);
-    http.authorizeRequests()
+    http.cors().and().authorizeRequests()
             .antMatchers("/api/**").authenticated()
             .anyRequest()
             .permitAll();
     http.csrf().disable();
   }
+
+  // https://stackoverflow.com/questions/66762237/spring-boot-react-blocks-cors
+  // @Bean
+	// CorsConfigurationSource corsConfigurationSource() {
+	// 	CorsConfiguration configuration = new CorsConfiguration();
+	// 	configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
+	// 	configuration.setAllowedMethods(Arrays.asList("GET","POST"));
+	// 	UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+	// 	source.registerCorsConfiguration("/**", configuration);
+	// 	return source;
+	// }
 
   @Autowired
   public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
