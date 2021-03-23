@@ -1,45 +1,61 @@
 import React from 'react'
 import { FormControlLabel, Checkbox } from '@material-ui/core';
-import FormGroup from '@material-ui/core/FormGroup';
 
 class Thumbnail extends React.Component {
-    isChecked = true;
+    constructor(props) {
+        super(props);
+    
+        this.state = {
+          isHovered: false,
+          checked: false,
+        };
+    }
 
+    handleCheckClick = () => {
+        this.setState({
+            checked: !this.state.checked
+        });
+    }
+
+    handleEnter() {
+        this.setState({
+            isHovered: true 
+        });
+    }
+
+    handleLeave() {
+        this.setState({
+            isHovered: false 
+        });
+    }
+
+    selectImage(id) {
+        console.log(id);
+    }
 
     render() {
-        return (null
+        return (
+            <div class="thumbnail" id={"thumbnail_"+this.props.id} 
+                onMouseEnter={this.handleEnter.bind(this)}
+                onMouseLeave={this.handleLeave.bind(this)}
+            >
+                {this.state.isHovered ? <div class="thumbnail_description">{this.props.description}</div> : ''}
+
+                <FormControlLabel
+                    control={
+                        <Checkbox
+                            checked={this.state.checked}
+                            onChange={this.handleCheckClick}
+                        />
+                    }
+                    label={
+                        <img src={this.props.imgName} className="thumbnail_img" />
+                    }
+                    labelPlacement="top"
+                />
+            </div>
             // CheckboxLabels(this.props.imgName)
         )
     }
 }
 export default Thumbnail
-
-
-
-function CheckboxLabels(imgName) {
-  const [state, setState] = React.useState({
-    checked: false,
-  });
-
-  const handleChange = (event) => {
-    setState({ ...state, [event.target.name]: event.target.checked });
-  };
-
-  return (
-    <FormGroup row>
-      <FormControlLabel
-        control={
-          <Checkbox
-            checked={state.checked}
-            onChange={handleChange}
-            name="checked"
-            color="primary"
-          />
-        }
-        label={
-            <img src={imgName} />
-        }
-      />
-    </FormGroup>
-  );
-}

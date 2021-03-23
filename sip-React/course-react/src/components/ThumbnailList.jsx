@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 
 import Thumbnail from './Thumbnail'
+import SearchFields from './SearchFields'
 import Slider from '@material-ui/core/Slider';
 
 import { ImageService } from '../services/ImageService'
@@ -10,6 +11,7 @@ import { withRouter } from 'react-router-dom'
 class ThumbnailList extends Component {
     state = {
         isLoading: false,
+        selectedImages: [],
         images: []
     }
 
@@ -20,8 +22,6 @@ class ThumbnailList extends Component {
             this.setState({ images: res.data, isLoading: false });
         });
     }
-
-
 
     valuetext(value) {
         return `${value}px`;
@@ -42,6 +42,7 @@ class ThumbnailList extends Component {
         return (
             isLoading ? <p>Loading...</p> : (
                 <div className="mt-3">
+                    <SearchFields />
                     <Slider
                         getAriaValueText={this.valuetext}
                         aria-labelledby="discrete-slider"
@@ -49,8 +50,8 @@ class ThumbnailList extends Component {
                         step={50}
                         marks
                         min={50}
-                        max={400}
-                        defaultValue={250}
+                        max={300}
+                        defaultValue={150}
 
                         onChange={handleSliderChange}
                     />

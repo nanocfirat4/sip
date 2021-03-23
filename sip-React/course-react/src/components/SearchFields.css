@@ -1,0 +1,18 @@
+
+
+.searchRow {
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+
+}
+
+.searchElement {
+    display: inline-block;
+    width: 50%;
+    position: relative;
+}
+
+.resultArea {
+    width: 100%;
+}
