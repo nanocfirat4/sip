@@ -18,12 +18,17 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.net.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @Component
 public class DatabaseLoader implements CommandLineRunner {
     final Logger logger = LoggerFactory.getLogger(DatabaseLoader.class);
+
+
 
     @Autowired
     private ImageRepository imageRepository;
@@ -31,20 +36,86 @@ public class DatabaseLoader implements CommandLineRunner {
     @Override
     public void run(String ... strings) throws Exception{
         logger.info("Start Databaseloader");
-        File dir = new File("Pictures/Raw");
-        File[] files = dir.listFiles();
-        if(files != null)
-            for (int i = 0; i < files.length; i++) {
-            if(files[i].getName().equals("Rawxt.txt"))continue;
-            createThumbnail(files[i]);
-            String description = getDescription(files[i].getName());
-            Image imageToLoad = new Image(
-                    description,
-                    "Pictures/Thumb/"+files[i].getName(),
-                    "Pictures/Raw/"+files[i].getName());
-            this.imageRepository.save(imageToLoad);
+        List<String> pics = getListPicturesFromPacs();
+        if(pics != null)
+            for (String pacsid :pics) {
+
+                saveImage("http://localhost:8042/instances/"+pacsid+"/preview","Pictures/Raw/"+pacsid+".jpeg");
+
+                createThumbnail(new File("Pictures/Raw/" + pacsid + ".jpeg"));
+                String description = getDescription(files[i].getName());
+                Image imageToLoad = new Image(description,
+                        "Pictures/Thumb/"+files[i].getName(),
+                        "Pictures/Raw/"+files[i].getName());
+                this.imageRepository.save(imageToLoad);
         }
     }
+
+
+    public static void saveImage(String imageUrl, String destinationFile) throws IOException {
+        URL url = new URL(imageUrl);
+        InputStream is = url.openStream();
+        OutputStream os = new FileOutputStream(destinationFile);
+        byte[] b = new byte[2048];
+        int length;
+        while ((length = is.read(b)) != -1) {
+            os.write(b, 0, length);
+        }
+        is.close();
+        os.close();
+    }
+
+    private List<String> getListPicturesFromPacs() throws IOException {
+        String url = "http://localhost:8042/instances";
+        String response = getRequest(url);
+        logger.info(response);
+        String str = response;
+        str = str.substring(1, str.length() - 1); // remove []
+        String strl[] = str.split(","); // make single
+        List<String> al;
+        al = Arrays.asList(strl);
+        List<String> listPics = new ArrayList<>(); //final list empty
+        for(String s: al){
+            s = s.trim(); //remove empty spaces
+            s = s.substring(1, s.length() - 1); //remove""
+            listPics.add(s);
+        }
+        return listPics;
+    }
+
+
+    private String getRequest(String url) throws IOException {
+        Authenticator.setDefault (new Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication ("orthanc", "g04D!c0m#orT(h)anks".toCharArray());
+            }
+        });
+                URL urlObj = new URL(url);
+        HttpURLConnection connection = (HttpURLConnection) urlObj.openConnection();
+        connection.setRequestMethod("GET");
+        connection.setRequestProperty("User-Agent", "Mozilla/5.0");
+
+        logger.info("Send 'HTTP GET' request to : " + url);
+
+        Integer responseCode = connection.getResponseCode();
+        logger.info("Response Code from PACS : " + responseCode);
+
+        if (responseCode == HttpURLConnection.HTTP_OK) {
+            BufferedReader inputReader = new BufferedReader(
+                    new InputStreamReader(connection.getInputStream()));
+            String inputLine;
+            StringBuffer response = new StringBuffer();
+
+            while ((inputLine = inputReader.readLine()) != null) {
+                response.append(inputLine);
+            }
+            inputReader.close();
+
+            return response.toString();
+        }
+        return null;
+    }
+
 
     private String getDescription(String name) throws ParserConfigurationException, IOException, SAXException {
         logger.trace("get descriptions from pic of XML");
