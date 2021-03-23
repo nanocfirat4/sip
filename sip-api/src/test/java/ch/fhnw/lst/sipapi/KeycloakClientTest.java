@@ -1,16 +1,22 @@
+/*
+
 package ch.fhnw.lst.sipapi;
 import java.util.List;
 
-import org.junit.Test;
+import org.testng.annotations.Test;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.KeycloakBuilder;
 import org.keycloak.admin.client.resource.ClientResource;
 import org.keycloak.admin.client.resource.ClientsResource;
 import org.keycloak.representations.idm.ClientRepresentation;
 
+
+*/
 /**
  * Created by ggastald on 15/06/16.
- */
+ *//*
+
+
 public class KeycloakClientTest {
 
     @Test
@@ -38,3 +44,4 @@ public class KeycloakClientTest {
     }
 
 }
+*/
