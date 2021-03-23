@@ -40,7 +40,7 @@ class ThumbnailList extends Component {
         };
         
         return (
-            isLoading ? <>yes</> : (
+            isLoading ? <>yes{    console.log('Starting Request')}</> : (
                 <div className="mt-3">
                     <Slider
                         defaultValue={30}
@@ -80,13 +80,13 @@ class ThumbnailList extends Component {
                             <tr><th>ID</th><th>Description</th><th>Thumbnail</th><th>PACS</th></tr>
                         </thead>
                         <tbody>
-                            {/* {images.map(image =>
+                            {images.map(image =>
                                 <tr key={image.id}>
                                     <td>{image.description}</td>
                                     <td>{image.thumbnail}</td>
                                     <td>{image.pacs_id}</td>
                                 </tr>
-                            )} */}
+                            )}
                         </tbody>
                     </table>
                 </div>

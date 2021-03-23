@@ -19,17 +19,17 @@ const instance = axios.create({
         'Content-Type': 'application/json'
     }
 })
-instance.interceptors.response.use(response => {
-    return response
-}, function (error) {
-    if (error.response) {
-        return { status: error.response.status }
-    }
-    if (error.request) {
-        return { error: error.request }
-    }
-    return { error: error.message }
+
+instance.interceptors.request.use(request => {
+    console.log('Starting Request', JSON.stringify(request, null, 2))
+    return request
 })
+
+instance.interceptors.response.use(response => {
+    console.log('Response:', JSON.stringify(response, null, 2))
+    return response
+})
+
 // -- Helper functions
 export function authToken(token) {
     // set default header to be sent with every request
