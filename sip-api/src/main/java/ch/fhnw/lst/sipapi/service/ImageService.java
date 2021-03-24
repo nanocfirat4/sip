@@ -34,6 +34,18 @@ public class ImageService {
         return imageRepository.save(image);
     }
 
+    public void saveCommentToImage(Comment comment, Long id) {
+        imageRepository.findById(id).orElseThrow(() ->
+                new ResourceNotFoundException("no such Image with id "+id));
+        imageRepository.findById(id).ifPresent(image -> image.addComment(comment));
+    }
+
+    public void saveHashtagToImage(Hashtag hashtag, Long id) {
+        imageRepository.findById(id).orElseThrow(() ->
+                new ResourceNotFoundException("no such Image with id "+id));
+        imageRepository.findById(id).ifPresent(image -> image.addComment(hashtag));
+    }
+
     public List<Image> findBySearch(Search_Favorites search) {
         logger.info("Image search is used");
         List<Image> resultList = new ArrayList<>();
@@ -111,6 +123,5 @@ public class ImageService {
         }
         return result;
     }
-
 }
 
