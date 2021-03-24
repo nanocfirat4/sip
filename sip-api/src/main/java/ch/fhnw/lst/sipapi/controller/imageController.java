@@ -1,5 +1,7 @@
 package ch.fhnw.lst.sipapi.controller;
 
+import ch.fhnw.lst.sipapi.model.Comment;
+import ch.fhnw.lst.sipapi.model.Hashtag;
 import ch.fhnw.lst.sipapi.model.Image;
 import ch.fhnw.lst.sipapi.service.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,16 @@ public class imageController {
     @PostMapping("/image")
     public Image save(@RequestBody Image image){
         return imageService.save(image);
+    }
+
+    @PostMapping("/image/{id}")
+    public void saveComment(@RequestBody Long id,@RequestBody Comment comment){
+        imageService.saveCommentToImage(comment,id);
+    }
+
+    @PostMapping("/image/{id}")
+    public void saveHashtag(@RequestBody Long id,@RequestBody Hashtag hashtag){
+        imageService.saveHashtagToImage(hashtag,id);
     }
 
 }
