@@ -6,6 +6,8 @@ import ch.fhnw.lst.sipapi.model.Comment;
 import ch.fhnw.lst.sipapi.model.Hashtag;
 import ch.fhnw.lst.sipapi.model.Image;
 import ch.fhnw.lst.sipapi.model.Search_Favorites;
+import ch.fhnw.lst.sipapi.repository.CommentRepository;
+import ch.fhnw.lst.sipapi.repository.HashtagRepository;
 import ch.fhnw.lst.sipapi.repository.ImageRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -22,6 +25,12 @@ public class ImageService {
     final Logger logger = LoggerFactory.getLogger(ImageService.class);
     @Autowired
     ImageRepository imageRepository;
+
+    @Autowired
+    HashtagRepository hashtagRepository;
+
+    @Autowired
+    CommentRepository commentRepository;
 
     public List<Image> findAll(){
         return imageRepository.findAll();
@@ -34,16 +43,20 @@ public class ImageService {
         return imageRepository.save(image);
     }
 
-    public void saveCommentToImage(Comment comment, Long id) {
+    public void saveCommentToImage(Long commentId, Long id) {
         imageRepository.findById(id).orElseThrow(() ->
                 new ResourceNotFoundException("no such Image with id "+id));
-        imageRepository.findById(id).ifPresent(image -> image.addComment(comment));
+        imageRepository.findById(id).ifPresent(image -> image.addComment(commentRepository.findById(commentId).orElseThrow(() ->
+                new ResourceNotFoundException("no such Comment with id "+id))
+        ));
     }
 
-    public void saveHashtagToImage(Hashtag hashtag, Long id) {
+    public void saveHashtagToImage(Long hashtagId, Long id) {
         imageRepository.findById(id).orElseThrow(() ->
                 new ResourceNotFoundException("no such Image with id "+id));
-        imageRepository.findById(id).ifPresent(image -> image.addComment(hashtag));
+        imageRepository.findById(id).ifPresent(image -> image.addHashtag(hashtagRepository.findById(hashtagId).orElseThrow(() ->
+                new ResourceNotFoundException("no such Hashtag with id "+id))
+        ));
     }
 
     public List<Image> findBySearch(Search_Favorites search) {

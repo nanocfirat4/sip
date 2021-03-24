@@ -31,14 +31,14 @@ public class imageController {
         return imageService.save(image);
     }
 
-    @PostMapping("/image/{id}")
-    public void saveComment(@RequestBody Long id,@RequestBody Comment comment){
-        imageService.saveCommentToImage(comment,id);
+    @PostMapping("/image/{id}/savecomment/{commentId}")
+    public void saveComment(@RequestBody Long id,@RequestBody Long commentId){
+        imageService.saveCommentToImage(commentId,id);
     }
 
-    @PostMapping("/image/{id}")
-    public void saveHashtag(@RequestBody Long id,@RequestBody Hashtag hashtag){
-        imageService.saveHashtagToImage(hashtag,id);
+    @PostMapping("/image/{id}/savetag/{hashtagId}")
+    public void saveHashtag(@RequestBody Long id,@RequestBody Long hashtagId){
+        imageService.saveHashtagToImage(hashtagId,id);
     }
 
 }
