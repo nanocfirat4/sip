@@ -6,9 +6,15 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import './SearchFields.css'
 
 class SearchFields extends Component {
-    state = {
-        searchTags: []
+    constructor(props) {
+        super(props);
+    
+        this.state = {
+            searchTags: [],
+            textFieldValue: ''
+        };
     }
+
 
     generate(element) {
         return this.state.searchTags.map((value) =>
@@ -43,7 +49,14 @@ class SearchFields extends Component {
         { name: "Schindler's List", year: 1993 },
     ];
 
+    update(e) {
+        this.props.updateSearchComment(e.target.value);
+    }
+
+
+
     render() {
+        
         return (
             <form className={this.root} noValidate autoComplete="off">
 
@@ -68,8 +81,9 @@ class SearchFields extends Component {
                     label="Comments"
                     type="search"
                     className="searchElement"
-                />
-
+                    value={this.props.searchComment}
+                    onChange={e => this.update(e)}
+                /> 
             </form>
         );
 

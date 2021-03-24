@@ -23,7 +23,7 @@ public class searchController {
         return imageService.findAll();
     }
 
-    @GetMapping("/search/filter/")
+    @PostMapping("/search/filter")
     public List<Image> findCorresponding(@RequestBody Search_Favorites search){
         return imageService.findBySearch(search);
     }

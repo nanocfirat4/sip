@@ -8,12 +8,20 @@ import { ImageService } from '../services/ImageService'
 import keycloak from '../keycloak'
 import { withRouter } from 'react-router-dom'
 import { Col, Row } from 'react-bootstrap';
+import Button from '@material-ui/core/Button';
 
 class ThumbnailList extends Component {
-    state = {
-        isLoading: false,
-        selectedImages: [],
-        images: []
+    constructor(props) {
+        super(props);
+
+        this.updateSearchComment = this.updateSearchComment.bind(this);
+    
+        this.state = {
+            isLoading: false,
+            selectedImages: [],
+            searchComment: "",
+            images: []
+        };
     }
 
     componentDidMount() {
@@ -28,8 +36,20 @@ class ThumbnailList extends Component {
         return `${value}px`;
     }
 
+    searchImages(textTokens) {
+        this.setState({ isLoading: true })
+        ImageService.authToken(keycloak.token)
+        ImageService.findByFilter(textTokens, []).then((res) => {
+            this.setState({ images: res.data, isLoading: false });
+        });
+    }
+
+    updateSearchComment(newComment) {
+        this.setState({ searchComment: newComment });
+    }
+
     render() {
-        const { isLoading, images } = this.state;
+        const { isLoading, images, searchComment } = this.state;
 
         const handleSliderChange = (event, newValue) => {
             var items = document.getElementsByClassName("thumbnail_img")
@@ -43,7 +63,10 @@ class ThumbnailList extends Component {
         return (
             isLoading ? <p>Loading...</p> : (
                 <div className="mt-3">
-                    <SearchFields />
+                    <SearchFields searchComment={searchComment} updateSearchComment={this.updateSearchComment} />
+                    <Button onClick={() => { this.searchImages(searchComment) }}>
+                        Search
+                    </Button>
                     <Slider
                         getAriaValueText={this.valuetext}
                         aria-labelledby="discrete-slider"
