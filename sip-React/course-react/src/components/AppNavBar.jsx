@@ -13,11 +13,8 @@ function AppNavBar() {
                     <LinkContainer to='/'>
                         <Nav.Link>Home</Nav.Link>
                     </LinkContainer>
-                        <LinkContainer to='/courses'>
-                            <Nav.Link>Courses</Nav.Link>
-                        </LinkContainer>
                         <LinkContainer to='/about'>
-                            <Nav.Link>Search</Nav.Link>
+                            <Nav.Link>About</Nav.Link>
                         </LinkContainer>
                 </Nav>
                     <Navbar.Text>

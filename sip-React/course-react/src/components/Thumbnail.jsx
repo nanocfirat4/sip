@@ -54,7 +54,6 @@ class Thumbnail extends React.Component {
                     labelPlacement="top"
                 />
             </div>
-            // CheckboxLabels(this.props.imgName)
         )
     }
 }
