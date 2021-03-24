@@ -12,6 +12,20 @@ class Thumbnail extends React.Component {
     }
 
     handleCheckClick = () => {
+        if (!this.state.checked)
+            this.props.selectedImages.push(this.props.id);
+        
+        else {
+            for( var i = 0; i < this.props.selectedImages.length; i++){ 
+                if ( this.props.selectedImages[i] === this.props.id) { 
+                    this.props.selectedImages.splice(i, 1); 
+                }
+            }
+        }
+
+        console.log(this.props.selectedImages);
+
+
         this.setState({
             checked: !this.state.checked
         });
@@ -29,13 +43,9 @@ class Thumbnail extends React.Component {
         });
     }
 
-    selectImage(id) {
-        console.log(id);
-    }
-
     render() {
         return (
-            <div class="thumbnail" id={"thumbnail_"+this.props.id} 
+            <div class="thumbnail" 
                 onMouseEnter={this.handleEnter.bind(this)}
                 onMouseLeave={this.handleLeave.bind(this)}
             >

@@ -7,6 +7,7 @@ import Slider from '@material-ui/core/Slider';
 import { ImageService } from '../services/ImageService'
 import keycloak from '../keycloak'
 import { withRouter } from 'react-router-dom'
+import { Col, Row } from 'react-bootstrap';
 
 class ThumbnailList extends Component {
     state = {
@@ -52,19 +53,24 @@ class ThumbnailList extends Component {
                         min={50}
                         max={300}
                         defaultValue={150}
+                        id="sizeSlider"
 
                         onChange={handleSliderChange}
                     />
-                    <div class="row">
-                        <div id="thumbnail_view">
-                            {images.map(image =>
-                                <Thumbnail imgName={image.thumbnail} id={image.id} description={image.description} />
-                            )}
-                        </div>
-                        <div id="comments_tags">
+
+                    <Row>
+                        <Col md={12} lg={3} id="bordered">
                             Kommentare und Tags
-                </div>
-                    </div>
+                        </Col>
+                        <Col md={12} lg={9} id="bordered">
+                            {images.map(image =>
+                                <Thumbnail selectedImages={this.state.selectedImages} imgName={image.thumbnail} id={image.id} description={image.description} />
+                            )}
+                        </Col>
+                    </Row>
+
+
+
                     <table className="table">
                         <thead>
                             <tr><th>ID</th><th>Description</th><th>Thumbnail</th><th>PACS</th></tr>

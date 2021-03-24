@@ -1,18 +1,10 @@
 
 
-.searchRow {
-    width: 100%;
-    overflow: hidden;
-    display: flex;
-
-}
-
 .searchElement {
-    display: inline-block;
-    width: 50%;
-    position: relative;
+    width: 100%;
+    margin: 20px 0;
 }
 
-.resultArea {
-    width: 100%;
+#sizeSlider {
+    width: 100px;
 }
