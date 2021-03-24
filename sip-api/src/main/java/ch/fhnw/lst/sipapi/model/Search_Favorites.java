@@ -66,10 +66,16 @@ public class Search_Favorites {
     public Search_Favorites() {
     }
 
-    public Search_Favorites(String albumname, String description, String textTokens) {
+    public Search_Favorites(String albumname, String description, String textTokens, List<Hashtag> searchFavHashtagsList) {
         this.albumname = albumname;
         this.description = description;
         this.textTokens = textTokens;
+        this.searchFavHashtagsList = searchFavHashtagsList;
+    }
+
+    public Search_Favorites(String textTokens, List<Hashtag> searchFavHashtagsList) {
+        this.textTokens = textTokens;
+        this.searchFavHashtagsList = searchFavHashtagsList;
     }
 
     public Long getId() {

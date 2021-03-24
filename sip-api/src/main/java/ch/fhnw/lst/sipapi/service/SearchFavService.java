@@ -18,6 +18,7 @@ public class SearchFavService {
     public List<Search_Favorites> findAll(){
         return search_favoritesRepository.findAll();
     }
+
     public Search_Favorites findById(Long id){
         return search_favoritesRepository.findById(id).orElseThrow(() ->
                 new ResourceNotFoundException("no such Search_Favorites with id "+id));
