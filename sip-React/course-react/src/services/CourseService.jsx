@@ -6,38 +6,39 @@ export const courseService = {
     save,
     remove,
     authToken
-    }
-    function findAll () {
+}
+function findAll() {
     return instance.get('/api/courses')
-    }
-    function findById (id) {
+}
+function findById(id) {
     return instance.get(`/api/course/${id}`)
-    }
-    function save (course) {
+}
+function save(course) {
     return instance.post('/api/course', course)
-    }
-    function remove (id) {
+}
+function remove(id) {
     return instance.delete(`/api/courses/${id}`)
-    }
-    // -- Axios https://github.com/axios/axios#config-defaults
-    const instance = axios.create({
+}
+// -- Axios https://github.com/axios/axios#config-defaults
+const instance = axios.create({
     baseURL: `${config.API_BASE_URL}`,
     headers: {
-    'Content-Type': 'application/json'
+        'Content-Type': 'application/json'
     }
-    })
-    instance.interceptors.response.use(response => {
+})
+instance.interceptors.response.use(response => {
     return response
-    }, function (error) {
+}, function (error) {
     if (error.response) {
-    return { status: error.response.status }
+        return { status: error.response.status }
     }
     if (error.request) {
-    return { error: error.request }
+        return { error: error.request }
     }
     return { error: error.message }
-    })
-    // -- Helper functions
-    export function authToken (token) {
+})
+// -- Helper functions
+export function authToken(token) {
     // set default header to be sent with every request
-    instance.defaults.headers.common.Authorization = `Bearer ${token}`}
+    instance.defaults.headers.common.Authorization = `Bearer ${token}`
+}

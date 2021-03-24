@@ -2,7 +2,7 @@ import React from 'react'
 import CourseList from './components/CourseList'
 import Course from './components/Course'
 import About from './components/About'
-import Home from './components/Home'
+import ThumbnailList from './components/ThumbnailList'
 import { PrivateRoute } from './components/PrivateRoute'
 import AppNavBar from './components/AppNavBar'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
@@ -16,7 +16,7 @@ function App () {
           <Router>
             <AppNavBar keycloak />
             <Switch>
-              <Route exact path='/' component={Home} />
+              <Route exact path='/' component={ThumbnailList} />
               <Route path='/about' component={About} />
               <PrivateRoute path='/courses' component={CourseList} />
               <PrivateRoute path='/edit-course/:id' component={Course} />

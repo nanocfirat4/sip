@@ -4,7 +4,7 @@ const Header = (props) => {
     return (
         <header>
             <h1>
-                Task Tracker
+                SIP
             </h1>
         </header>
     )
