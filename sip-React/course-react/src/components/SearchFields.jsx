@@ -1,27 +1,17 @@
 import React, { Component } from 'react'
 import TextField from '@material-ui/core/TextField';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import TextareaAutosize from '@material-ui/core/TextareaAutosize';
-
-
-
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import ListItemText from '@material-ui/core/ListItemText';
-import IconButton from '@material-ui/core/IconButton';
-
-import DeleteIcon from '@material-ui/icons/Delete';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 
 import './SearchFields.css'
 
-
-
-
 class SearchFields extends Component {
+    state = {
+        searchTags: []
+    }
 
     generate(element) {
-        return [0].map((value) =>
+        return this.state.searchTags.map((value) =>
             React.cloneElement(element, {
                 key: value,
             }),
@@ -43,91 +33,42 @@ class SearchFields extends Component {
         }),
     );
 
+    // Top 100 films as rated by IMDb users. http://www.imdb.com/chart/top
+    allTags = [
+        { name: 'The Shawshank Redemption' },
+        { name: 'The Godfather' },
+        { name: 'The Godfather: Part II' },
+        { name: 'The Dark Knight' },
+        { name: '12 Angry Men' },
+        { name: "Schindler's List", year: 1993 },
+    ];
+
     render() {
-
-
-
         return (
-
             <form className={this.root} noValidate autoComplete="off">
 
+                <TextField
+                    id="PictureID-search"
+                    label="Picture ID"
+                    type="search"
+                    className="searchElement"
+                />
 
-                <div id="search">
-                    <div id="searchID" class="searchRow" >
-                        <div class="searchElement">
+                <Autocomplete
+                    multiple
+                    id="combo-box-demo"
+                    className="searchElement"
+                    options={this.allTags}
+                    getOptionLabel={(option) => option.name}
+                    renderInput={(params) => <TextField {...params} label="Tag" />}
+                />
 
-                            <TextField
-                                id="PictureID-search"
-                                label="Picture ID"
-                                type="search"
-                            />
-                        </div>
-                        <div class="searchElement">
-
-                            <TextareaAutosize
-                                className = "resultArea"
-                                rowsMax={4}
-                                aria-label="maximum height"
-                                placeholder="Maximum 4 rows"
-                                defaultValue="Tag1 \n Tag2 \nTag3 \nTag4 \nTag5 \nTag6 \n."
-                            />
-                        </div>
-                    </div>
-
-                    <div id="searchTags" class="searchRow">
-                        <div class="searchElement">
-                            <TextField
-                                id="Tags-search"
-                                label="Tags"
-                                type="search"
-                                autoComplete=""
-                                margin = "dense"
-                                
-                            />
-                        </div>
-
-                        <div class="searchElement">
-                            <List >
-                                {this.generate(
-                                    <ListItem>
-                                        <ListItemText
-                                        />
-                                        <ListItemSecondaryAction>
-                                            <IconButton edge="end" aria-label="delete">
-                                                <DeleteIcon />
-                                            </IconButton>
-                                        </ListItemSecondaryAction>
-                                    </ListItem>,
-                                )}
-                            </List>
-
-                        </div>
-
-
-                    </div>
-
-                    <div id="searchComment" class="searchRow">
-                        <div class="searchElement">
-
-                            <TextField
-                                id="Comment-search"
-                                label="Comments"
-                                type="search"
-                            />
-                        </div>
-                        <div class="searchElement">
-
-                            <TextareaAutosize
-                                className = "resultArea"
-                                rowsMax={4}
-                                aria-label="maximum height"
-                                placeholder="Maximum 4 rows"
-                                defaultValue="BliBlaBlo."
-                            />
-                        </div>
-                    </div>
-
-                </div>
+                <TextField
+                    id="Comment-search"
+                    label="Comments"
+                    type="search"
+                    className="searchElement"
+                />
 
             </form>
         );
