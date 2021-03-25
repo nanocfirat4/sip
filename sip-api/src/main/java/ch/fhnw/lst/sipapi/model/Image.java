@@ -121,6 +121,26 @@ public class Image {
         return timestamp;
     }
 
+    public void setTimestamp(Date timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public List<Comment> getImageCommentsList() {
+        return imageCommentsList;
+    }
+
+    public void setImageCommentsList(List<Comment> imageCommentsList) {
+        this.imageCommentsList = imageCommentsList;
+    }
+
+    public List<Hashtag> getImageHashtagsList() {
+        return imageHashtagsList;
+    }
+
+    public void setImageHashtagsList(List<Hashtag> imageHashtagsList) {
+        this.imageHashtagsList = imageHashtagsList;
+    }
+
     @Override
     public String toString() {
         return "image{" +

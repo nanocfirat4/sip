@@ -24,12 +24,23 @@ public class KeycloakSecurityConfig extends KeycloakWebSecurityConfigurerAdapter
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     super.configure(http);
-    http.authorizeRequests()
+    http.cors().and().authorizeRequests()
             .antMatchers("/api/**").authenticated()
             .anyRequest()
             .permitAll();
     http.csrf().disable();
   }
+
+  // https://stackoverflow.com/questions/66762237/spring-boot-react-blocks-cors
+  // @Bean
+	// CorsConfigurationSource corsConfigurationSource() {
+	// 	CorsConfiguration configuration = new CorsConfiguration();
+	// 	configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
+	// 	configuration.setAllowedMethods(Arrays.asList("GET","POST"));
+	// 	UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+	// 	source.registerCorsConfiguration("/**", configuration);
+	// 	return source;
+	// }
 
   @Autowired
   public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
