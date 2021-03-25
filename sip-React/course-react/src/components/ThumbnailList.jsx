@@ -5,8 +5,11 @@ import SearchFields from './SearchFields'
 
 import { ImageService } from '../services/ImageService'
 import keycloak from '../keycloak'
-import { withRouter } from 'react-router-dom'
+import { Route, withRouter } from 'react-router-dom'
 import { Col, Row } from 'react-bootstrap';
+import ViewMode from './ViewMode'
+import Button from '@material-ui/core/Button';
+import { LinkContainer } from 'react-router-bootstrap'
 
 
 class ThumbnailList extends Component {
@@ -20,7 +23,8 @@ class ThumbnailList extends Component {
             isLoading: false,
             selectedImages: [],
             searchComment: "",
-            images: []
+            images: [],
+            showViewMode: false
         };
     }
 
@@ -57,6 +61,10 @@ class ThumbnailList extends Component {
         }
     };
 
+    handleShowImages() {
+        this.setState({ showViewMode: true})
+    }
+
 
     render() {
         const { isLoading, images, searchComment } = this.state;
@@ -67,6 +75,15 @@ class ThumbnailList extends Component {
                 <div className="mt-3">
                     <SearchFields handleSliderChange={this.handleSliderChange} searchFunction={this.searchImages}
                         searchComment={searchComment} updateSearchComment={this.updateSearchComment} />
+                    
+                    <Button
+                        onClick={() => { this.handleShowImages() }}
+                        variant="contained"
+                        color="primary"
+                        style={{ margin: "5px" }}
+                    >
+                        Show Selected Images
+                    </Button>
 
                     <Row>
                         <Col md={12} lg={3} id="bordered">
@@ -74,12 +91,15 @@ class ThumbnailList extends Component {
                         </Col>
                         <Col md={12} lg={9} id="bordered">
                             {images.map(image =>
-                                <Thumbnail selectedImages={this.state.selectedImages} imgName={image.thumbnail} id={image.id} description={image.description} />
+                                <Thumbnail selectedImages={this.state.selectedImages} image={image} />
                             )}
                         </Col>
                     </Row>
 
-
+                    {this.state.showViewMode ?
+                        <ViewMode selectedImages={this.state.selectedImages} /> :
+                        null
+                    }
 
                     <table className="table">
                         <thead>

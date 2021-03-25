@@ -14,13 +14,15 @@ class Thumbnail extends React.Component {
         };
     }
 
+    // imgName={image.thumbnail} id={image.id} description={image.description}
+
     handleCheckClick = () => {
         if (!this.state.checked)
-            this.props.selectedImages.push(this.props.id);
+            this.props.selectedImages.push(this.props.image);
 
         else {
             for (var i = 0; i < this.props.selectedImages.length; i++) {
-                if (this.props.selectedImages[i] === this.props.id) {
+                if (this.props.selectedImages[i] === this.props.image) {
                     this.props.selectedImages.splice(i, 1);
                 }
             }
@@ -67,12 +69,12 @@ class Thumbnail extends React.Component {
                     }}
                 >
                     <CardActionArea>
-                        {this.state.isHovered ? <div class="thumbnail_description">{this.props.description}</div> : ''}
+                        {this.state.isHovered ? <div class="thumbnail_description">{this.props.image.description}</div> : ''}
                         <CardMedia
-                            title={this.props.description}
+                            title={this.props.image.description}
                         />
                         <CardContent>
-                            <img src={this.props.imgName} className="thumbnail_img" />
+                            <img src={this.props.image.thumbnail} className="thumbnail_img" />
                         </CardContent>
                     </CardActionArea>
                 </Card>

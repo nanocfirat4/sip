@@ -6,6 +6,9 @@ import 'react-slideshow-image/dist/styles.css'
 
 
 export default class ViewMode extends Component {
+    constructor(props) {
+        super(props);
+    }
 
     handleChange(previous, next) {
         console.log("changed Slide" + previous + " -> " + next) 
@@ -20,20 +23,22 @@ export default class ViewMode extends Component {
     render() {
         return (
 
-            <div id="imageView">
-                <div>
-
-
-                </div>
-
+            <div id="imageView" class="container" style={{
+                position: "absolute",
+                top: "0",
+                background:"white",
+                width:"100%",
+                minHeight:"100%",
+                zIndex: "999"
+            }}>
                 <div className="slide-container">
                     <Slide
                         autoplay={false}
                         onChange={this.handleChange}    
                     >
-                        {this.slideImages.map(image =>
+                        {this.props.selectedImages.map(image =>
                             <div className="each-slide">
-                                <img src={image}
+                                <img src={image.pacs_id}
                                     style={{
                                         display: 'block',
                                         margin: 'auto'
