@@ -7,15 +7,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
+
 
 import javax.imageio.ImageIO;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
@@ -41,12 +36,11 @@ public class DatabaseLoader implements CommandLineRunner {
             for (String pacsid :pics) {
 
                 saveImage("http://localhost:8042/instances/"+pacsid+"/preview","Pictures/Raw/"+pacsid+".jpeg");
-
                 createThumbnail(new File("Pictures/Raw/" + pacsid + ".jpeg"));
-                String description = getDescription(files[i].getName());
+                String description = getDescription(pacsid);
                 Image imageToLoad = new Image(description,
-                        "Pictures/Thumb/"+files[i].getName(),
-                        "Pictures/Raw/"+files[i].getName());
+                        "Pictures/Thumb/"+ pacsid + ".jpeg",
+                        "http://localhost:8042/instances/"+pacsid+"/preview");
                 this.imageRepository.save(imageToLoad);
         }
     }
@@ -117,23 +111,10 @@ public class DatabaseLoader implements CommandLineRunner {
     }
 
 
-    private String getDescription(String name) throws ParserConfigurationException, IOException, SAXException {
+    private String getDescription(String name) throws IOException {
         logger.trace("get descriptions from pic of XML");
-        File xmlFile = new File("Pictures/allImageMetadata.xml");
-        DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-        Document document = documentBuilder.parse(xmlFile);
-        NodeList nodeList = document.getElementsByTagName("image");
-        for(int x=0,size= nodeList.getLength(); x<size; x++) {
-            String actualName = nodeList.item(x).getAttributes().getNamedItem("src").getNodeValue();
-            if(actualName.equals(name)){
-                Element node = (Element) nodeList.item(x);
-                String description = node.getElementsByTagName("description").item(0).getTextContent();
-                logger.trace("Found description: "+description);
-                return description;
-            }
-        }
-        return "No description";
+        String description = getRequest( "http://localhost:8042/instances/"+name+"/content/0020-4000");
+        return description;
     }
 
     private void createThumbnail(File file) throws IOException {
