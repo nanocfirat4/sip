@@ -1,24 +1,27 @@
 import React from 'react'
-import { FormControlLabel, Checkbox } from '@material-ui/core';
+import { Card, CardActionArea, CardMedia, CardContent, makeStyles } from '@material-ui/core';
+
+
+
 
 class Thumbnail extends React.Component {
     constructor(props) {
         super(props);
-    
+
         this.state = {
-          isHovered: false,
-          checked: false,
+            isHovered: false,
+            checked: false,
         };
     }
 
     handleCheckClick = () => {
         if (!this.state.checked)
             this.props.selectedImages.push(this.props.id);
-        
+
         else {
-            for( var i = 0; i < this.props.selectedImages.length; i++){ 
-                if ( this.props.selectedImages[i] === this.props.id) { 
-                    this.props.selectedImages.splice(i, 1); 
+            for (var i = 0; i < this.props.selectedImages.length; i++) {
+                if (this.props.selectedImages[i] === this.props.id) {
+                    this.props.selectedImages.splice(i, 1);
                 }
             }
         }
@@ -31,38 +34,48 @@ class Thumbnail extends React.Component {
         });
     }
 
+
     handleEnter() {
         this.setState({
-            isHovered: true 
+            isHovered: true
         });
     }
 
     handleLeave() {
         this.setState({
-            isHovered: false 
+            isHovered: false
         });
     }
 
+    useStyles = makeStyles(theme => ({
+        root: {
+            padding: "100px",
+        },
+    }));
+
     render() {
         return (
-            <div class="thumbnail" 
+            <div class="thumbnail"
                 onMouseEnter={this.handleEnter.bind(this)}
                 onMouseLeave={this.handleLeave.bind(this)}
             >
-                {this.state.isHovered ? <div class="thumbnail_description">{this.props.description}</div> : ''}
 
-                <FormControlLabel
-                    control={
-                        <Checkbox
-                            checked={this.state.checked}
-                            onChange={this.handleCheckClick}
+                <Card
+                    onClick={this.handleCheckClick}
+                    style={{
+                        backgroundColor: this.state.checked ? "lightblue" : "",
+                    }}
+                >
+                    <CardActionArea>
+                        {this.state.isHovered ? <div class="thumbnail_description">{this.props.description}</div> : ''}
+                        <CardMedia
+                            title={this.props.description}
                         />
-                    }
-                    label={
-                        <img src={this.props.imgName} className="thumbnail_img" />
-                    }
-                    labelPlacement="top"
-                />
+                        <CardContent>
+                            <img src={this.props.imgName} className="thumbnail_img" />
+                        </CardContent>
+                    </CardActionArea>
+                </Card>
             </div>
         )
     }
