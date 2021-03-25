@@ -1,10 +1,6 @@
 package ch.fhnw.lst.sipapi;
 
-import ch.fhnw.lst.sipapi.model.Comment;
-import ch.fhnw.lst.sipapi.model.Hashtag;
 import ch.fhnw.lst.sipapi.model.Image;
-import ch.fhnw.lst.sipapi.repository.CommentRepository;
-import ch.fhnw.lst.sipapi.repository.HashtagRepository;
 import ch.fhnw.lst.sipapi.repository.ImageRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,35 +27,23 @@ public class DatabaseLoader implements CommandLineRunner {
 
     @Autowired
     private ImageRepository imageRepository;
-    @Autowired
-    private HashtagRepository hashtagRepository;
-    @Autowired
-    private CommentRepository commentRepository;
 
     @Override
     public void run(String ... strings) throws Exception{
         logger.info("Start Databaseloader");
         File dir = new File("Pictures/Raw");
         File[] files = dir.listFiles();
-        if(files != null){
+        if(files != null)
             for (int i = 0; i < files.length; i++) {
-                if(files[i].getName().equals("Rawxt.txt"))continue;
-                createThumbnail(files[i]);
-                String description = getDescription(files[i].getName());
-                Image imageToLoad = new Image(
-                        description,
-                        "Pictures/Thumb/"+files[i].getName(),
-                        "Pictures/Raw/"+files[i].getName());
-                this.imageRepository.save(imageToLoad);
-            }
+            if(files[i].getName().equals("Rawxt.txt"))continue;
+            createThumbnail(files[i]);
+            String description = getDescription(files[i].getName());
+            Image imageToLoad = new Image(
+                    description,
+                    "Pictures/Thumb/"+files[i].getName(),
+                    "Pictures/Raw/"+files[i].getName());
+            this.imageRepository.save(imageToLoad);
         }
-        Comment firstComment = new Comment("H&E, Test");
-        Image image = imageRepository.getOne(1L);
-        Image image2 = imageRepository.getOne(2L);
-        image.addComment(firstComment);
-        image2.addComment(firstComment);
-        Hashtag firstHashtag = new Hashtag("Test");
-        image.addHashtag(firstHashtag);
     }
 
     private String getDescription(String name) throws ParserConfigurationException, IOException, SAXException {

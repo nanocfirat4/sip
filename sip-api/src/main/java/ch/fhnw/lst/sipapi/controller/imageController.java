@@ -12,7 +12,7 @@ import java.util.List;
 @RestController
 @CrossOrigin
 @RequestMapping("/api")
-public class ImageController {
+public class imageController {
     @Autowired
     private ImageService imageService;
 
