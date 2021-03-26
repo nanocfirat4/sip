@@ -51,10 +51,26 @@ public class ImageService {
         ));
     }
 
+    public void removeCommentToImage(Long commentId, Long id) {
+        imageRepository.findById(id).orElseThrow(() ->
+                new ResourceNotFoundException("no such Image with id "+id));
+        imageRepository.findById(id).ifPresent(image -> image.removeComment(commentRepository.findById(commentId).orElseThrow(() ->
+                new ResourceNotFoundException("no such Comment with id "+id))
+        ));
+    }
+
     public void saveHashtagToImage(Long hashtagId, Long id) {
         imageRepository.findById(id).orElseThrow(() ->
                 new ResourceNotFoundException("no such Image with id "+id));
         imageRepository.findById(id).ifPresent(image -> image.addHashtag(hashtagRepository.findById(hashtagId).orElseThrow(() ->
+                new ResourceNotFoundException("no such Hashtag with id "+id))
+        ));
+    }
+
+    public void removeHashtagToImage(Long hashtagId, Long id) {
+        imageRepository.findById(id).orElseThrow(() ->
+                new ResourceNotFoundException("no such Image with id "+id));
+        imageRepository.findById(id).ifPresent(image -> image.removeHashtag(hashtagRepository.findById(hashtagId).orElseThrow(() ->
                 new ResourceNotFoundException("no such Hashtag with id "+id))
         ));
     }

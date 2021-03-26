@@ -41,4 +41,14 @@ public class ImageController {
         imageService.saveHashtagToImage(hashtagId,id);
     }
 
+    @PostMapping("/image/{id}/del_comment/{commentId}")
+    public void delComment(@RequestBody Long id,@RequestBody Long commentId){
+        imageService.removeCommentToImage(commentId,id);
+    }
+
+    @PostMapping("/image/{id}/del_tag/{hashtagId}")
+    public void delHashtag(@RequestBody Long id,@RequestBody Long hashtagId){
+        imageService.removeHashtagToImage(hashtagId,id);
+    }
+
 }
