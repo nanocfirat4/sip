@@ -1,15 +1,26 @@
 import axios from 'axios'
 import { config } from '../config'
+import { useState } from 'react'
+
 export const ImageService = {
     findAll,
     findById,
-    authToken
+    authToken,
+    findByFilter
 }
 function findAll() {
     return instance.get('/api/images')
 }
 function findById(id) {
     return instance.get(`/api/image/${id}`)
+}
+
+function findByFilter(textTokens, tags) {
+    var res = instance.post('/api/search/filter', {
+        textTokens: textTokens,
+        searchFavHashtagsList: tags
+    })
+    return res
 }
 
 // -- Axios https://github.com/axios/axios#config-defaults

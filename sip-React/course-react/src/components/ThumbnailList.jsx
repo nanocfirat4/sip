@@ -1,77 +1,81 @@
 import React, { Component } from 'react'
-
+import Button from '@material-ui/core/Button';
 import Thumbnail from './Thumbnail'
 import SearchFields from './SearchFields'
-import Slider from '@material-ui/core/Slider';
-
-import { ImageService } from '../services/ImageService'
-import keycloak from '../keycloak'
 import { withRouter } from 'react-router-dom'
 import { Col, Row } from 'react-bootstrap';
+import { LinkContainer } from 'react-router-bootstrap'
 
 class ThumbnailList extends Component {
-    state = {
-        isLoading: false,
-        selectedImages: [],
-        images: []
+    constructor(props) {
+        super(props);
+
+        this.updateSearchComment = this.updateSearchComment.bind(this);
+
+        this.state = {
+            searchComment: "",
+        };
     }
 
-    componentDidMount() {
-        this.setState({ isLoading: true })
-        ImageService.authToken(keycloak.token)
-        ImageService.findAll().then((res) => {
-            this.setState({ images: res.data, isLoading: false });
-        });
-    }
 
     valuetext(value) {
         return `${value}px`;
     }
 
+
+    updateSearchComment(newComment) {
+        this.setState({ searchComment: newComment });
+    }
+
+    handleSliderChange = (event, newValue) => {
+        var items = document.getElementsByClassName("thumbnail_img")
+
+        for (var i = 0; i < items.length; i++) {
+            items[i].style.width = (newValue + "px");
+            items[i].style.height = (newValue + "px");
+        }
+    };
+
+    handleShowImages() {
+        this.setState({ showViewMode: true})
+    }
+
+
     render() {
-        const { isLoading, images } = this.state;
+        const { isLoading, images, searchImages, selectedImages } = this.props;
 
-        const handleSliderChange = (event, newValue) => {
-            var items = document.getElementsByClassName("thumbnail_img")
 
-            for (var i = 0; i < items.length; i++) {
-                items[i].style.width = (newValue + "px");
-                items[i].style.height = (newValue + "px");
-            }
-        };
-        
         return (
             isLoading ? <p>Loading...</p> : (
                 <div className="mt-3">
-                    <SearchFields />
-                    <Slider
-                        getAriaValueText={this.valuetext}
-                        aria-labelledby="discrete-slider"
-                        valueLabelDisplay="auto"
-                        step={50}
-                        marks
-                        min={50}
-                        max={300}
-                        defaultValue={150}
-                        id="sizeSlider"
+                    <SearchFields handleSliderChange={this.handleSliderChange} searchFunction={searchImages}
+                        searchComment={this.state.searchComment} updateSearchComment={this.updateSearchComment} />
 
-                        onChange={handleSliderChange}
-                    />
+
 
                     <Row>
                         <Col md={12} lg={3} id="bordered">
                             Kommentare und Tags
+
+                            <LinkContainer to="/view">
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                    style={{ margin: "5px" }}
+                                >
+                                        Show Images
+                                </Button>
+                            </LinkContainer>
+
                         </Col>
                         <Col md={12} lg={9} id="bordered">
                             {images.map(image =>
-                                <Thumbnail selectedImages={this.state.selectedImages} imgName={image.thumbnail} id={image.id} description={image.description} />
+                                <Thumbnail selectedImages={selectedImages} image={image} />
                             )}
                         </Col>
                     </Row>
 
-
-
-                    <table className="table">
+                    {/* <table className="table">
                         <thead>
                             <tr><th>ID</th><th>Description</th><th>Thumbnail</th><th>PACS</th></tr>
                         </thead>
@@ -85,7 +89,7 @@ class ThumbnailList extends Component {
                                 </tr>
                             )}
                         </tbody>
-                    </table>
+                    </table> */}
                 </div>
             )
         )
