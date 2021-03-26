@@ -13,19 +13,19 @@ function AppNavBar() {
                     <LinkContainer to='/'>
                         <Nav.Link>Home</Nav.Link>
                     </LinkContainer>
-                        <LinkContainer to='/about'>
-                            <Nav.Link>About</Nav.Link>
-                        </LinkContainer>
+                    <LinkContainer to='/about'>
+                        <Nav.Link>About</Nav.Link>
+                    </LinkContainer>
                 </Nav>
-                    <Navbar.Text>
-                        <Button
-                            variant='dark'
-                            onClick={() =>
-                                keycloak.logout()
-                            }
-                        >Logout
+                <Navbar.Text>
+                    <Button
+                        variant='dark'
+                        onClick={() =>
+                            keycloak.logout()
+                        }
+                    >Logout
                         </Button>
-                    </Navbar.Text>
+                </Navbar.Text>
             </Navbar.Collapse>
         </Navbar>
     )

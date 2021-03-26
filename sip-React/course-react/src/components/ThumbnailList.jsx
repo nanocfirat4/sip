@@ -36,6 +36,10 @@ class ThumbnailList extends Component {
         }
     };
 
+    handleShowImages() {
+        this.setState({ showViewMode: true})
+    }
+
 
     render() {
         const { isLoading, images, searchImages, selectedImages } = this.props;

@@ -14,6 +14,8 @@ class Thumbnail extends React.Component {
         };
     }
 
+    // imgName={image.thumbnail} id={image.id} description={image.description}
+
     handleCheckClick = () => {
         if (!this.state.checked)
             this.props.selectedImages.push(this.props.image);
