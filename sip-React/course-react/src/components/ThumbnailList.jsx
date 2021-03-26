@@ -1,48 +1,27 @@
 import React, { Component } from 'react'
-
+import Button from '@material-ui/core/Button';
 import Thumbnail from './Thumbnail'
 import SearchFields from './SearchFields'
-
-import { ImageService } from '../services/ImageService'
-import keycloak from '../keycloak'
 import { withRouter } from 'react-router-dom'
 import { Col, Row } from 'react-bootstrap';
-
+import { LinkContainer } from 'react-router-bootstrap'
 
 class ThumbnailList extends Component {
     constructor(props) {
         super(props);
 
         this.updateSearchComment = this.updateSearchComment.bind(this);
-        this.searchImages = this.searchImages.bind(this);
 
         this.state = {
-            isLoading: false,
-            selectedImages: [],
             searchComment: "",
-            images: []
         };
     }
 
-    componentDidMount() {
-        this.setState({ isLoading: true })
-        ImageService.authToken(keycloak.token)
-        ImageService.findAll().then((res) => {
-            this.setState({ images: res.data, isLoading: false });
-        });
-    }
 
     valuetext(value) {
         return `${value}px`;
     }
 
-    searchImages(textTokens) {
-        this.setState({ isLoading: true })
-        ImageService.authToken(keycloak.token)
-        ImageService.findByFilter(textTokens, []).then((res) => {
-            this.setState({ images: res.data, isLoading: false });
-        });
-    }
 
     updateSearchComment(newComment) {
         this.setState({ searchComment: newComment });
@@ -59,29 +38,40 @@ class ThumbnailList extends Component {
 
 
     render() {
-        const { isLoading, images, searchComment } = this.state;
+        const { isLoading, images, searchImages, selectedImages } = this.props;
 
 
         return (
             isLoading ? <p>Loading...</p> : (
                 <div className="mt-3">
-                    <SearchFields handleSliderChange={this.handleSliderChange} searchFunction={this.searchImages}
-                        searchComment={searchComment} updateSearchComment={this.updateSearchComment} />
+                    <SearchFields handleSliderChange={this.handleSliderChange} searchFunction={searchImages}
+                        searchComment={this.state.searchComment} updateSearchComment={this.updateSearchComment} />
+
+
 
                     <Row>
                         <Col md={12} lg={3} id="bordered">
                             Kommentare und Tags
+
+                            <LinkContainer to="/view">
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                    style={{ margin: "5px" }}
+                                >
+                                        Show Images
+                                </Button>
+                            </LinkContainer>
+
                         </Col>
                         <Col md={12} lg={9} id="bordered">
                             {images.map(image =>
-                                <Thumbnail selectedImages={this.state.selectedImages} imgName={image.thumbnail} id={image.id} description={image.description} />
+                                <Thumbnail selectedImages={selectedImages} image={image} />
                             )}
                         </Col>
                     </Row>
 
-
-
-                    <table className="table">
+                    {/* <table className="table">
                         <thead>
                             <tr><th>ID</th><th>Description</th><th>Thumbnail</th><th>PACS</th></tr>
                         </thead>
@@ -95,7 +85,7 @@ class ThumbnailList extends Component {
                                 </tr>
                             )}
                         </tbody>
-                    </table>
+                    </table> */}
                 </div>
             )
         )
