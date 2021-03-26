@@ -1,8 +1,8 @@
 {
   "Name" : "Orthanc in Docker",
   "RemoteAccessAllowed" : true,
-  "user": "admin",
-  "password": "admin",
+
+
   "AUTHZ_WEBSERVICE": "http://localhost:8080/auth/realms/FHNW-LST-MI/protocol/openid-connect/token",
   
   "PostgreSQL": {
