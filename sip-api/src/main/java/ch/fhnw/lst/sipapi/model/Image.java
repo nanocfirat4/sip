@@ -58,9 +58,9 @@ public class Image {
     )
     private List<Comment> imageCommentsList = new ArrayList<>();
 
-    public void addComment(Comment comment){
-        imageCommentsList.add(comment);
-    }
+    public void addComment(Comment comment){ imageCommentsList.add(comment);}
+
+    public void removeComment(Comment comment){ imageCommentsList.remove(comment);}
 
     @ManyToMany
     @JoinTable(
@@ -73,6 +73,8 @@ public class Image {
     public void addHashtag(Hashtag hashtag){
         imageHashtagsList.add(hashtag);
     }
+
+    public void removeHashtag(Hashtag hashtag){imageHashtagsList.remove(hashtag);}
 
     public Image(String description, String thumbnail, String pacs_id) {
         this.description = description;
@@ -121,24 +123,12 @@ public class Image {
         return timestamp;
     }
 
-    public void setTimestamp(Date timestamp) {
-        this.timestamp = timestamp;
-    }
-
     public List<Comment> getImageCommentsList() {
         return imageCommentsList;
     }
 
-    public void setImageCommentsList(List<Comment> imageCommentsList) {
-        this.imageCommentsList = imageCommentsList;
-    }
-
     public List<Hashtag> getImageHashtagsList() {
         return imageHashtagsList;
-    }
-
-    public void setImageHashtagsList(List<Hashtag> imageHashtagsList) {
-        this.imageHashtagsList = imageHashtagsList;
     }
 
     @Override

@@ -34,9 +34,9 @@ public class DatabaseLoader implements CommandLineRunner {
         List<String> pics = getListPicturesFromPacs();
         if(pics != null)
             for (String pacsid :pics) {
-
-                saveImage("http://localhost:8042/instances/"+pacsid+"/preview","Pictures/Raw/"+pacsid+".jpeg");
-                createThumbnail(new File("Pictures/Raw/" + pacsid + ".jpeg"));
+                String pathToRawJpgs = "Pictures/Raw/" + pacsid + ".jpeg";
+                saveImage("http://localhost:8042/instances/"+pacsid+"/preview",pathToRawJpgs);
+                createThumbnail(new File(pathToRawJpgs));
                 String description = getDescription(pacsid);
                 Image imageToLoad = new Image(description,
                         "Pictures/Thumb/"+ pacsid + ".jpeg",
@@ -162,7 +162,7 @@ public class DatabaseLoader implements CommandLineRunner {
         BufferedImage thumbnailBufferedImage = resizedImage.getSubimage(x, y, thumbnailWidth, thumbnailWidth);
 
         try {
-            ImageIO.write(thumbnailBufferedImage, "JPG", new File("Pictures/Thumb/"+file.getName()));
+            ImageIO.write(thumbnailBufferedImage, "JPG", new File("sip-React/course-react/public/Pictures/Thumb/"+file.getName()));
         }
         catch (IOException ioe) {
             System.out.println("Error writing image to file");
