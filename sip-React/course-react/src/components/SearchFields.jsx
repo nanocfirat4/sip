@@ -37,23 +37,13 @@ class SearchFields extends Component {
         }),
     );
 
-    // Top 100 films as rated by IMDb users. http://www.imdb.com/chart/top
-    allTags = [
-        { name: 'The Shawshank Redemption' },
-        { name: 'The Godfather' },
-        { name: 'The Godfather: Part II' },
-        { name: 'The Dark Knight' },
-        { name: '12 Angry Men' },
-        { name: "Schindler's List", year: 1993 },
-    ];
-
     handleSearch() {
         this.props.updateSearchComment(this.state.newSearchCommentValue);
         this.props.searchFunction(this.state.newSearchCommentValue);
     }
 
     handleChange(event) {
-        this.setState({newSearchCommentValue: event.target.value});
+        this.setState({ newSearchCommentValue: event.target.value });
     }
 
     render() {
@@ -66,15 +56,22 @@ class SearchFields extends Component {
                     type="search"
                     className="searchElement"
                 /> */}
-                <Row style={{ minHeight:"70px" }}>
+                <Row style={{ minHeight: "70px" }}>
                     <Col md={4}>
                         <Autocomplete
                             multiple
                             id="combo-box-demo"
-                            options={this.allTags}
+                            options={
+                                this.props.tags.map((tag) => {
+                                    return {
+                                        name: tag.hashtagtxt,
+                                        id: tag.id
+                                    }
+                                })
+                            }
                             getOptionLabel={(option) => option.name}
                             renderInput={(params) => <TextField {...params} label="Tag" />}
-                            style={{width: "100%"}}
+                            style={{ width: "100%" }}
                         />
                     </Col>
                     <Col md={4}>
@@ -84,7 +81,7 @@ class SearchFields extends Component {
                             type="search"
                             defaultValue={this.props.searchComment}
                             onChange={this.handleChange}
-                            style={{width: "100%"}}
+                            style={{ width: "100%" }}
                         />
                     </Col>
                     <Col md={2} xs={5}>
@@ -98,7 +95,7 @@ class SearchFields extends Component {
                         </Button>
                     </Col>
                     <Col md={2} xs={7}>
-                        <Typography style={{textAlign:"center"}}>
+                        <Typography style={{ textAlign: "center" }}>
                             Thumbnail size
                         </Typography>
                         <Slider
@@ -111,7 +108,7 @@ class SearchFields extends Component {
                             max={300}
                             defaultValue={150}
                             id="sizeSlider"
-                            style={{width: "100%"}}
+                            style={{ width: "100%" }}
 
                             onChange={this.props.handleSliderChange}
                         />

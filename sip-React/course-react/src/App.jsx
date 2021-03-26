@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import ViewMode from './components/ViewMode'
 import AppNavBar from './components/AppNavBar'
 import { ImageService } from './services/ImageService'
+import { CommentService } from './services/CommentService'
+import { TagService } from './services/TagService'
 import keycloak from './keycloak'
 import ThumbnailList from './components/ThumbnailList'
 import About from './components/About'
@@ -18,7 +20,9 @@ class App extends Component {
     this.state = {
       isLoading: false,
       selectedImages: [],
-      images: []
+      images: [],
+      comments: [],
+      tags: []
     };
   }
 
@@ -27,8 +31,20 @@ class App extends Component {
     this.setState({ isLoading: true })
     ImageService.authToken(keycloak.token)
     ImageService.findAll().then((res) => {
-      this.setState({ images: res.data, isLoading: false });
+      this.setState({ images: res.data });
     });
+
+    CommentService.authToken(keycloak.token)
+    CommentService.findAll().then((res) => {
+      this.setState({ comments: res.data });
+    });
+    
+    TagService.authToken(keycloak.token)
+    TagService.findAll().then((res) => {
+      this.setState({ tags: res.data })
+    });
+
+    this.setState({ isLoading: false })
   }
 
   // Search images
@@ -43,15 +59,19 @@ class App extends Component {
 
 
   render() {
-    const { isLoading, images, selectedImages } = this.state;
+    const { isLoading, images, selectedImages, tags } = this.state;
 
     return (
       <div className='container'>
+        {console.log(this.state.comments)}
+        {console.log(this.state.tags)}
+
+
         <Router>
           <AppNavBar />
           <Switch>
             <Route exact path='/'>
-              <ThumbnailList isLoading={isLoading} images={images} searchImages={this.searchImages} selectedImages={selectedImages} />
+              <ThumbnailList tags={tags} isLoading={isLoading} images={images} searchImages={this.searchImages} selectedImages={selectedImages} />
             </Route>
             <Route path='/about' component={About} />
             <Route path='/view'>

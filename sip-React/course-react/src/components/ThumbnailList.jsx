@@ -5,15 +5,21 @@ import SearchFields from './SearchFields'
 import { withRouter } from 'react-router-dom'
 import { Col, Row } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap'
+import { CommentService } from '../services/CommentService'
+import TextField from '@material-ui/core/TextField';
+import keycloak from '../keycloak'
 
 class ThumbnailList extends Component {
     constructor(props) {
         super(props);
 
         this.updateSearchComment = this.updateSearchComment.bind(this);
+        this.handleAddCommentText = this.handleAddCommentText.bind(this);
+        this.handleAddComment = this.handleAddComment.bind(this);
 
         this.state = {
             searchComment: "",
+            newComment: ""
         };
     }
 
@@ -41,21 +47,48 @@ class ThumbnailList extends Component {
     }
 
 
+    handleAddComment() {
+        CommentService.authToken(keycloak.token)
+        CommentService.add(this.state.newComment).then((res) => {
+            this.props.selectedImages.map((image) => {
+                CommentService.assignComment(image.id, res.data.id)
+            })
+        })
+    }
+    handleAddCommentText(event) {
+        this.setState({ newComment: event.target.value })
+    }
+
+
     render() {
-        const { isLoading, images, searchImages, selectedImages } = this.props;
+        const { isLoading, images, searchImages, selectedImages, tags, comments } = this.props;
 
 
         return (
             isLoading ? <p>Loading...</p> : (
                 <div className="mt-3">
                     <SearchFields handleSliderChange={this.handleSliderChange} searchFunction={searchImages}
-                        searchComment={this.state.searchComment} updateSearchComment={this.updateSearchComment} />
+                        searchComment={this.state.searchComment} updateSearchComment={this.updateSearchComment}
+                        tags={tags} />
 
 
 
                     <Row>
                         <Col md={12} lg={3} id="bordered">
-                            Kommentare und Tags
+                            <TextField
+                                id="add_comment"
+                                label="New Comment"
+                                onChange={this.handleAddCommentText}
+                                style={{ width: "100%" }}
+                            />
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                style={{ margin: "5px" }}
+                                onClick={this.handleAddComment}
+                            >
+                                Save Comment
+                            </Button>
 
                             <LinkContainer to="/view">
                                 <Button
