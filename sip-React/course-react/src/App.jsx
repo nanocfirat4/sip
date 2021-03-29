@@ -26,7 +26,7 @@ class App extends Component {
     };
   }
 
-  // Load all images on App start
+  // Load all images, Tags and Comments on App start
   componentDidMount() {
     this.setState({ isLoading: true })
     ImageService.authToken(keycloak.token)
@@ -63,9 +63,10 @@ class App extends Component {
 
     return (
       <div className='container'>
-        {console.log(this.state.comments)}
-        {console.log(this.state.tags)}
+        {console.log("comments: " + this.state.comments)}
+        {console.log("tags: " + this.state.tags)}
 
+        {keycloak.token}
 
         <Router>
           <AppNavBar />

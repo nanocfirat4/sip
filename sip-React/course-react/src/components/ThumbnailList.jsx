@@ -42,11 +42,7 @@ class ThumbnailList extends Component {
         }
     };
 
-    handleShowImages() {
-        this.setState({ showViewMode: true})
-    }
-
-
+    // Add new Comment to all selected images
     handleAddComment() {
         CommentService.authToken(keycloak.token)
         CommentService.add(this.state.newComment).then((res) => {
