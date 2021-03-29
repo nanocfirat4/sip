@@ -1,3 +1,4 @@
+/*
 package ch.fhnw.lst.sipapi;
 
 import ch.fhnw.lst.sipapi.model.Hashtag;
@@ -44,3 +45,4 @@ class SpitalprojektApplicationTests {
 	}
 
 }
+*/
