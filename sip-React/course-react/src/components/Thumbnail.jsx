@@ -1,10 +1,8 @@
-import React from 'react'
-import { Card, CardActionArea, CardMedia, CardContent, makeStyles } from '@material-ui/core';
+import React, { Component } from 'react'
+import { Card, CardActionArea, CardMedia, CardContent } from '@material-ui/core';
 
 
-
-
-class Thumbnail extends React.Component {
+class Thumbnail extends Component {
     constructor(props) {
         super(props);
 
@@ -13,6 +11,7 @@ class Thumbnail extends React.Component {
             checked: this.initCheck(),
         };
     }
+
 
     // Check if the image was selected before
     initCheck() {
@@ -23,9 +22,10 @@ class Thumbnail extends React.Component {
         }
         return false;
     }
+
     
     // Add / remove images from selectedImages array
-    handleCheckClick = () => {
+    selectImage = () => {
         if (!this.state.checked)
             this.props.selectedImages.push(this.props.image);
 
@@ -36,6 +36,8 @@ class Thumbnail extends React.Component {
                 }
             }
         }
+        console.log(this.props.selectedImages);
+        this.props.updateMatchingComments();
 
         this.setState({
             checked: !this.state.checked
@@ -43,6 +45,7 @@ class Thumbnail extends React.Component {
     }
 
 
+    // Display and hide description on hover
     handleEnter() {
         this.setState({
             isHovered: true
@@ -55,12 +58,7 @@ class Thumbnail extends React.Component {
         });
     }
 
-    useStyles = makeStyles(theme => ({
-        root: {
-            padding: "100px",
-        },
-    }));
-
+    // Rendering
     render() {
         return (
             <div class="thumbnail"
@@ -69,7 +67,7 @@ class Thumbnail extends React.Component {
             >
 
                 <Card
-                    onClick={this.handleCheckClick}
+                    onClick={this.selectImage}
                     style={{
                         backgroundColor: this.state.checked ? "lightblue" : "",
                     }}

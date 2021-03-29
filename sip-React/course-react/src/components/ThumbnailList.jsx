@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Button from '@material-ui/core/Button';
 import Thumbnail from './Thumbnail'
 import SearchFields from './SearchFields'
+import Comment from './Comment';
 import { withRouter } from 'react-router-dom'
 import { Col, Row } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap'
@@ -19,28 +20,15 @@ class ThumbnailList extends Component {
 
         this.state = {
             searchComment: "",
-            newComment: ""
+            newComment: "",
         };
     }
 
 
-    valuetext(value) {
-        return `${value}px`;
-    }
-
-
+    // Set the last searched Comment
     updateSearchComment(newComment) {
         this.setState({ searchComment: newComment });
     }
-
-    handleSliderChange = (event, newValue) => {
-        var items = document.getElementsByClassName("thumbnail_img")
-
-        for (var i = 0; i < items.length; i++) {
-            items[i].style.width = (newValue + "px");
-            items[i].style.height = (newValue + "px");
-        }
-    };
 
     // Add new Comment to all selected images
     handleAddComment() {
@@ -56,19 +44,25 @@ class ThumbnailList extends Component {
     }
 
 
+
     render() {
-        const { isLoading, images, searchImages, selectedImages, tags, comments } = this.props;
+        const { isLoading, images, searchImages, selectedImages, tags, matchingComments, updateMatchingComments } = this.props;
 
 
         return (
             isLoading ? <p>Loading...</p> : (
                 <div className="mt-3">
-                    <SearchFields handleSliderChange={this.handleSliderChange} searchFunction={searchImages}
-                        searchComment={this.state.searchComment} updateSearchComment={this.updateSearchComment}
-                        tags={tags} />
+                    <SearchFields searchFunction={searchImages} searchComment={this.state.searchComment}
+                        updateSearchComment={this.updateSearchComment} tags={tags} />
 
                     <Row>
                         <Col md={12} lg={3} id="bordered">
+                            <div id="matchingComments">
+                                {matchingComments.map(comment =>
+                                    <Comment comment={comment} />
+                                )}
+                            </div>
+
                             <TextField
                                 id="add_comment"
                                 label="New Comment"
@@ -90,14 +84,14 @@ class ThumbnailList extends Component {
                                     color="primary"
                                     style={{ margin: "5px" }}
                                 >
-                                        Show Images
+                                    Show Images
                                 </Button>
                             </LinkContainer>
 
                         </Col>
                         <Col md={12} lg={9} id="bordered">
                             {images.map(image =>
-                                <Thumbnail selectedImages={selectedImages} image={image} />
+                                <Thumbnail updateMatchingComments={updateMatchingComments} selectedImages={selectedImages} image={image} />
                             )}
                         </Col>
                     </Row>

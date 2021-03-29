@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import TextField from '@material-ui/core/TextField';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { Col, Row } from 'react-bootstrap';
 import Button from '@material-ui/core/Button';
@@ -12,8 +11,6 @@ class SearchFields extends Component {
     constructor(props) {
         super(props);
 
-        this.handleChange = this.handleChange.bind(this);
-
         this.state = {
             searchTags: [],
             textFieldValue: '',
@@ -22,35 +19,34 @@ class SearchFields extends Component {
     }
 
 
-    useStyles = makeStyles((theme) =>
-        createStyles({
-            root: {
-                flexGrow: 1,
-                maxWidth: 752,
-            },
-            demo: {
-                backgroundColor: theme.palette.background.paper,
-            },
-            title: {
-                margin: theme.spacing(4, 0, 2),
-            },
-        }),
-    );
+    // adjust thumbnail sizes
+    handleSliderChange = (event, newValue) => {
+        var items = document.getElementsByClassName("thumbnail_img")
 
+        for (var i = 0; i < items.length; i++) {
+            items[i].style.width = (newValue + "px");
+            items[i].style.height = (newValue + "px");
+        }
+    };
+
+    // Search when button is clicked
     handleSearch() {
         this.props.updateSearchComment(this.state.newSearchCommentValue);
         this.props.searchFunction(this.state.newSearchCommentValue);
     }
 
-    handleChange(event) {
+    // Update State when modifying Comment
+    setNewComment(event) {
         this.setState({ newSearchCommentValue: event.target.value });
     }
 
+    // Rendering
     render() {
         return (
             <form className={this.root} noValidate autoComplete="off">
 
-                {/* <TextField
+                {/* OLD: Search by PACS ID of images
+                <TextField
                     id="PictureID-search"
                     label="Picture ID"
                     type="search"
@@ -62,7 +58,7 @@ class SearchFields extends Component {
                             multiple
                             id="combo-box-demo"
                             options={
-                                this.props.tags.map((tag) => {
+                                this.props.tags.map(tag => {
                                     return {
                                         name: tag.hashtagtxt,
                                         id: tag.id
@@ -80,7 +76,7 @@ class SearchFields extends Component {
                             label="Comments"
                             type="search"
                             defaultValue={this.props.searchComment}
-                            onChange={this.handleChange}
+                            onChange={this.setNewComment.bind(this)}
                             style={{ width: "100%" }}
                         />
                     </Col>
@@ -110,7 +106,7 @@ class SearchFields extends Component {
                             id="sizeSlider"
                             style={{ width: "100%" }}
 
-                            onChange={this.props.handleSliderChange}
+                            onChange={this.handleSliderChange}
                         />
 
                     </Col>
