@@ -36,6 +36,7 @@ public class ImageService {
         return imageRepository.findAll();
     }
     public Image findById(Long id){
+        logger.info("Enter FindById  from ImageService");
         return imageRepository.findById(id).orElseThrow(() ->
                 new ResourceNotFoundException("no such Image with id "+id));
     }
@@ -44,6 +45,7 @@ public class ImageService {
     }
 
     public void saveCommentToImage(Long commentId, Long id) {
+        logger.info("Enter saveCommentToImage from ImageService");
         imageRepository.findById(id).orElseThrow(() ->
                 new ResourceNotFoundException("no such Image with id "+id));
         commentRepository.findById(commentId).orElseThrow(() ->
@@ -52,6 +54,7 @@ public class ImageService {
     }
 
     public void removeCommentToImage(Long commentId, Long id) {
+        logger.info("Enter removeCommentToImage from ImageService");
         imageRepository.findById(id).orElseThrow(() ->
                 new ResourceNotFoundException("no such Image with id "+id));
         commentRepository.findById(commentId).orElseThrow(() ->
@@ -60,6 +63,7 @@ public class ImageService {
     }
 
     public void saveHashtagToImage(Long hashtagId, Long id) {
+        logger.info("Enter saveHashtagToImage from ImageService");
         imageRepository.findById(id).orElseThrow(() ->
                 new ResourceNotFoundException("no such Image with id "+id));
         hashtagRepository.findById(hashtagId).orElseThrow(() ->
@@ -68,6 +72,7 @@ public class ImageService {
     }
 
     public void removeHashtagToImage(Long hashtagId, Long id) {
+        logger.info("Enter removeHashtagToImage from ImageService");
         imageRepository.findById(id).orElseThrow(() ->
                 new ResourceNotFoundException("no such Image with id "+id));
         hashtagRepository.findById(hashtagId).orElseThrow(() ->
