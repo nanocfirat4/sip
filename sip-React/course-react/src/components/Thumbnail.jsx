@@ -10,12 +10,21 @@ class Thumbnail extends React.Component {
 
         this.state = {
             isHovered: false,
-            checked: false,
+            checked: this.initCheck(),
         };
     }
 
-    // imgName={image.thumbnail} id={image.id} description={image.description}
-
+    // Check if the image was selected before
+    initCheck() {
+        for (var i = 0; i < this.props.selectedImages.length; i++) {
+            if (this.props.selectedImages[i] === this.props.image) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    // Add / remove images from selectedImages array
     handleCheckClick = () => {
         if (!this.state.checked)
             this.props.selectedImages.push(this.props.image);
@@ -27,9 +36,6 @@ class Thumbnail extends React.Component {
                 }
             }
         }
-
-        console.log(this.props.selectedImages);
-
 
         this.setState({
             checked: !this.state.checked

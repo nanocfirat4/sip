@@ -67,8 +67,6 @@ class ThumbnailList extends Component {
                         searchComment={this.state.searchComment} updateSearchComment={this.updateSearchComment}
                         tags={tags} />
 
-
-
                     <Row>
                         <Col md={12} lg={3} id="bordered">
                             <TextField
