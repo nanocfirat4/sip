@@ -32,22 +32,22 @@ public class ImageController {
     }
 
     @PostMapping("/image/{id}/savecomment/{commentId}")
-    public void saveComment(@RequestBody Long id,@RequestBody Long commentId){
+    public void saveComment(@PathVariable Long id,@PathVariable Long commentId){
         imageService.saveCommentToImage(commentId,id);
     }
 
     @PostMapping("/image/{id}/savetag/{hashtagId}")
-    public void saveHashtag(@RequestBody Long id,@RequestBody Long hashtagId){
+    public void saveHashtag(@PathVariable Long id,@PathVariable Long hashtagId){
         imageService.saveHashtagToImage(hashtagId,id);
     }
 
     @PostMapping("/image/{id}/del_comment/{commentId}")
-    public void delComment(@RequestBody Long id,@RequestBody Long commentId){
+    public void delComment(@PathVariable Long id,@PathVariable Long commentId){
         imageService.removeCommentToImage(commentId,id);
     }
 
     @PostMapping("/image/{id}/del_tag/{hashtagId}")
-    public void delHashtag(@RequestBody Long id,@RequestBody Long hashtagId){
+    public void delHashtag(@PathVariable Long id,@PathVariable Long hashtagId){
         imageService.removeHashtagToImage(hashtagId,id);
     }
 

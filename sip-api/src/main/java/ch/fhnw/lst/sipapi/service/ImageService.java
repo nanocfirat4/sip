@@ -46,33 +46,33 @@ public class ImageService {
     public void saveCommentToImage(Long commentId, Long id) {
         imageRepository.findById(id).orElseThrow(() ->
                 new ResourceNotFoundException("no such Image with id "+id));
-        imageRepository.findById(id).ifPresent(image -> image.addComment(commentRepository.findById(commentId).orElseThrow(() ->
-                new ResourceNotFoundException("no such Comment with id "+id))
-        ));
+        commentRepository.findById(commentId).orElseThrow(() ->
+                new ResourceNotFoundException("no such Comment with id "+id));
+        imageRepository.findById(id).get().addComment(commentRepository.findById(commentId).get());
     }
 
     public void removeCommentToImage(Long commentId, Long id) {
         imageRepository.findById(id).orElseThrow(() ->
                 new ResourceNotFoundException("no such Image with id "+id));
-        imageRepository.findById(id).ifPresent(image -> image.removeComment(commentRepository.findById(commentId).orElseThrow(() ->
-                new ResourceNotFoundException("no such Comment with id "+id))
-        ));
+        commentRepository.findById(commentId).orElseThrow(() ->
+                new ResourceNotFoundException("no such Comment with id "+id));
+        imageRepository.findById(id).get().removeComment(commentRepository.findById(commentId).get());
     }
 
     public void saveHashtagToImage(Long hashtagId, Long id) {
         imageRepository.findById(id).orElseThrow(() ->
                 new ResourceNotFoundException("no such Image with id "+id));
-        imageRepository.findById(id).ifPresent(image -> image.addHashtag(hashtagRepository.findById(hashtagId).orElseThrow(() ->
-                new ResourceNotFoundException("no such Hashtag with id "+id))
-        ));
+        hashtagRepository.findById(hashtagId).orElseThrow(() ->
+                new ResourceNotFoundException("no such HashtagId with id "+id));
+        imageRepository.findById(id).get().addHashtag(hashtagRepository.findById(hashtagId).get());
     }
 
     public void removeHashtagToImage(Long hashtagId, Long id) {
         imageRepository.findById(id).orElseThrow(() ->
                 new ResourceNotFoundException("no such Image with id "+id));
-        imageRepository.findById(id).ifPresent(image -> image.removeHashtag(hashtagRepository.findById(hashtagId).orElseThrow(() ->
-                new ResourceNotFoundException("no such Hashtag with id "+id))
-        ));
+        hashtagRepository.findById(hashtagId).orElseThrow(() ->
+                new ResourceNotFoundException("no such HashtagId with id "+id));
+        imageRepository.findById(id).get().removeHashtag(hashtagRepository.findById(hashtagId).get());
     }
 
     public List<Image> findBySearch(Search_Favorites search) {
