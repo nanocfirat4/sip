@@ -119,7 +119,7 @@ class App extends Component {
             </Route>
             <Route path='/about' component={About} />
             <Route path='/view'>
-              <ViewMode selectedImages={this.state.selectedImages} />
+              <ViewMode selectedImages={this.state.selectedImages}  matchingComments = {matchingComments} updateMatchingComments={this.updateMatchingComments}/>
             </Route>
           </Switch>
         </Router>

@@ -37,7 +37,6 @@ instance.interceptors.request.use(request => {
 })
 
 instance.interceptors.response.use(response => {
-    console.log('Response:', JSON.stringify(response, null, 2))
     return response
 })
 

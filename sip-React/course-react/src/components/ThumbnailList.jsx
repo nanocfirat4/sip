@@ -9,6 +9,7 @@ import { LinkContainer } from 'react-router-bootstrap'
 import { CommentService } from '../services/CommentService'
 import TextField from '@material-ui/core/TextField';
 import keycloak from '../keycloak'
+import {PacsService} from '../services/PacsService'
 
 class ThumbnailList extends Component {
     constructor(props) {
@@ -77,16 +78,18 @@ class ThumbnailList extends Component {
                             >
                                 Save Comment
                             </Button>
-
+                            {(this.props.selectedImages.length > 0) ?
                             <LinkContainer to="/view">
                                 <Button
                                     variant="contained"
                                     color="primary"
                                     style={{ margin: "5px" }}
+                                    //onClick={() => PacsService.find()}
                                 >
                                     Show Images
                                 </Button>
                             </LinkContainer>
+                            : null}
 
                         </Col>
                         <Col md={12} lg={9} id="bordered">
