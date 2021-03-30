@@ -9,6 +9,8 @@ import { LinkContainer } from 'react-router-bootstrap'
 import { CommentService } from '../services/CommentService'
 import TextField from '@material-ui/core/TextField';
 import keycloak from '../keycloak'
+import { PacsService } from '../services/PacsService';
+import Tag from './Tag';
 
 class ThumbnailList extends Component {
     constructor(props) {
@@ -46,17 +48,19 @@ class ThumbnailList extends Component {
 
 
     render() {
-        const { isLoading, images, searchImages, selectedImages, tags, matchingComments, updateMatchingComments } = this.props;
+        const { isLoading, images, searchImages, selectedImages, tags, matchingComments, updateMatchingComments, matchingTags } = this.props;
 
 
         return (
             isLoading ? <p>Loading...</p> : (
                 <div className="mt-3">
                     <SearchFields searchFunction={searchImages} searchComment={this.state.searchComment}
-                        updateSearchComment={this.updateSearchComment} tags={tags} />
+                        updateSearchComment={this.updateSearchComment} tags={tags} 
+                        style={{backgroundColor: "lightgray"}} />
 
                     <Row>
-                        <Col md={12} lg={3} id="bordered">
+                        <Col md={12} lg={3}>
+                            {/* Comments -> Show comments of selected images and add new ones */}
                             <div id="matchingComments">
                                 {matchingComments.map(comment =>
                                     <Comment comment={comment} />
@@ -78,18 +82,43 @@ class ThumbnailList extends Component {
                                 Save Comment
                             </Button>
 
+
+                            {/* Tags -> Show tags of selected images and add new ones */}
+                            <div id="matchingTags">
+                                {/* {matchingTags.map(tag =>
+                                    <Tag tag={tag} />
+                                )} */}
+                            </div>
+
+                            <TextField
+                                id="add_tag"
+                                label="New Tag"
+                                onChange={this.handleAddCommentText}
+                                style={{ width: "100%" }}
+                            />
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                style={{ margin: "5px" }}
+                                onClick={this.handleAddComment}
+                            >
+                                Save Tag
+                            </Button>
+
+
                             <LinkContainer to="/view">
                                 <Button
                                     variant="contained"
                                     color="primary"
                                     style={{ margin: "5px" }}
+                                    onClick={() => PacsService.find()}
                                 >
                                     Show Images
                                 </Button>
                             </LinkContainer>
 
                         </Col>
-                        <Col md={12} lg={9} id="bordered">
+                        <Col md={12} lg={9}>
                             {images.map(image =>
                                 <Thumbnail updateMatchingComments={updateMatchingComments} selectedImages={selectedImages} image={image} />
                             )}

@@ -53,13 +53,14 @@ class App extends Component {
 
   // Search images by txt
   searchImages(textTokens) {
-    this.setState({ isLoading: true })
-    ImageService.authToken(keycloak.token)
+    this.setState({ isLoading: true });
+    ImageService.authToken(keycloak.token);
     ImageService.findByFilter(textTokens, []).then((res) => {
       this.setState({
         images: res.data,
         selectedImages: [],
         matchingComments: [],
+        matchingTags: [],
         isLoading: false
       });
     });
@@ -103,19 +104,24 @@ class App extends Component {
 
 
   render() {
-    const { isLoading, images, selectedImages, tags, matchingComments } = this.state;
+    const { isLoading, images, selectedImages, tags, matchingComments, matchingTags } = this.state;
 
     return (
-      <Container fluid>
+      <Container fluid style={{
+        backgroundColor: "lightgray",
+        minHeight: "100%"
+      }}>
 
-        {/* {keycloak.token} */}
+        {keycloak.token}
 
         <Router>
+          {keycloak.token}
           <AppNavBar />
           <Switch>
             <Route exact path='/'>
               <ThumbnailList tags={tags} isLoading={isLoading} images={images} searchImages={this.searchImages} selectedImages={selectedImages}
-                updateComments={this.updateComments} matchingComments={matchingComments} updateMatchingComments={this.updateMatchingComments} />
+                updateComments={this.updateComments} matchingTags={matchingTags} matchingComments={matchingComments}
+                updateMatchingComments={this.updateMatchingComments} />
             </Route>
             <Route path='/about' component={About} />
             <Route path='/view'>

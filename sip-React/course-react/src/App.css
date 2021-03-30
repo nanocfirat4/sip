@@ -1,3 +1,9 @@
+html,
+body,
+#root {
+  height: 100%;
+}
+
 .App {
   text-align: center;
 }
@@ -40,6 +46,7 @@
 
 
 
+
 .thumbnail {
   position: relative;
   display: inline-block;
@@ -56,12 +63,4 @@
 
 .thumbnail_img {
   width: 150px;
-}
-
-#sizeSlider {
-  width: 50%;
-}
-
-#bordered {
-  border: 2px solid;
 }
