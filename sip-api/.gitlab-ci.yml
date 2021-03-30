@@ -2,6 +2,7 @@ image: maven:3.6-openjdk-11
 stages:
   - test
   - build
+  - run
 
 test:
   stage: test
@@ -14,3 +15,7 @@ build:
   artifacts:
      paths:
         - ./target/*.jar
+
+run:
+  stage: run
+  script: ./sip-api/src/main/java/ch/fhnw/lst/sipapi/SpitalprojektApplication.java

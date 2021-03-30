@@ -162,7 +162,7 @@ public class DatabaseLoader implements CommandLineRunner {
         BufferedImage thumbnailBufferedImage = resizedImage.getSubimage(x, y, thumbnailWidth, thumbnailWidth);
 
         try {
-            ImageIO.write(thumbnailBufferedImage, "JPG", new File("sip-React/course-react/public/Pictures/Thumb/"+file.getName()));
+            ImageIO.write(thumbnailBufferedImage, "JPG", new File("sip-react/public/Pictures/Thumb/"+file.getName()));
         }
         catch (IOException ioe) {
             System.out.println("Error writing image to file");
