@@ -12,7 +12,9 @@ build:
         - ./sip-react/target/*.jar
 test:
   stage: test
-  script: mvn --batch-mode test
+  script:
+    - mvn --batch-mode test
+    - mvn surefire-report:report-only
   artifacts:
     paths:
-      - ./sip-api/target/surefire-reports/*.txt
+      - ./target/site/*.html
