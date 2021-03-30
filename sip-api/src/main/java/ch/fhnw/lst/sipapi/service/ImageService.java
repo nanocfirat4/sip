@@ -1,6 +1,5 @@
 package ch.fhnw.lst.sipapi.service;
 
-import ch.fhnw.lst.sipapi.DatabaseLoader;
 import ch.fhnw.lst.sipapi.exception.ResourceNotFoundException;
 import ch.fhnw.lst.sipapi.model.Comment;
 import ch.fhnw.lst.sipapi.model.Hashtag;
