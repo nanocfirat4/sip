@@ -1,4 +1,3 @@
-/*
 package ch.fhnw.lst.sipapi;
 
 import ch.fhnw.lst.sipapi.model.Image;
@@ -170,4 +169,4 @@ public class DatabaseLoader implements CommandLineRunner {
             throw ioe;
         }
     }
-}*/
+}
