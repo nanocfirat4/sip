@@ -34,12 +34,12 @@ public class DatabaseLoader implements CommandLineRunner {
         List<String> pics = getListPicturesFromPacs();
         if(pics != null)
             for (String pacsid :pics) {
-                String pathToRawJpgs = "Pictures/Raw/" + pacsid + ".jpeg";
+                String pathToRawJpgs = "sip-react/public/Pictures/Raw/" + pacsid + ".jpg";
                 saveImage("http://localhost:8042/instances/"+pacsid+"/preview",pathToRawJpgs);
                 createThumbnail(new File(pathToRawJpgs));
                 String description = getDescription(pacsid);
                 Image imageToLoad = new Image(description,
-                        "Pictures/Thumb/"+ pacsid + ".jpeg",
+                        "Pictures/Thumb/"+ pacsid + ".jpg",
                         "http://localhost:8042/instances/"+pacsid+"/preview");
                 this.imageRepository.save(imageToLoad);
         }
