@@ -1,6 +1,7 @@
 image: maven:3.6-openjdk-11
 stages:
   - build
+  - test
 
 build:
   stage: build
@@ -8,3 +9,12 @@ build:
   artifacts:
      paths:
         - ./sip-api/target/*.jar
+        - ./sip-react/target/*.jar
+test:
+  stage: test
+  script:
+    - mvn --batch-mode test
+    - mvn surefire-report:report-only
+  artifacts:
+    paths:
+      - ./target/site/*.html
