@@ -55,8 +55,8 @@ class ThumbnailList extends Component {
             isLoading ? <p>Loading...</p> : (
                 <div className="mt-3">
                     <SearchFields searchFunction={searchImages} searchComment={this.state.searchComment}
-                        updateSearchComment={this.updateSearchComment} tags={tags} 
-                        style={{backgroundColor: "lightgray"}} />
+                        updateSearchComment={this.updateSearchComment} tags={tags}
+                        style={{ backgroundColor: "lightgray" }} />
 
                     <Row>
                         <Col md={12} lg={3}>
@@ -105,17 +105,17 @@ class ThumbnailList extends Component {
                                 Save Tag
                             </Button>
 
-
-                            <LinkContainer to="/view">
-                                <Button
-                                    variant="contained"
-                                    color="primary"
-                                    style={{ margin: "5px" }}
-                                    onClick={() => PacsService.find()}
-                                >
-                                    Show Images
+                            {this.props.selectedImages.length > 0 ?
+                                <LinkContainer to="/view">
+                                    <Button
+                                        variant="contained"
+                                        color="primary"
+                                        style={{ margin: "5px" }}
+                                        onClick={() => PacsService.find()}
+                                    >
+                                        Show Images
                                 </Button>
-                            </LinkContainer>
+                                </LinkContainer>
                             : null}
 
                         </Col>
