@@ -116,6 +116,7 @@ class ThumbnailList extends Component {
                                     Show Images
                                 </Button>
                             </LinkContainer>
+                            : null}
 
                         </Col>
                         <Col md={12} lg={9}>

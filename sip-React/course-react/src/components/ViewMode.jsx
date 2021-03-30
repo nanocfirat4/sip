@@ -1,18 +1,29 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import { Col, Row } from 'react-bootstrap';
 import { Slide } from 'react-slideshow-image';
-import 'react-slideshow-image/dist/styles.css'
+import 'react-slideshow-image/dist/styles.css';
+import Comment from './Comment';
+
 
 
 
 export default class ViewMode extends Component {
     constructor(props) {
         super(props);
+
+        this.handleChange = this.handleChange.bind(this);
+
+        this.state = {
+            currentImage: this.props.selectedImages[0],
+        };
     }
 
+
     handleChange(previous, next) {
-        console.log("changed Slide" + previous + " -> " + next) 
+        this.setState({currentImage: this.props.selectedImages[next]});
     }
+    
+
 
     render() {
         return (
@@ -21,7 +32,7 @@ export default class ViewMode extends Component {
                 <div className="slide-container">
                     <Slide
                         autoplay={false}
-                        onChange={this.handleChange}    
+                        onChange={this.handleChange}
                     >
                         {this.props.selectedImages.map(image =>
                             <div className="each-slide">
@@ -43,9 +54,17 @@ export default class ViewMode extends Component {
                 </Row>
                 <Row>
                     <Col md={12} lg={3} id="bordered">
-                        Kommentare und Tags in Common
-                        </Col>
+                        Kommentare und Tags in Common<br />
+                        <div id="matchingComments">
+                            {this.props.matchingComments.map(comment =>
+                                <Comment comment={comment} />
+                            )}
+                        </div>
+                    </Col>
                     <Col md={12} lg={9} id="bordered">
+                        Kommentare zum aktuellen Bild<br />
+                        {this.state.currentImage.imageCommentsList.map(comment => <Comment comment = {comment} />)} 
+
                     </Col>
                 </Row>
             </div>

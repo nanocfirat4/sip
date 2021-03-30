@@ -1,25 +1,21 @@
 import axios from 'axios'
-
-
 export const PacsService = {
     find,
     authToken,
 }
+function  find() {
+    authToken()
+    var response = instance.get('http://localhost:8085/orthanc/instances/5cd65944-8a37c5f3-ecd23660-3238d171-41728b44/preview')
+    console.log(response.data)
 
-function find() {
-    console.log(instance.get('http://localhost:8085/orthanc/instances/e6060fd2-81ee48ae-68ac5bd2-325c5ef6-955a3576/preview'))
+     
 }
 
 // -- Axios https://github.com/axios/axios#config-defaults
-const instance = axios.create({
+const instance =  axios.create({
     //baseURL: `${config.ORTHANC_BASE_URL}`,
     headers: {
-        'Content-Type': 'image/png',
-        'Access-Control-Allow-Origin': '*'
-    },
-    auth: {
-        username: "orthanc",
-        password: "g04D!c0m#orT(h)anks"
+        'Content-Type': 'application/json'
     }
 })
 
