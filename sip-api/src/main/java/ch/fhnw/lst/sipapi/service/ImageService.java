@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 @Service
@@ -133,7 +134,7 @@ public class ImageService {
             textToken = textToken.trim();
             boolean subresult = false;
             for(Comment comment:imageCommentsList){
-                if(comment.getCommenttxt().contains(textToken)) {
+                if(comment.getCommenttxt().toLowerCase().contains(textToken)) {
                     subresult=true;
                 }
             }

@@ -23,8 +23,6 @@ import java.util.List;
 public class DatabaseLoader implements CommandLineRunner {
     final Logger logger = LoggerFactory.getLogger(DatabaseLoader.class);
 
-
-
     @Autowired
     private ImageRepository imageRepository;
 
