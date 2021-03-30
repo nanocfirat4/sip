@@ -8,3 +8,4 @@ build:
   artifacts:
      paths:
         - ./sip-api/target/*.jar
+        - ./sip-react/target/*.jar
