@@ -4,17 +4,17 @@ import ch.fhnw.lst.sipapi.model.Image;
 import ch.fhnw.lst.sipapi.repository.ImageRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-
 import javax.imageio.ImageIO;
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.net.*;
+import java.net.Authenticator;
+import java.net.HttpURLConnection;
+import java.net.PasswordAuthentication;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -23,24 +23,26 @@ import java.util.List;
 public class DatabaseLoader implements CommandLineRunner {
     final Logger logger = LoggerFactory.getLogger(DatabaseLoader.class);
 
-    @Autowired
-    private ImageRepository imageRepository;
+    private final ImageRepository imageRepository;
+
+    public DatabaseLoader(ImageRepository imageRepository) {
+        this.imageRepository = imageRepository;
+    }
 
     @Override
     public void run(String ... strings) throws Exception{
         logger.info("Start Databaseloader");
         List<String> pics = getListPicturesFromPacs();
-        if(pics != null)
-            for (String pacsid :pics) {
-                String pathToRawJpgs = "sip-react/public/Pictures/Raw/" + pacsid + ".jpg";
-                saveImage("http://localhost:8042/instances/"+pacsid+"/preview",pathToRawJpgs);
-                createThumbnail(new File(pathToRawJpgs));
-                String description = getDescription(pacsid);
-                Image imageToLoad = new Image(description,
-                        "Pictures/Thumb/"+ pacsid + ".jpg",
-                        "http://localhost:8042/instances/"+pacsid+"/preview");
-                this.imageRepository.save(imageToLoad);
-        }
+        for (String pacsid :pics) {
+            String pathToRawJpgs = "sip-react/public/Pictures/Raw/" + pacsid + ".jpg";
+            saveImage("http://localhost:8042/instances/"+pacsid+"/preview",pathToRawJpgs);
+            createThumbnail(new File(pathToRawJpgs));
+            String description = getDescription(pacsid);
+            Image imageToLoad = new Image(description,
+                    "Pictures/Thumb/"+ pacsid + ".jpg",
+                    "http://localhost:8042/instances/"+pacsid+"/preview");
+            this.imageRepository.save(imageToLoad);
+    }
     }
 
 
@@ -62,8 +64,9 @@ public class DatabaseLoader implements CommandLineRunner {
         String response = getRequest(url);
         logger.info(response);
         String str = response;
+        assert str != null;
         str = str.substring(1, str.length() - 1); // remove []
-        String strl[] = str.split(","); // make single
+        String[] strl = str.split(","); // make single
         List<String> al;
         al = Arrays.asList(strl);
         List<String> listPics = new ArrayList<>(); //final list empty
@@ -89,14 +92,14 @@ public class DatabaseLoader implements CommandLineRunner {
 
         logger.info("Send 'HTTP GET' request to : " + url);
 
-        Integer responseCode = connection.getResponseCode();
+        int responseCode = connection.getResponseCode();
         logger.info("Response Code from PACS : " + responseCode);
 
         if (responseCode == HttpURLConnection.HTTP_OK) {
             BufferedReader inputReader = new BufferedReader(
                     new InputStreamReader(connection.getInputStream()));
             String inputLine;
-            StringBuffer response = new StringBuffer();
+            StringBuilder response = new StringBuilder();
 
             while ((inputLine = inputReader.readLine()) != null) {
                 response.append(inputLine);
@@ -111,12 +114,11 @@ public class DatabaseLoader implements CommandLineRunner {
 
     private String getDescription(String name) throws IOException {
         logger.trace("get descriptions from pic of XML");
-        String description = getRequest( "http://localhost:8042/instances/"+name+"/content/0020-4000");
-        return description;
+        return getRequest( "http://localhost:8042/instances/"+name+"/content/0020-4000");
     }
 
     private void createThumbnail(File file) throws IOException {
-        BufferedImage originalBufferedImage = null;
+        BufferedImage originalBufferedImage;
         try {
             originalBufferedImage = ImageIO.read(file);
         }

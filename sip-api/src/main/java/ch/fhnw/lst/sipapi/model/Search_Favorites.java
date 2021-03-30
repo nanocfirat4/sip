@@ -11,7 +11,7 @@ import java.util.List;
 import static javax.persistence.GenerationType.SEQUENCE;
 
 @Entity(name = "SearchFav")
-@Table( name = "searchFav")
+@Table( name = "search_fav")
 public class Search_Favorites {
 
     @Id
@@ -39,15 +39,15 @@ public class Search_Favorites {
     private String description;
 
     @Column(
-            name = "textTokens",
+            name = "text_tokens",
             nullable = false,
             columnDefinition = "TEXT")
     private String textTokens;
 
     @ManyToMany
     @JoinTable(
-            name = "searchFav_hashtag_association",
-            joinColumns = {@JoinColumn(name = "searchFav_id",referencedColumnName = "id")},
+            name = "search_fav_hashtag_association",
+            joinColumns = {@JoinColumn(name = "search_fav_id",referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "hashtag_id",referencedColumnName = "id")}
     )
     private List<Hashtag> searchFavHashtagsList = new ArrayList<>();
