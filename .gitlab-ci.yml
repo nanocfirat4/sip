@@ -4,7 +4,7 @@ stages:
 
 build:
   stage: build
-  script: ./mvnw --batch-mode package
+  script: mvnw --batch-mode package
   artifacts:
      paths:
         - ./sip-api/target/*.jar
