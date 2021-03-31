@@ -7,8 +7,9 @@ services:
     ports:
       - 8085:80
     volumes:
-      - '../nginx.conf:/etc/nginx/nginx.conf:ro'
+      - './nginx.conf:/etc/nginx/nginx.conf:ro'
     image: 'nginx:latest'
+    network_mode: "host"
     depends_on:
       - orthanc
 
@@ -17,8 +18,8 @@ services:
   postgres:
     image: postgres
     volumes:
-      - ../dockerizeServices:/docker-entrypoint-initdb.d
-      - ../postgresDB/:/var/lib/postgresql/data
+      - ./postgres:/docker-entrypoint-initdb.d
+      - ./postgresDB/:/var/lib/postgresql/data
     environment:
       POSTGRES_MULTIPLE_DATABASES: "keycloak,orthanc,sipapi"
       POSTGRES_USER: administrator
@@ -30,6 +31,10 @@ services:
 #keycloak
   keycloak:
     image: jboss/keycloak:12.0.3
+    volumes: 
+      - ./keycloak:/opt/jboss/keycloak/imports
+    command:
+      - "-b 0.0.0.0 -Dkeycloak.import=/opt/jboss/keycloak/imports/realm-export.json"
     environment:
       DB_VENDOR: POSTGRES
       DB_ADDR: postgres
@@ -62,6 +67,6 @@ services:
 # Orthanc configuration
 secrets:
   orthanc.json:
-    file: ../orthanc.json
+    file: ./orthanc.json
     
     
