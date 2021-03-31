@@ -781,10 +781,10 @@
       "clientAuthenticatorType": "client-secret",
       "secret": "**********",
       "redirectUris": [
-        "http://localhost:3000/*"
+        "http://localhost/*"
       ],
       "webOrigins": [
-        "http://localhost:3000/"
+        "http://localhost"
       ],
       "notBefore": 0,
       "bearerOnly": false,
