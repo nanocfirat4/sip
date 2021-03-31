@@ -112,8 +112,6 @@ class App extends Component {
         minHeight: "100%"
       }}>
 
-        {keycloak.token}
-
         <Router>
           {keycloak.token}
           <AppNavBar />
