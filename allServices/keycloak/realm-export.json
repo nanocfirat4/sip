@@ -660,7 +660,7 @@
       "clientAuthenticatorType": "client-secret",
       "secret": "**********",
       "redirectUris": [
-        "http://localhost:8081/*"
+        "http://localhost/*"
       ],
       "webOrigins": [],
       "notBefore": 0,

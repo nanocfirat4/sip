@@ -3,7 +3,7 @@ server:
 
 keycloak:
   realm: FHNW-LST-MI
-  auth-server-url: http://localhost:8080/auth
+  auth-server-url: http://localhost/auth
   resource: rest-api
   bearer-only: true
   enabled: true

@@ -113,7 +113,6 @@ class App extends Component {
       }}>
 
         <Router>
-          {keycloak.token}
           <AppNavBar />
           <Switch>
             <Route exact path='/'>
