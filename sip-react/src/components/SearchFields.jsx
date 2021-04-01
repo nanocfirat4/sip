@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import TextField from '@material-ui/core/TextField';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { Col, Row } from 'react-bootstrap';
 import Button from '@material-ui/core/Button';
@@ -12,8 +11,6 @@ class SearchFields extends Component {
     constructor(props) {
         super(props);
 
-        this.handleChange = this.handleChange.bind(this);
-
         this.state = {
             searchTags: [],
             textFieldValue: '',
@@ -22,59 +19,55 @@ class SearchFields extends Component {
     }
 
 
-    useStyles = makeStyles((theme) =>
-        createStyles({
-            root: {
-                flexGrow: 1,
-                maxWidth: 752,
-            },
-            demo: {
-                backgroundColor: theme.palette.background.paper,
-            },
-            title: {
-                margin: theme.spacing(4, 0, 2),
-            },
-        }),
-    );
+    // adjust thumbnail sizes
+    handleSliderChange = (event, newValue) => {
+        var items = document.getElementsByClassName("thumbnail_img")
 
-    // Top 100 films as rated by IMDb users. http://www.imdb.com/chart/top
-    allTags = [
-        { name: 'The Shawshank Redemption' },
-        { name: 'The Godfather' },
-        { name: 'The Godfather: Part II' },
-        { name: 'The Dark Knight' },
-        { name: '12 Angry Men' },
-        { name: "Schindler's List", year: 1993 },
-    ];
+        for (var i = 0; i < items.length; i++) {
+            items[i].style.width = (newValue + "px");
+            items[i].style.height = (newValue + "px");
+        }
+    };
 
+    // Search when button is clicked
     handleSearch() {
         this.props.updateSearchComment(this.state.newSearchCommentValue);
         this.props.searchFunction(this.state.newSearchCommentValue);
     }
 
-    handleChange(event) {
-        this.setState({newSearchCommentValue: event.target.value});
+    // Update State when modifying Comment
+    setNewComment(event) {
+        this.setState({ newSearchCommentValue: event.target.value });
     }
 
+    // Rendering
     render() {
         return (
             <form className={this.root} noValidate autoComplete="off">
 
-                {/* <TextField
+                {/* OLD: Search by PACS ID of images
+                <TextField
                     id="PictureID-search"
                     label="Picture ID"
                     type="search"
                     className="searchElement"
                 /> */}
-                <Row style={{ minHeight:"70px" }}>
+                <Row style={{ minHeight: "70px" }}>
                     <Col md={4}>
                         <Autocomplete
                             multiple
                             id="combo-box-demo"
-                            options={this.allTags}
+                            options={
+                                this.props.tags.map(tag => {
+                                    return {
+                                        name: tag.hashtagtxt,
+                                        id: tag.id
+                                    }
+                                })
+                            }
                             getOptionLabel={(option) => option.name}
                             renderInput={(params) => <TextField {...params} label="Tag" />}
-                            style={{width: "100%"}}
+                            style={{ width: "100%" }}
                         />
                     </Col>
                     <Col md={4}>
@@ -83,8 +76,8 @@ class SearchFields extends Component {
                             label="Comments"
                             type="search"
                             defaultValue={this.props.searchComment}
-                            onChange={this.handleChange}
-                            style={{width: "100%"}}
+                            onChange={this.setNewComment.bind(this)}
+                            style={{ width: "100%" }}
                         />
                     </Col>
                     <Col md={2} xs={5}>
@@ -98,7 +91,7 @@ class SearchFields extends Component {
                         </Button>
                     </Col>
                     <Col md={2} xs={7}>
-                        <Typography style={{textAlign:"center"}}>
+                        <Typography style={{ textAlign: "center" }}>
                             Thumbnail size
                         </Typography>
                         <Slider
@@ -111,9 +104,9 @@ class SearchFields extends Component {
                             max={300}
                             defaultValue={150}
                             id="sizeSlider"
-                            style={{width: "100%"}}
+                            style={{ width: "100%" }}
 
-                            onChange={this.props.handleSliderChange}
+                            onChange={this.handleSliderChange}
                         />
 
                     </Col>

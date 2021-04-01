@@ -6,7 +6,7 @@ import keycloak from '../keycloak'
 
 function AppNavBar() {
     return (
-        <Navbar bg='dark' expand='lg' variant='dark'>
+        <Navbar bg='dark' expand='lg' variant='dark' style={{margin: "0 -15px"}}>
             <Navbar.Toggle aria-controls='basic-navbar-nav' />
             <Navbar.Collapse id='basic-navbar-nav'>
                 <Nav className='mr-auto'>

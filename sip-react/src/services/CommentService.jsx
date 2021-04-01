@@ -1,27 +1,28 @@
 import axios from 'axios'
 import { config } from '../config'
-import { useState } from 'react'
 
-export const ImageService = {
+export const CommentService = {
     findAll,
     findById,
-    authToken,
-    findByFilter
+    add,
+    assignComment,
+    authToken
 }
 function findAll() {
-    return instance.get('/api/images')
+    return instance.get('/api/comment')
 }
 function findById(id) {
-    return instance.get(`/api/image/${id}`)
+    return instance.get(`/api/comment/${id}`)
+}
+function add(commenttxt) {
+    return instance.post(`/api/comment`, {
+        commenttxt: commenttxt
+    })
+}
+function assignComment(imageId, commentId) {
+    return instance.post(`/api/image/${imageId}/savecomment/${commentId}`)
 }
 
-function findByFilter(textTokens, tags) {
-    var res = instance.post('/api/search/filter', {
-        textTokens: textTokens,
-        searchFavHashtagsList: tags
-    })
-    return res
-}
 
 // -- Axios https://github.com/axios/axios#config-defaults
 const instance = axios.create({
@@ -37,6 +38,7 @@ instance.interceptors.request.use(request => {
 })
 
 instance.interceptors.response.use(response => {
+    console.log('Response:', JSON.stringify(response, null, 2))
     return response
 })
 

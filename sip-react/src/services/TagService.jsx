@@ -1,27 +1,24 @@
 import axios from 'axios'
 import { config } from '../config'
-import { useState } from 'react'
 
-export const ImageService = {
+export const TagService = {
     findAll,
     findById,
-    authToken,
-    findByFilter
+    add,
+    authToken
 }
 function findAll() {
-    return instance.get('/api/images')
+    return instance.get('/api/hashtags')
 }
 function findById(id) {
-    return instance.get(`/api/image/${id}`)
+    return instance.get(`/api/hashtag/${id}`)
+}
+function add(hashtagtxt) {
+    return instance.post(`/api/hashtag`, {
+        hashtagtxt: hashtagtxt
+    })
 }
 
-function findByFilter(textTokens, tags) {
-    var res = instance.post('/api/search/filter', {
-        textTokens: textTokens,
-        searchFavHashtagsList: tags
-    })
-    return res
-}
 
 // -- Axios https://github.com/axios/axios#config-defaults
 const instance = axios.create({
@@ -37,6 +34,7 @@ instance.interceptors.request.use(request => {
 })
 
 instance.interceptors.response.use(response => {
+    console.log('Response:', JSON.stringify(response, null, 2))
     return response
 })
 
