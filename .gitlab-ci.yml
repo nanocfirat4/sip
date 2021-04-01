@@ -13,8 +13,7 @@ build:
 test:
   stage: test
   script:
-    - mvn --batch-mode test
-    - mvn surefire-report:report-only
+    - mvn surefire-report:report
   artifacts:
     paths:
       - ./target/site/*.html
