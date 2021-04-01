@@ -1,6 +1,5 @@
 package ch.fhnw.lst.sipapi.model;
 
-import org.junit.Before;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
