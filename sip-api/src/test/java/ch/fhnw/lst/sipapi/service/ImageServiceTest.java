@@ -1,4 +1,3 @@
-/*
 package ch.fhnw.lst.sipapi.service;
 
 import ch.fhnw.lst.sipapi.model.Comment;
@@ -28,18 +27,18 @@ class ImageServiceTest {
 
         @Bean
         public ImageService imageService() {
-            return new ImageServiceImpl();
+            return new ImageService();
         }
     }
 
     @MockBean
     private ImageRepository repository;
 
-    @Autowired
-    private ImageService imageService;
-
     @MockBean
     private CommentRepository commentRepository;
+
+    @Autowired
+    private ImageService imageService;
 
     @Before
     public void setUp() {
@@ -50,7 +49,10 @@ class ImageServiceTest {
         );
         repository.save(douglas);
         douglas = repository.findById(1L).get();
-        Mockito.when(repository.findById(douglas.getId())).thenReturn(douglas);
+        Mockito.when(repository.findById(douglas.getId())).thenReturn(Optional.of(douglas));
+
+        Comment comment42 = new Comment("42_solution");
+        commentRepository.save(comment42);
     }
 
     @Test
@@ -63,17 +65,9 @@ class ImageServiceTest {
 
     @Test
     void saveCommentToImageTest() {
-        Image douglas = new Image(
-                "hitchhiker's guide",
-                "~/Betelgeuse/Five",
-                "42/fourty/two"
-        );
-        repository.save(douglas);
-        Comment comment42 = new Comment("42_solution");
-        commentRepository.save(comment42);
         imageService.saveCommentToImage(commentRepository.findById(1L).get().getId(), repository.findById(1L).get().getId());
         assertEquals("42_solution", repository.findById(1L).get().getImageCommentsList().get(1).getCommenttxt());
 
 
     }
-}*/
+}
