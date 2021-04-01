@@ -1,3 +1,4 @@
+/*
 package ch.fhnw.lst.sipapi;
 
 import ch.fhnw.lst.sipapi.model.Image;
@@ -42,7 +43,7 @@ public class DatabaseLoader implements CommandLineRunner {
                     "Pictures/Thumb/"+ pacsid + ".jpg",
                     "http://localhost:8042/instances/"+pacsid+"/preview");
             this.imageRepository.save(imageToLoad);
-    }
+        }
     }
 
 
@@ -170,3 +171,4 @@ public class DatabaseLoader implements CommandLineRunner {
         }
     }
 }
+*/

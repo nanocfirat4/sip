@@ -141,4 +141,16 @@ public class Image {
                 ", timestamp=" + timestamp +
                 '}';
     }
+
+    public void setTimestamp(Date timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public void setImageCommentsList(List<Comment> imageCommentsList) {
+        this.imageCommentsList = imageCommentsList;
+    }
+
+    public void setImageHashtagsList(List<Hashtag> imageHashtagsList) {
+        this.imageHashtagsList = imageHashtagsList;
+    }
 }
