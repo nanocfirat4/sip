@@ -23,6 +23,7 @@ public class Image {
             generator = "image_sequence")
     @Column(
             name = "id",
+            unique=true,
             updatable = false)
     private Long id;
 
@@ -34,17 +35,20 @@ public class Image {
     @Column(
             name = "thumbnail",
             nullable = false,
+            unique=true,
             columnDefinition = "VARCHAR(255)")
     private String thumbnail;
 
     @Column(
             name = "pacs_id",
+            unique=true,
             columnDefinition = "TEXT",
             nullable = false)
     private String pacs_id;
 
     @Column(
             name = "timestamp",
+            unique=true,
             nullable = false,
             updatable = false)
     @CreationTimestamp
