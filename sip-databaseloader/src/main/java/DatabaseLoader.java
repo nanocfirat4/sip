@@ -12,6 +12,10 @@ import java.net.*;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.sql.Time;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -27,6 +31,8 @@ public class DatabaseLoader{
     public static String API_HTTP = "http://localhost/api/image";
     public static String ORTHANC_HTTP = "http://localhost/orthanc";
     public static String REACT_PATH = "sip-react/public/";
+    public static LocalDateTime lastAccessToken = LocalDateTime.now().minusMinutes(5);
+    public static String access_token = "";
 
     public static void main(String[] args) throws IOException, InterruptedException {
         logger.info("Databaseloader started");
@@ -58,7 +64,11 @@ public class DatabaseLoader{
     private static boolean savePictureInDatabase(String description, String thumbnail, String pacs_id) throws IOException, InterruptedException {
         boolean worked = false;
         String postEndpoint = API_HTTP;
-        String access_token = getAccessToken();
+
+        if(lastAccessToken.isBefore(LocalDateTime.now().minusMinutes(3))){
+            access_token = getAccessToken();
+            lastAccessToken = LocalDateTime.now();
+        }
 
 /*      POST http://localhost/api/image
         Content-Type: application/json
