@@ -1,5 +1,9 @@
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -11,19 +15,24 @@ import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+
+import static java.lang.Thread.sleep;
 
 
 public class DatabaseLoader{
     static final Logger logger = LoggerFactory.getLogger(DatabaseLoader.class);
 
-    public static String API_HTTP = "http://localhost/api";
+    public static String AUTH_HTTP = "http://localhost/auth/realms/FHNW-LST-MI/protocol/openid-connect/token";
+    public static String API_HTTP = "http://localhost/api/image";
     public static String ORTHANC_HTTP = "http://localhost/orthanc";
     public static String REACT_PATH = "sip-react/public/";
 
     public static void main(String[] args) throws IOException, InterruptedException {
         logger.info("Databaseloader started");
         while(true){
-            List<String> loadedPics = getListPicturesFromPacs();
+            logger.info("check if there are new images in PACS");
+            List<String> loadedPics = new ArrayList<>();
             List<String> allPics = getListPicturesFromPacs();
             for (String pacsid :allPics) {
                 if(!loadedPics.contains(pacsid)){
@@ -33,20 +42,28 @@ public class DatabaseLoader{
                     String description = getDescription(pacsid);
                     String thumbnail = "Pictures/Thumb/"+ pacsid + ".jpg";
                     String pacs_id = ORTHANC_HTTP+"/instances/"+pacsid+"/preview";
+                    logger.trace("Got all information from "+pacsid+" : "+description);
                     boolean worked = savePictureInDatabase(description,thumbnail,pacs_id);
                     if(worked){
                         loadedPics.add(pacs_id);
-                    }
+                        logger.info(pacsid+" loaded to Database");
+                    }else logger.error(pacsid+" NOT loaded to Database");
                 }
             }
+            logger.info("wait one hour...");
+            sleep((long) 3.6E+6); // sleep for one hour then check if there are new pictures in pacs
         }
     }
 
     private static boolean savePictureInDatabase(String description, String thumbnail, String pacs_id) throws IOException, InterruptedException {
         boolean worked = false;
-
         String postEndpoint = API_HTTP;
+        String access_token = getAccessToken();
 
+/*      POST http://localhost/api/image
+        Content-Type: application/json
+        Authorization: Bearer {{access_token}}
+*/
         String inputJson = "{\n" +
                 "  \"description\": \""+description+"\",\n" +
                 "  \"thumbnail\": \""+thumbnail+"\",\n" +
@@ -56,6 +73,7 @@ public class DatabaseLoader{
         var request = HttpRequest.newBuilder()
                 .uri(URI.create(postEndpoint))
                 .header("Content-Type", "application/json")
+                .header("Authorization"," Bearer "+access_token)
                 .POST(HttpRequest.BodyPublishers.ofString(inputJson))
                 .build();
 
@@ -63,14 +81,51 @@ public class DatabaseLoader{
 
         var response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-        logger.info(String.valueOf(response.statusCode()));
-        logger.info(response.body());
+        logger.trace("RESPONSE FROM API : "+response.statusCode());
+        logger.trace("RESPONSE FROM API : "+response.body());
 
         if(response.statusCode()==200){
             worked =true;
         }
 
         return worked;
+    }
+
+    private static String getAccessToken() throws IOException, InterruptedException {
+        String access_token ="";
+        String postEndpoint = AUTH_HTTP;
+        String inputX_WWW_FORM_URLENCODED = "client_id=web-app&username=user&password=$!pU53r&grant_type=password";
+
+/*      POST http://localhost/auth/realms/FHNW-LST-MI/protocol/openid-connect/token
+        Content-Type: application/x-www-form-urlencoded
+        Accept-Type: application/json
+
+        client_id=web-app&username=user&password=$!pU53r&grant_type=password*/
+
+        var request = HttpRequest.newBuilder()
+                .uri(URI.create(postEndpoint))
+                .header("Content-Type", "application/x-www-form-urlencoded")
+                .header("Accept-Type","application/json")
+                .POST(HttpRequest.BodyPublishers.ofString(inputX_WWW_FORM_URLENCODED))
+                .build();
+
+        var client = HttpClient.newHttpClient();
+        var response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+        logger.trace("RESPONSE FROM AUTH : "+response.statusCode());
+        logger.trace("RESPONSE FROM AUTH : "+response.body());
+
+        if(response.statusCode()==200){
+            Object file = JSONValue.parse(response.body());
+
+            // In java JSONObject is used to create JSON object
+            JSONObject jsonObjectdecode = (JSONObject)file;
+
+            // Converting into Java Data type
+            // format From Json is the step of Decoding.
+            access_token = (String)jsonObjectdecode.get("access_token");
+        }
+        return access_token;
     }
 
 
@@ -90,7 +145,7 @@ public class DatabaseLoader{
     private static List<String> getListPicturesFromPacs() throws IOException {
         String url = ORTHANC_HTTP +"/instances";
         String response = getRequest(url);
-        logger.info(response);
+        logger.trace("ORTHANC get list instances RESPONSE: "+response);
         String str = response;
         assert str != null;
         str = str.substring(1, str.length() - 1); // remove []
@@ -118,10 +173,10 @@ public class DatabaseLoader{
         connection.setRequestMethod("GET");
         connection.setRequestProperty("User-Agent", "Mozilla/5.0");
 
-        logger.info("Send 'HTTP GET' request to : " + url);
+        logger.trace("Send 'HTTP GET' request to : " + url);
 
         int responseCode = connection.getResponseCode();
-        logger.info("Response Code from PACS : " + responseCode);
+        logger.trace("Response Code from PACS : " + responseCode);
 
         if (responseCode == HttpURLConnection.HTTP_OK) {
             BufferedReader inputReader = new BufferedReader(
@@ -151,7 +206,7 @@ public class DatabaseLoader{
             originalBufferedImage = ImageIO.read(file);
         }
         catch(IOException ioe) {
-            System.out.println("IO exception occurred while trying to read image.");
+            logger.error("IO exception occurred while trying to read image.");
             throw ioe;
         }
         int thumbnailWidth = 150;
@@ -193,7 +248,7 @@ public class DatabaseLoader{
             ImageIO.write(thumbnailBufferedImage, "JPG", new File(REACT_PATH +"/Pictures/Thumb/"+file.getName()));
         }
         catch (IOException ioe) {
-            System.out.println("Error writing image to file");
+            logger.error("Error writing image to file");
             throw ioe;
         }
     }

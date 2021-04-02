@@ -10,6 +10,7 @@ build:
      paths:
         - ./sip-api/target/*.jar
         - ./sip-react/target/*.jar
+        - ./sip-databaseloader/target/*.jar
 test:
   stage: test
   script:
@@ -18,3 +19,4 @@ test:
     paths:
       - ./sip-react/target/site/*
       - ./sip-api/target/site/*
+      - ./sip-databaseloader/target/site/*
