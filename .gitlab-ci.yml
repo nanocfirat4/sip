@@ -7,11 +7,6 @@ buildAll:
   stage: build
   script:
         - mvn --batch-mode package
-        - cd sip-dataloader
-        - mvn clean compile jib:build -Dimage=cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipdataloader
-        - cd ..
-        - cd sip-api
-        - mvn clean compile jib:build -Dimage=cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipapi
   artifacts:
      paths:
         - ./sip-api/target/*.jar
@@ -21,7 +16,7 @@ buildAll:
 buildMASTER:
   stage: build
   script:
-      - cd sip-dataloader
+      - cd sip-databaseloader
       - mvn clean compile jib:build -Dimage=cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipdataloader
       - cd ..
       - cd sip-api
