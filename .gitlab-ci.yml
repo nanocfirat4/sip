@@ -1,4 +1,3 @@
-image: maven:3.6-openjdk-11
 stages:
   - build
   - test
@@ -16,6 +15,7 @@ buildAll:
 buildMASTER:
   stage: build
   script:
+      - docker login -u sipGroup1 -p _y-_NspLTc9y6WNjNm9k cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth
       - cd sip-databaseloader
       - mvn clean compile jib:build -Dimage=cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipdataloader
       - cd ..
