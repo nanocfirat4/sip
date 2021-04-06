@@ -1,3 +1,4 @@
+/*
 package ch.fhnw.lst.sipapi;
 
 import org.junit.jupiter.api.Test;
@@ -10,3 +11,4 @@ public class SpitalProjektApplicationTest {
     @Test
     void contextLoads(){}
 }
+*/
