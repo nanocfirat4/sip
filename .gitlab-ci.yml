@@ -7,7 +7,10 @@ buildAll:
   image: docker:dind
   stage: build
   script:
-        - mvn --batch-mode package
+      - cd allServices
+      - docker stop $(docker ps -a -q) || true && docker rm $(docker ps -a -q) || true
+      - docker compose up
+      - mvn --batch-mode package
   artifacts:
      paths:
         - ./sip-api/target/*.jar
@@ -18,7 +21,10 @@ test:
   image: docker:dind
   stage: test
   script:
-    - mvn surefire-report:report
+      - cd allServices
+      - docker stop $(docker ps -a -q) || true && docker rm $(docker ps -a -q) || true
+      - docker compose up
+      - mvn surefire-report:report
   artifacts:
     paths:
       - ./sip-react/target/site/*
