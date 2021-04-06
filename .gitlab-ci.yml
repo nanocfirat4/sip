@@ -30,7 +30,7 @@ buildMASTER:
   image: docker:dind
   stage: build
   script:
-      - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+      - docker login -u sipGroup1 -p _y-_NspLTc9y6WNjNm9k cr.gitlab.fhnw.ch
       - cd sip-databaseloader
       - mvn clean compile jib:build -Dimage=cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipdataloader
       - cd ..
@@ -47,7 +47,7 @@ deploy_project:
     - cd allServices
     - docker stop $(docker ps -a -q) || true && docker rm $(docker ps -a -q) || true
     - docker-compose up
-    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker login -u sipGroup1 -p _y-_NspLTc9y6WNjNm9k cr.gitlab.fhnw.ch
     - docker cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipreact
     - docker run --name=sip_api --always -p 8081:8081 -dit cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipapi
     - docker run --name=sip_react --always -p 3000:3000 -dit cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipreact npm start
