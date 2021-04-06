@@ -8,8 +8,8 @@ buildAll:
   stage: build
   script:
       - cd allServices
-      - docker stop $(docker ps -a -q) || true && docker rm $(docker ps -a -q) || true
-      - docker-compose up
+      - sudo docker stop $(docker ps -a -q) || true && docker rm $(docker ps -a -q) || true
+      - sudo docker-compose up
       - mvn --batch-mode package
   artifacts:
      paths:
@@ -22,8 +22,8 @@ test:
   stage: test
   script:
       - cd allServices
-      - docker stop $(docker ps -a -q) || true && docker rm $(docker ps -a -q) || true
-      - docker-compose up
+      - sudo docker stop $(docker ps -a -q) || true && docker rm $(docker ps -a -q) || true
+      - sudo docker-compose up
       - mvn surefire-report:report
   artifacts:
     paths:
