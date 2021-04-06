@@ -39,6 +39,8 @@ buildMASTER:
       - cd sip-react
       - docker build -t cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipreact .
       - docker push cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipreact
+  only:
+    - automation_CICD
 
 deploy_project:
   stage: deploy
