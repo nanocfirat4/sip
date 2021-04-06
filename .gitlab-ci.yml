@@ -4,9 +4,7 @@ stages:
   - deploy
 
 buildAll:
-  image: docker:latest
-    services:
-      - docker:dind
+  image: docker:dind
   stage: build
   script:
         - mvn --batch-mode package
@@ -17,9 +15,7 @@ buildAll:
         - ./sip-databaseloader/target/*.jar
 
 test:
-  image: docker:latest
-    services:
-      - docker:dind
+  image: docker:dind
   stage: test
   script:
     - mvn surefire-report:report
@@ -31,9 +27,7 @@ test:
 
 
 buildMASTER:
-  image: docker:latest
-    services:
-      - docker:dind
+  image: docker:dind
   stage: build
   script:
       - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
