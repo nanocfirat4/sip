@@ -7,9 +7,6 @@ buildAll:
   image: docker:dind
   stage: build
   script:
-      - cd allServices
-      - sudo docker stop $(docker ps -a -q) || true && docker rm $(docker ps -a -q) || true
-      - sudo docker-compose up
       - mvn --batch-mode package
   artifacts:
      paths:
@@ -21,9 +18,6 @@ test:
   image: docker:dind
   stage: test
   script:
-      - cd allServices
-      - sudo docker stop $(docker ps -a -q) || true && docker rm $(docker ps -a -q) || true
-      - sudo docker-compose up
       - mvn surefire-report:report
   artifacts:
     paths:
@@ -46,8 +40,6 @@ buildMASTER:
       - cd sip-react
       - docker build -t cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipreact
       - docker push cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipreact
-  only:
-      - master
 
 deploy_project:
   stage: deploy
@@ -60,5 +52,4 @@ deploy_project:
     - docker run --name=sip_api --always -p 8081:8081 -dit cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipapi
     - docker run --name=sip_react --always -p 3000:3000 -dit cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipreact npm start
     - docker run --name=sip_dataloader --always -dit cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipdataloader
-  only:
-    - master
+
