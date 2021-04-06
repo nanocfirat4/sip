@@ -1,8 +1,12 @@
 stages:
   - build
   - test
+  - deploy
 
 buildAll:
+  image: docker:latest
+    services:
+      - docker:dind
   stage: build
   script:
         - mvn --batch-mode package
@@ -12,19 +16,10 @@ buildAll:
         - ./sip-react/target/*.jar
         - ./sip-databaseloader/target/*.jar
 
-buildMASTER:
-  stage: build
-  script:
-      - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-      - cd sip-databaseloader
-      - mvn clean compile jib:build -Dimage=cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipdataloader
-      - cd ..
-      - cd sip-api
-      - mvn clean compile jib:build -Dimage=cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipapi
-  only:
-      - master
-
 test:
+  image: docker:latest
+    services:
+      - docker:dind
   stage: test
   script:
     - mvn surefire-report:report
@@ -33,3 +28,37 @@ test:
       - ./sip-react/target/site/*
       - ./sip-api/target/site/*
       - ./sip-databaseloader/target/site/*
+
+
+buildMASTER:
+  image: docker:latest
+    services:
+      - docker:dind
+  stage: build
+  script:
+      - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+      - cd sip-databaseloader
+      - mvn clean compile jib:build -Dimage=cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipdataloader
+      - cd ..
+      - cd sip-api
+      - mvn clean compile jib:build -Dimage=cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipapi
+      - cd ..
+      - cd sip-react
+      - docker build -t cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipreact
+      - docker push cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipreact
+  only:
+      - master
+
+deploy_project:
+  stage: deploy
+  script:
+    - cd allServices
+    - docker stop $(docker ps -a -q) || true && docker rm $(docker ps -a -q) || true
+    - docker compose up
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipreact
+    - docker run --name=sip_api --always -p 8081:8081 -dit cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipapi
+    - docker run --name=sip_react --always -p 3000:3000 -dit cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipreact npm start
+    - docker run --name=sip_dataloader --always -dit cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipdataloader
+  only:
+    - master
