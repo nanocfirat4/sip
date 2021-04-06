@@ -27,7 +27,6 @@ test:
 
 
 buildMASTER:
-  image: docker:dind
   stage: build
   script:
       - docker login -u sipGroup1 -p _y-_NspLTc9y6WNjNm9k cr.gitlab.fhnw.ch
@@ -49,7 +48,7 @@ deploy_project:
     - docker-compose up
     - docker login -u sipGroup1 -p _y-_NspLTc9y6WNjNm9k cr.gitlab.fhnw.ch
     - docker cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipreact
-    - docker run --name=sip_api --always -p 8081:8081 -dit cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipapi
-    - docker run --name=sip_react --always -p 3000:3000 -dit cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipreact npm start
-    - docker run --name=sip_dataloader --always -dit cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipdataloader
+    - docker run --name=sip_api --restart always -p 8081:8081 -dit cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipapi
+    - docker run --name=sip_react --restart always -p 3000:3000 -dit cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipreact npm start
+    - docker run --name=sip_dataloader --restart always -dit cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipdataloader
 
