@@ -4,11 +4,14 @@ stages:
   - deploy
 
 before_script:
+  - docker info
   - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
 
-buildAll:
-  image: docker:dind
+buildJARFiles:
+  image: docker:19.03.12
   stage: build
+  services:
+    - docker:19.03.12-dind
   script:
       - mvn --batch-mode package
   artifacts:
@@ -17,9 +20,12 @@ buildAll:
         - ./sip-react/target/*.jar
         - ./sip-databaseloader/target/*.jar
 
-test:
-  image: docker:dind
+UnitTests:
+  image: docker:19.03.12
   stage: test
+  services:
+    - docker:19.03.12-dind
+
   script:
       - mvn surefire-report:report
   artifacts:
@@ -29,8 +35,11 @@ test:
       - ./sip-databaseloader/target/site/*
 
 
-buildMASTER:
+buildContainer_pushRegistry:
+  image: docker:19.03.12
   stage: build
+  services:
+    - docker:19.03.12-dind
   script:
       - cd sip-databaseloader
       - mvn clean compile jib:build -Dimage=cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipdataloader
@@ -54,4 +63,6 @@ deploy_project:
     - docker run --name=sip_api --restart always -p 8081:8081 -dit cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipapi
     - docker run --name=sip_react --restart always -p 3000:3000 -dit cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipreact npm start
     - docker run --name=sip_dataloader --restart always -dit cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipdataloader
+    only: 
+      - master
 
