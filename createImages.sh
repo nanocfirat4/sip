@@ -4,12 +4,12 @@ docker login cr.gitlab.fhnw.ch
 echo "login to registry done"
 # shellcheck disable=SC2164
 cd sip-databaseloader
-mvn clean compile jib:build -Dimage=cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipdataloader
+mvn clean compile jib:build
 echo "SIP DATALOADER DONE"
 cd ..
 # shellcheck disable=SC2164
 cd sip-api
-mvn clean compile jib:build -Dimage=cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipapi
+mvn clean compile jib:build
 echo "SIP API DONE"
 cd ..
 # shellcheck disable=SC2164

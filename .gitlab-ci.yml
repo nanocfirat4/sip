@@ -43,10 +43,10 @@ buildContainer_pushRegistry:
     - docker:19.03.12-dind
   script:
       - cd sip-databaseloader
-      - mvn clean compile jib:build -Dimage=cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipdataloader
+      - mvn clean compile jib:build
       - cd ..
       - cd sip-api
-      - mvn clean compile jib:build -Dimage=cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipapi
+      - mvn clean compile jib:build
       - cd ..
       - cd sip-react
       - docker build -t cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipreact .
