@@ -12,6 +12,7 @@ services:
     network_mode: "host"
     depends_on:
       - orthanc
+    restart: always
 
 
 # PostgreSQL Database
@@ -26,6 +27,7 @@ services:
       POSTGRES_PASSWORD: MyS3cureP@55!!
     ports:
       - 5432:5432
+    restart: always
 
 
 #keycloak
@@ -49,6 +51,7 @@ services:
       - 8080:8080
     depends_on:
       - postgres
+    restart: always
 
 
 
@@ -63,10 +66,38 @@ services:
       - orthanc.json
     depends_on:
       - postgres
-        
+    restart: always
+
+
+  # API
+  #- docker run --name=sip_api --restart always -p 8081:8081 -dit cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipapi
+  api:
+    image: cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipapi
+    ports:
+      - 8081:8081
+    restart: always
+    depends_on:
+      - postgres
+
+
+  # REACT
+  react:
+    image: cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipreact
+    ports:
+      - 3000:3000
+    restart: always
+    depends_on:
+      - postgres
+
+  # Database Loader
+  #- docker run --name=sip_dataloader --restart always -dit cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipdataloader
+  databaseloader:
+    image: cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipdatabaseloader
+    restart: always
+    depends_on:
+      - postgres
+
 # Orthanc configuration
 secrets:
   orthanc.json:
     file: ./orthanc.json
-    
-    
