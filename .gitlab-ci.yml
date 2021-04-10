@@ -1,35 +1,68 @@
 stages:
   - build
   - test
+  - buildImages
+  - deploy
 
-buildAll:
+before_script:
+  - docker info
+  - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+
+buildJARFiles:
+  image: docker:19.03.12
   stage: build
+  services:
+    - docker:19.03.12-dind
   script:
-        - mvn --batch-mode package
+      - mvn --batch-mode package
   artifacts:
      paths:
         - ./sip-api/target/*.jar
         - ./sip-react/target/*.jar
         - ./sip-databaseloader/target/*.jar
 
-buildMASTER:
-  stage: build
-  script:
-      - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-      - cd sip-databaseloader
-      - mvn clean compile jib:build -Dimage=cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipdataloader
-      - cd ..
-      - cd sip-api
-      - mvn clean compile jib:build -Dimage=cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipapi
-  only:
-      - master
-
-test:
+UnitTests:
+  image: docker:19.03.12
   stage: test
+  services:
+    - docker:19.03.12-dind
+
   script:
-    - mvn surefire-report:report
+      - mvn surefire-report:report
   artifacts:
     paths:
       - ./sip-react/target/site/*
       - ./sip-api/target/site/*
       - ./sip-databaseloader/target/site/*
+
+
+buildContainer_pushRegistry:
+  image: docker:19.03.12
+  stage: buildImages
+  services:
+    - docker:19.03.12-dind
+  script:
+      - cd sip-databaseloader
+      - mvn clean compile jib:build -Dimage=cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipdataloader
+      - cd ..
+      - cd sip-api
+      - mvn clean compile jib:build -Dimage=cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipapi
+      - cd ..
+      - cd sip-react
+      - docker build -t cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipreact .
+      - docker push cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipreact
+  only:
+    - master
+
+production:
+  stage: deploy
+  script:
+    - docker stop $(docker ps -a -q) || true && docker rm $(docker ps -a -q) || true
+    - docker-compose up
+    #- docker run --name=sip_api --restart always -p 8081:8081 -dit cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipapi
+    #- docker run --name=sip_react --restart always -p 3000:3000 -dit cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipreact npm start
+    #- docker run --name=sip_dataloader --restart always -dit cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipdataloader
+  only: 
+      - master
+  when: manual
+
