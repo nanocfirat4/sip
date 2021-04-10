@@ -92,7 +92,7 @@ services:
   # Database Loader
   #- docker run --name=sip_dataloader --restart always -dit cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipdataloader
   databaseloader:
-    image: cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipdataloader
+    image: cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipdatabaseloader
     restart: always
     depends_on:
       - postgres
