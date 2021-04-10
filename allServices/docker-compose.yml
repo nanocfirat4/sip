@@ -1,33 +1,7 @@
 version: '3.1'
 
 services:
-  # REACT
-  #- docker run --name=sip_dataloader --restart always -dit cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipdataloader
-  react:
-    image: cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipdataloader
-    ports:
-      - 3000:3000
-    depends_on:
-      - nginx
-
-  # Database Loader
-  #- docker run --name=sip_dataloader --restart always -dit cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipdataloader
-  databaseloader:
-    image: cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipdataloader
-    depends_on:
-      - api
-
-  # API
-  #- docker run --name=sip_api --restart always -p 8081:8081 -dit cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipapi
-  api:
-    image: cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipapi
-    ports:
-      - 8081:8081
-    depends_on:
-      - nginx
-
-
-  # nginx
+# nginx
   nginx:
     container_name: dev-nginx
     ports:
@@ -89,10 +63,33 @@ services:
       - orthanc.json
     depends_on:
       - postgres
+
+# REACT
+  #- docker run --name=sip_dataloader --restart always -dit cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipdataloader
+  react:
+    image: cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipdataloader
+    ports:
+      - 3000:3000
+    depends_on:
+      - postgres
+
+# Database Loader
+  #- docker run --name=sip_dataloader --restart always -dit cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipdataloader
+  databaseloader:
+    image: cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipdataloader
+    depends_on:
+      - postgres
+
+# API
+  #- docker run --name=sip_api --restart always -p 8081:8081 -dit cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipapi
+  api:
+    image: cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipapi
+    ports:
+      - 8081:8081
+    depends_on:
+      - postgres
         
 # Orthanc configuration
 secrets:
   orthanc.json:
     file: ./orthanc.json
-    
-    
