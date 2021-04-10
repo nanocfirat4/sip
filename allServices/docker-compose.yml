@@ -70,6 +70,7 @@ services:
     image: cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipdataloader
     ports:
       - 3000:3000
+    restart: on-failure
     depends_on:
       - postgres
 
@@ -77,6 +78,7 @@ services:
   #- docker run --name=sip_dataloader --restart always -dit cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipdataloader
   databaseloader:
     image: cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipdataloader
+    restart: on-failure
     depends_on:
       - postgres
 
@@ -86,6 +88,7 @@ services:
     image: cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipapi
     ports:
       - 8081:8081
+    restart: on-failure
     depends_on:
       - postgres
         
