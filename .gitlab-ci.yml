@@ -64,6 +64,5 @@ production:
     #- docker run --name=sip_dataloader --restart always -dit cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipdataloader
   only: 
       - master
-  when: 
-      - manual
+  when: manual
 
