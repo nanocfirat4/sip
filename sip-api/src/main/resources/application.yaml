@@ -3,7 +3,7 @@ server:
 
 keycloak:
   realm: FHNW-LST-MI
-  auth-server-url: http://v000561.fhnw.ch/auth
+  auth-server-url: http://192.168.0.30/auth
   resource: rest-api
   bearer-only: true
   enabled: true
