@@ -71,15 +71,15 @@ services:
 
 #  # API
 #  #- docker run --name=sip_api --restart always -p 8081:8081 -dit cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipapi
-#  api:
-#    image: cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipapi
-#    ports:
-#      - 8081:8081
-#    restart: always
-#    depends_on:
-#      - postgres
-#
-#
+  api:
+    image: cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipapi
+    ports:
+      - 8081:8081
+    restart: always
+    depends_on:
+      - postgres
+
+
 #  # REACT
 #  react:
 #    image: cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipreact
@@ -89,13 +89,15 @@ services:
 #    depends_on:
 #      - postgres
 #
-#  # Database Loader
-#  #- docker run --name=sip_dataloader --restart always -dit cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipdataloader
-#  databaseloader:
-#    image: cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipdatabaseloader
-#    restart: always
-#    depends_on:
-#      - postgres
+# Database Loader
+#- docker run --name=sip_dataloader --restart always -dit cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipdataloader
+  databaseloader:
+    image: cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipdatabaseloader
+    restart: always
+    depends_on:
+      - postgres
+    volumes:
+      - '../sip-react/public/Pictures:/var/lib/sip-react/Pictures'
 
 # Orthanc configuration
 secrets:

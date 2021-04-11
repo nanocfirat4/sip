@@ -78,7 +78,7 @@ class Thumbnail extends Component {
                             title={this.props.image.description}
                         />
                         <CardContent>
-                            <img src={this.props.image.thumbnail} className="thumbnail_img" />
+                            <img src={"Pictures/" + this.props.image.thumbnail} className="thumbnail_img" />
                         </CardContent>
                     </CardActionArea>
                 </Card>

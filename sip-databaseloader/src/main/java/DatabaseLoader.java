@@ -30,7 +30,7 @@ public class DatabaseLoader{
     public static String AUTH_HTTP = "http://v000561.fhnw.ch/auth/realms/FHNW-LST-MI/protocol/openid-connect/token";
     public static String API_HTTP = "http://v000561.fhnw.ch/api/image";
     public static String ORTHANC_HTTP = "http://v000561.fhnw.ch/orthanc";
-    public static String REACT_PATH = "sip-react/public/";
+    public static String REACT_PATH = "/var/lib/sip-react/Pictures/";
     public static LocalDateTime lastAccessToken = LocalDateTime.now().minusMinutes(5);
     public static String access_token = "";
 
@@ -42,12 +42,12 @@ public class DatabaseLoader{
             List<String> allPics = getListPicturesFromPacs();
             for (String pacsid :allPics) {
                 if(!loadedPics.contains(pacsid)){
-                    String pathToRawJpgs = REACT_PATH +"/Pictures/Raw/" + pacsid + ".jpg";
+                    String pathToRawJpgs = REACT_PATH +"/Raw/" + pacsid + ".jpg";
                     saveImage(ORTHANC_HTTP +"/instances/"+pacsid+"/preview",pathToRawJpgs);
                     createThumbnail(new File(pathToRawJpgs));
                     String description = getDescription(pacsid);
-                    String thumbnail = "Pictures/Thumb/"+ pacsid + ".jpg";
-                    String pacs_id = ORTHANC_HTTP+"/instances/"+pacsid+"/preview";
+                    String thumbnail = "/Thumb/"+ pacsid + ".jpg";
+                    String pacs_id = pacsid;
                     logger.trace("Got all information from "+pacsid+" : "+description);
                     boolean worked = savePictureInDatabase(description,thumbnail,pacs_id);
                     if(worked){
@@ -255,7 +255,7 @@ public class DatabaseLoader{
         BufferedImage thumbnailBufferedImage = resizedImage.getSubimage(x, y, thumbnailWidth, thumbnailWidth);
 
         try {
-            ImageIO.write(thumbnailBufferedImage, "JPG", new File(REACT_PATH +"/Pictures/Thumb/"+file.getName()));
+            ImageIO.write(thumbnailBufferedImage, "JPG", new File(REACT_PATH +"/Thumb/"+file.getName()));
         }
         catch (IOException ioe) {
             logger.error("Error writing image to file");
