@@ -32,6 +32,7 @@ public class Image {
             columnDefinition = "TEXT")
     private String description;
 
+    // TODO: Remove
     @Column(
             name = "thumbnail",
             nullable = false,
