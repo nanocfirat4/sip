@@ -36,7 +36,7 @@ export default class ViewMode extends Component {
                     >
                         {this.props.selectedImages.map(image =>
                             <div className="each-slide">
-                                <img src={"Pictures/Raw/" + image.pacs_id}
+                                <img src={"Pictures/Raw/" + image.pacs_id + ".jpg"}
                                     style={{
                                         display: 'block',
                                         margin: 'auto'

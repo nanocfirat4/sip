@@ -57,7 +57,10 @@ public class DatabaseLoader{
                 }
             }
             logger.info("wait one hour...");
-            sleep((long) 3.6E+6); // sleep for one hour then check if there are new pictures in pacs
+            sleep((long) // Reload Pictures all 2 Minutes
+                2 *     // Minutes
+                60 *    // Seconds to Minute
+                1000);  // Milliseconds to Seconds
         }
     }
 
