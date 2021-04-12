@@ -87,7 +87,7 @@ services:
       - 3000:3000
     restart: always
     volumes:
-      - '../sip-react/public/Pictures:/usr/src/app/public/Pictures'
+      - '../sip-react/public/Pictures:/app/public/Pictures'
     depends_on:
       - postgres
 

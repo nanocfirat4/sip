@@ -1,14 +1,21 @@
-FROM node:7.9
+# pull official base image
+FROM node:13.12.0-alpine
 
-WORKDIR /usr/src/app
+# set working directory
+WORKDIR /app
 
-ARG NODE_ENV
-ENV NODE_ENV $NODE_ENV
-COPY package.json /usr/src/app/
-RUN npm install
-COPY . /usr/src/app
+# add `/app/node_modules/.bin` to $PATH
+ENV PATH /app/node_modules/.bin:$PATH
 
-CMD [ "npm", "start"]
-#CICD
-# replace this with your application's default port
-EXPOSE 3000
+# install app dependencies
+COPY package.json ./
+COPY package-lock.json ./
+RUN npm install --silent
+RUN npm install react-scripts@3.4.1 -g --silent
+
+# add app
+COPY . ./
+
+# start app
+CMD ["npm", "start"]
+
