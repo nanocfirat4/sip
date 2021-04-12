@@ -28,8 +28,6 @@ services:
       POSTGRES_MULTIPLE_DATABASES: "keycloak,orthanc,sipapi"
       POSTGRES_USER: administrator
       POSTGRES_PASSWORD: MyS3cureP@55!!
-    # ports:
-    #   - 5432:5432
     restart: always
 
 
@@ -51,8 +49,6 @@ services:
       KEYCLOAK_USER: admin
       KEYCLOAK_PASSWORD: "k3YS4s3cur1ty!"
       PROXY_ADDRESS_FORWARDING: "true"
-    # ports:
-    #   - 8080:8080
     depends_on:
       - postgres
     restart: always
@@ -63,9 +59,6 @@ services:
   orthanc:
     image: jodogne/orthanc-plugins:1.9.1
     command: /run/secrets/  # Path to the configuration files (stored as secrets)
-    # ports:
-    #   - 4242:4242
-    #   - 8042:8042
     secrets:
       - orthanc.json
     depends_on:
@@ -77,8 +70,6 @@ services:
 #  #- docker run --name=sip_api --restart always -p 8081:8081 -dit cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipapi
   api:
     image: cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipapi
-    # ports:
-    #   - 8081:8081
     restart: always
     depends_on:
       - postgres
@@ -91,8 +82,6 @@ services:
       - '../sip-react:/app'
       - '/app/node_modules'
     restart: always
-    # ports:
-    #   - 3000:3000
     environment:
       - CHOKIDAR_USEPOLLING=true
 
