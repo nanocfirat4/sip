@@ -4,10 +4,12 @@ services:
 # nginx
   nginx:
     container_name: dev-nginx
-    ports:
-      - 8085:80
     volumes:
       - './nginx.conf:/etc/nginx/nginx.conf:ro'
+
+      - ./letsencrypt-nginx/dh-param/dhparam-2048.pem:/etc/ssl/certs/dhparam-2048.pem
+      - ./letsencrypt-nginx/live/v000561.fhnw.ch/fullchain.pem:/etc/letsencrypt/live/v000561.fhnw.ch/fullchain.pem
+      - ./letsencrypt-nginx/live/v000561.fhnw.ch/privkey.pem:/etc/letsencrypt/live/v000561.fhnw.ch/privkey.pem
     image: 'nginx:latest'
     network_mode: "host"
     depends_on:
@@ -83,13 +85,15 @@ services:
 # REACT
   react:
     image: cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipreact
+    volumes:
+      - '../sip-react:/app'
+      - '/app/node_modules'
+    restart: always
     ports:
       - 3000:3000
-    restart: always
-    volumes:
-      - '../sip-react/public/Pictures:/app/public/Pictures'
-    depends_on:
-      - postgres
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+
 
 # Database Loader
 #- docker run --name=sip_dataloader --restart always -dit cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipdataloader
