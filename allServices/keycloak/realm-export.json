@@ -660,7 +660,7 @@
       "clientAuthenticatorType": "client-secret",
       "secret": "**********",
       "redirectUris": [
-        "http://192.168.0.30/*"
+        "http://localhost/*"
       ],
       "webOrigins": [],
       "notBefore": 0,
@@ -781,10 +781,10 @@
       "clientAuthenticatorType": "client-secret",
       "secret": "**********",
       "redirectUris": [
-        "http://192.168.0.30/*"
+        "http://localhost/*"
       ],
       "webOrigins": [
-        "http://192.168.0.30"
+        "http://localhost"
       ],
       "notBefore": 0,
       "bearerOnly": false,
