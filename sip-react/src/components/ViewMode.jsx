@@ -39,7 +39,8 @@ export default class ViewMode extends Component {
                                 <img src={"Pictures/Raw/" + image.pacs_id + ".jpg"}
                                     style={{
                                         display: 'block',
-                                        margin: 'auto'
+                                        margin: 'auto',
+                                        maxWidth: '100%'
                                     }} />
                             </div>
                         )}
