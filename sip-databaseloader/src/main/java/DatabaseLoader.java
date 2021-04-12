@@ -27,9 +27,9 @@ import static java.lang.Thread.sleep;
 public class DatabaseLoader{
     static final Logger logger = LoggerFactory.getLogger(DatabaseLoader.class);
 
-    public static String AUTH_HTTP = "http://v000561.fhnw.ch/auth/realms/FHNW-LST-MI/protocol/openid-connect/token";
-    public static String API_HTTP = "http://v000561.fhnw.ch/api/image";
-    public static String ORTHANC_HTTP = "http://v000561.fhnw.ch/orthanc";
+    public static String AUTH_HTTP = "https://v000561.fhnw.ch/auth/realms/FHNW-LST-MI/protocol/openid-connect/token";
+    public static String API_HTTP = "https://v000561.fhnw.ch/api/image";
+    public static String ORTHANC_HTTP = "https://v000561.fhnw.ch/orthanc";
     public static String REACT_PATH = "/var/lib/sip-react/Pictures/";
     public static LocalDateTime lastAccessToken = LocalDateTime.now().minusMinutes(5);
     public static String access_token = "";
@@ -73,7 +73,7 @@ public class DatabaseLoader{
             lastAccessToken = LocalDateTime.now();
         }
 
-/*      POST http://localhost/api/image
+/*      POST https://localhost/api/image
         Content-Type: application/json
         Authorization: Bearer {{access_token}}
 */
@@ -109,7 +109,7 @@ public class DatabaseLoader{
         String postEndpoint = AUTH_HTTP;
         String inputX_WWW_FORM_URLENCODED = "client_id=web-app&username=user&password=$!pU53r&grant_type=password";
 
-/*      POST http://localhost/auth/realms/FHNW-LST-MI/protocol/openid-connect/token
+/*      POST https://localhost/auth/realms/FHNW-LST-MI/protocol/openid-connect/token
         Content-Type: application/x-www-form-urlencoded
         Accept-Type: application/json
 
