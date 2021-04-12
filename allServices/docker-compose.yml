@@ -80,15 +80,17 @@ services:
       - postgres
 
 
-#  # REACT
-#  react:
-#    image: cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipreact
-#    ports:
-#      - 3000:3000
-#    restart: always
-#    depends_on:
-#      - postgres
-#
+# REACT
+  react:
+    image: cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipreact
+    ports:
+      - 3000:3000
+    restart: always
+    volumes:
+      - '../sip-react/public/Pictures:/usr/src/app/public/Pictures'
+    depends_on:
+      - postgres
+
 # Database Loader
 #- docker run --name=sip_dataloader --restart always -dit cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipdataloader
   databaseloader:
