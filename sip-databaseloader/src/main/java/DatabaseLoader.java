@@ -30,7 +30,7 @@ public class DatabaseLoader{
     public static String AUTH_HTTP = "http://localhost/auth/realms/FHNW-LST-MI/protocol/openid-connect/token";
     public static String API_HTTP = "http://localhost/api/image";
     public static String ORTHANC_HTTP = "http://localhost/orthanc";
-    public static String REACT_PATH = "/home/marc/sip2021-01-sth/sip-react/public/Pictures/";
+    public static String REACT_PATH = "sip-react/public/Pictures/";
     public static LocalDateTime lastAccessToken = LocalDateTime.now().minusMinutes(5);
     public static String access_token = "";
 

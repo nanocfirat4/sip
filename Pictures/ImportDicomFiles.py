@@ -65,7 +65,7 @@ Usage: %s [hostname] [HTTP port] [path]
 
 Usage: %s [hostname] [HTTP port] [path] [username] [password]
 
-python ImportDicomFiles.py v000561.fhnw.ch/orthanc/ 8080 DICOM/ orthanc g04D!c0m#orT(h)anks
+python ImportDicomFiles.py v000561.fhnw.ch/orthanc/ 8080 DICOM/ orthanc password
 
 For instance: %s 127.0.0.1 8042 .
 
@@ -74,7 +74,7 @@ For instance: %s 127.0.0.1 8042 .
     exit(-1)
 
 
-URL = 'https://%s/instances' % (sys.argv[1])
+URL = 'http://%s/instances' % (sys.argv[1])
 
 
 success_count = 0
@@ -114,9 +114,9 @@ def UploadFile(path):
 
         if len(sys.argv) == 6:
 
-            username = sys.argv[4]
+            username = "orthanc"
 
-            password = sys.argv[5]
+            password = "g04D!c0m#orT(h)anks"
 
 
             # h.add_credentials(username, password)
