@@ -36,9 +36,9 @@ public class DatabaseLoader{
 
     public static void main(String[] args) throws IOException, InterruptedException {
         logger.info("Databaseloader started");
+        List<String> loadedPics = new ArrayList<>();
         while(true){
             logger.info("check if there are new images in PACS");
-            List<String> loadedPics = new ArrayList<>();
             List<String> allPics = getListPicturesFromPacs();
             for (String pacsid :allPics) {
                 if(!loadedPics.contains(pacsid)){
@@ -58,7 +58,7 @@ public class DatabaseLoader{
             }
             logger.info("wait one hour...");
             sleep((long) // Reload Pictures all 2 Minutes
-                20 *     // Minutes
+                2 *     // Minutes
                 60 *    // Seconds to Minute
                 1000);  // Milliseconds to Seconds
         }
