@@ -79,7 +79,7 @@ class Thumbnail extends Component {
                             display: this.state.isHovered ? "block" : "none",
                         }}
                     >{this.props.image.description}</div>
-                    <img src={this.props.image.thumbnail} className="thumbnail_img" />
+                    <img src={"Pictures/Thumb/" + this.props.image.pacs_id + ".jpg"} className="thumbnail_img" />
                 </div>
             </div>
         )
