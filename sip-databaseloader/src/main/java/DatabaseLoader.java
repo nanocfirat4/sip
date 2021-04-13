@@ -1,3 +1,4 @@
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import org.slf4j.Logger;
@@ -16,10 +17,8 @@ import java.sql.Time;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 
 import static java.lang.Thread.sleep;
 
@@ -36,10 +35,11 @@ public class DatabaseLoader{
 
     public static void main(String[] args) throws IOException, InterruptedException {
         logger.info("Databaseloader started");
-        List<String> loadedPics = new ArrayList<>();
+        Set<String> loadedPics;
         while(true){
             logger.info("check if there are new images in PACS");
             List<String> allPics = getListPicturesFromPacs();
+            loadedPics = getAllLoadedPicsFromAPI();
             for (String pacsid :allPics) {
                 if(!loadedPics.contains(pacsid)){
                     String pathToRawJpgs = REACT_PATH +"/Raw/" + pacsid + ".jpg";
@@ -58,10 +58,50 @@ public class DatabaseLoader{
             }
             logger.info("wait one hour...");
             sleep((long) // Reload Pictures all 2 Minutes
-                20 *     // Minutes
-                60 *    // Seconds to Minute
-                1000);  // Milliseconds to Seconds
+                    15 *     // Minutes
+                    60 *    // Seconds to Minute
+                    1000);  // Milliseconds to Seconds
         }
+    }
+    private static Set<String> getAllLoadedPicsFromAPI() throws IOException, InterruptedException {
+        Set<String> result = new HashSet<>();
+        String getEndpoint = API_HTTP+"s";
+
+        if(lastAccessToken.isBefore(LocalDateTime.now().minusMinutes(3))){
+            access_token = getAccessToken();
+            lastAccessToken = LocalDateTime.now();
+        }
+
+        var request = HttpRequest.newBuilder()
+                .uri(URI.create(getEndpoint))
+                .header("Accept-Type", "application/json")
+                .header("Authorization"," Bearer "+access_token)
+                .build();
+
+        var client = HttpClient.newHttpClient();
+
+        var response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+        logger.trace("RESPONSE FROM API images : "+response.statusCode());
+
+        if(response.statusCode()==200){
+            Object file = JSONValue.parse(response.body());
+
+            // In java JSONObject is used to create JSON object
+            JSONArray jsonArraydecode = (JSONArray) file;
+
+            // Converting into Java Data type
+            // format From Json is the step of Decoding.
+            if (!jsonArraydecode.isEmpty()){
+                for (Object o : jsonArraydecode) {
+                    JSONObject jsonObject = (JSONObject) o;
+                    String respon = (String) jsonObject.get("pacs_id");
+                    result.add(respon);
+                }
+            }
+            logger.trace("RESPONSE FROM API images : " + result);
+        }
+        return result;
     }
 
     private static boolean savePictureInDatabase(String description, String thumbnail, String pacs_id) throws IOException, InterruptedException {
@@ -73,7 +113,7 @@ public class DatabaseLoader{
             lastAccessToken = LocalDateTime.now();
         }
 
-/*      POST https://localhost/api/image
+/*      POST http://localhost/api/image
         Content-Type: application/json
         Authorization: Bearer {{access_token}}
 */
@@ -109,7 +149,7 @@ public class DatabaseLoader{
         String postEndpoint = AUTH_HTTP;
         String inputX_WWW_FORM_URLENCODED = "client_id=web-app&username=user&password=$!pU53r&grant_type=password";
 
-/*      POST https://localhost/auth/realms/FHNW-LST-MI/protocol/openid-connect/token
+/*      POST http://localhost/auth/realms/FHNW-LST-MI/protocol/openid-connect/token
         Content-Type: application/x-www-form-urlencoded
         Accept-Type: application/json
 
@@ -181,7 +221,7 @@ public class DatabaseLoader{
                 return new PasswordAuthentication ("orthanc", "g04D!c0m#orT(h)anks".toCharArray());
             }
         });
-                URL urlObj = new URL(url);
+        URL urlObj = new URL(url);
         HttpURLConnection connection = (HttpURLConnection) urlObj.openConnection();
         connection.setRequestMethod("GET");
         connection.setRequestProperty("User-Agent", "Mozilla/5.0");
