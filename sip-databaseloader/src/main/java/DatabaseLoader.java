@@ -36,9 +36,9 @@ public class DatabaseLoader{
 
     public static void main(String[] args) throws IOException, InterruptedException {
         logger.info("Databaseloader started");
+        List<String> loadedPics = new ArrayList<>();
         while(true){
             logger.info("check if there are new images in PACS");
-            List<String> loadedPics = new ArrayList<>();
             List<String> allPics = getListPicturesFromPacs();
             for (String pacsid :allPics) {
                 if(!loadedPics.contains(pacsid)){
