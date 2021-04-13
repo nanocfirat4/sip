@@ -65,6 +65,8 @@ Usage: %s [hostname] [HTTP port] [path]
 
 Usage: %s [hostname] [HTTP port] [path] [username] [password]
 
+python ImportDicomFiles.py v000561.fhnw.ch/orthanc/ 8080 DICOM/ orthanc g04D!c0m#orT(h)anks
+
 For instance: %s 127.0.0.1 8042 .
 
 """ % (sys.argv[0], sys.argv[0], sys.argv[0]))
@@ -72,7 +74,7 @@ For instance: %s 127.0.0.1 8042 .
     exit(-1)
 
 
-URL = 'http://%s/instances' % (sys.argv[1])
+URL = 'https://%s/instances' % (sys.argv[1])
 
 
 success_count = 0
