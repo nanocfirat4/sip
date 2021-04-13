@@ -56,16 +56,24 @@ class ThumbnailList extends Component {
                 <div className="mt-3">
                     <SearchFields searchFunction={searchImages} searchComment={this.state.searchComment}
                         updateSearchComment={this.updateSearchComment} tags={tags}
-                        style={{ backgroundColor: "lightgray" }} />
+                    />
 
                     <Row>
                         <Col md={12} lg={3}>
                             {/* Comments -> Show comments of selected images and add new ones */}
-                            <div id="matchingComments">
-                                {matchingComments.map(comment =>
-                                    <Comment comment={comment} />
-                                )}
-                            </div>
+                            {matchingComments.length > 0 ?
+                                <div id="matchingComments"
+                                    style={{
+                                        borderRadius: "20px",
+                                        backgroundColor: "white",
+                                        padding: "10px"
+                                    }}
+                                >
+                                    {matchingComments.map(comment =>
+                                        <Comment comment={comment} />
+                                    )}
+                                </div>
+                            : null}
 
                             <TextField
                                 id="add_comment"

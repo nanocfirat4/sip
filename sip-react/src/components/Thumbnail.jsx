@@ -65,34 +65,22 @@ class Thumbnail extends Component {
                 onMouseEnter={this.handleEnter.bind(this)}
                 onMouseLeave={this.handleLeave.bind(this)}
             >
-                {this.state.isHovered ?
-                    <div class="thumbnail_description"
-                        style={{
-                            minWidth: "100%",
-                            minHeight: "100%",
-                            zIndex: "999",
-                            display: "absolute"
-                        }}
-                    >
-                        {this.props.image.description}
-                    </div> : ''
-                }
-
-                <Card
+                <div
                     onClick={this.selectImage}
                     style={{
-                        backgroundColor: this.state.checked ? "lightblue" : "",
+                        backgroundColor: this.state.checked ? "blue" : "white",
+                        borderRadius: "5px",
+                        padding: "8px",
+                        margin: "2px"
                     }}
                 >
-                    <CardActionArea>
-                        <CardMedia
-                            title={this.props.image.description}
-                        />
-                        <CardContent>
-                            <img src={"Pictures/" + this.props.image.thumbnail} className="thumbnail_img" />
-                        </CardContent>
-                    </CardActionArea>
-                </Card>
+                    <div className="thumbnail_description"
+                        style={{
+                            display: this.state.isHovered ? "block" : "none",
+                        }}
+                    >{this.props.image.description}</div>
+                    <img src={this.props.image.thumbnail} className="thumbnail_img" />
+                </div>
             </div>
         )
     }

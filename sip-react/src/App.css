@@ -56,9 +56,10 @@ body,
   
 .thumbnail_description {
   position: absolute;
-  background-color: rgba(139, 139, 139, 0.8);;
+  background-color: rgba(95, 95, 95, 0.842);;
   width: 100%;
   border-radius: 10px;
+  margin: -10px;
 }
 
 .thumbnail_img {
