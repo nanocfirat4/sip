@@ -58,7 +58,8 @@ production:
   stage: deploy
   script:
     - cd allServices
-    - docker stop $(docker ps -a -q) || true && docker rm $(docker ps -a -q) || true
+    - docker-compose stop
+    - docker-compose pull
     - docker-compose up -d
     - cd ..
     - cd Pictures
