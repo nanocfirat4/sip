@@ -57,10 +57,10 @@ public class DatabaseLoader{
                 }
             }
             logger.info("wait one hour...");
-            sleep((long) // Reload Pictures all 2 Minutes
-                    15 *     // Minutes
-                    60 *    // Seconds to Minute
-                    1000);  // Milliseconds to Seconds
+            sleep((long) // Reload Pictures all 5 Minutes
+                       5 *    // Minutes
+                      60 *    // Seconds to Minute
+                    1000);    // Milliseconds to Seconds
         }
     }
     private static Set<String> getAllLoadedPicsFromAPI() throws IOException, InterruptedException {
