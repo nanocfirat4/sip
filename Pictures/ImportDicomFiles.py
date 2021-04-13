@@ -114,9 +114,9 @@ def UploadFile(path):
 
         if len(sys.argv) == 6:
 
-            username = sys.argv[4]
+            username = "orhtanc"
 
-            password = sys.argv[5]
+            password = "g04D!c0m#orT(h)anks"
 
 
             # h.add_credentials(username, password)
