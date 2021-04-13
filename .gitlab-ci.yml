@@ -60,7 +60,6 @@ production:
     - cd allServices
     - docker stop $(docker ps -a -q) || true && docker rm $(docker ps -a -q) || true
     - docker-compose up -d
-    - sudo chown gitlab-runner:gitlab-runner postgresDB/
     - cd ..
     - cd Pictures
     - pip install httplib2
