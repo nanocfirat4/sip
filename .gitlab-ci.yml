@@ -65,7 +65,7 @@ startMicroServices:
       - master
   when: manual
 
-  LoadImagesToPACS:
+LoadImagesToPACS:
   stage: deploy
   script:
     - cd Pictures
