@@ -11,6 +11,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 
 import './App.css'
 import { Container } from 'react-bootstrap'
+import { PacsService } from './services/PacsService'
 
 class App extends Component {
   constructor(props) {
@@ -26,7 +27,8 @@ class App extends Component {
       images: [],
       comments: [],
       tags: [],
-      matchingComments: []
+      matchingComments: [],
+      myImage: null
     };
   }
 
@@ -49,6 +51,11 @@ class App extends Component {
     });
 
     this.setState({ isLoading: false })
+  
+    // get example image from PACS
+    PacsService.find("e6060fd2-81ee48ae-68ac5bd2-325c5ef6-955a3576").then(res => {
+      this.setState({myImage: res});
+    })
   }
 
   // Search images by txt
@@ -111,6 +118,7 @@ class App extends Component {
         backgroundColor: "lightgray",
         minHeight: "100%"
       }}>
+        <img src={this.state.myImage ? URL.createObjectURL(this.state.myImage) : null}></img>        
 
         <Router>
           <AppNavBar />
