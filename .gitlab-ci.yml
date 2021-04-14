@@ -54,17 +54,22 @@ buildContainer_pushRegistry:
   only:
     - master
 
-production:
+startMicroServices:
   stage: deploy
   script:
     - cd allServices
     - docker-compose stop
     - docker-compose pull
-    - docker-compose up -d
-    - cd ..
+    - docker-compose up
+  only: 
+      - master
+  when: manual
+
+  LoadImagesToPACS:
+  stage: deploy
+  script:
     - cd Pictures
     - pip install httplib2
-    - sleep 60
     - python ImportDicomFiles.py v000561.fhnw.ch/orthanc/ 8080 DICOM/ orthanc password
   only: 
       - master
