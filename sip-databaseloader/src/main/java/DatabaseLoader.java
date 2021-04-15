@@ -56,7 +56,7 @@ public class DatabaseLoader{
                     }else logger.error(pacsid+" NOT loaded to Database");
                 }
             }
-            logger.info("wait one hour...");
+            logger.info("wait 5 minutes...");
             sleep((long) // Reload Pictures all 5 Minutes
                        5 *    // Minutes
                       60 *    // Seconds to Minute
