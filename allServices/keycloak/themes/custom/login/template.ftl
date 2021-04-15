@@ -145,6 +145,9 @@
 
     </div>
   </div>
+  <form action="https://v000561.fhnw.ch/status/">
+    <input type="submit" value="Status" style="position: absolute; top: 20px; right: 20px"/>
+    </form>
 </body>
 </html>
 </#macro>
