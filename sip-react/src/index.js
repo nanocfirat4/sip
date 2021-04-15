@@ -7,24 +7,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { ReactKeycloakProvider } from '@react-keycloak/web'
 import keycloak from './keycloak'
 
-// const eventLogger = (event, error) => {
-//   console.log('onKeycloakEvent', event, error)
-// }
-
-// const tokenLogger = (tokens) => {
-//   console.log('onKeycloakTokens', tokens)
-// }
-
-
-// ReactDOM.render(
-//   <React.StrictMode>
-//     <ReactKeycloakProvider keycloak={keycloak} authClient={keycloak} onEvent={eventLogger} onTokens={tokenLogger}>
-//       <App />
-//     </ReactKeycloakProvider>
-//   </React.StrictMode>,
-//   document.getElementById('root')
-// );
-
 
 //Initialization of the keycloak instance
 keycloak.init({ onLoad: 'login-required' }).success((authenticated) => {
