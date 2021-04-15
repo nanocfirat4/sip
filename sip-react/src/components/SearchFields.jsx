@@ -5,7 +5,6 @@ import { Col, Row } from 'react-bootstrap';
 import Button from '@material-ui/core/Button';
 import Slider from '@material-ui/core/Slider';
 import { Typography } from '@material-ui/core';
-import { TagService } from '../services/TagService'
 
 
 class SearchFields extends Component {
@@ -13,12 +12,9 @@ class SearchFields extends Component {
         super(props);
 
         this.state = {
-            searchTags: props.selectedTagObject,
+            searchTags: [],
             textFieldValue: '',
-            newSearchCommentValue: props.searchComment,
-            newSearchTags: props.searchTags,
-            lastUsedTags: [],
-
+            newSearchCommentValue: props.searchComment
         };
     }
 
@@ -34,12 +30,9 @@ class SearchFields extends Component {
     };
 
     // Search when button is clicked
-    // Search when button is clicked
-    handleSearch(values) {
-        this.props.updateSelectedTagObject(this.state.searchTags);
+    handleSearch() {
         this.props.updateSearchComment(this.state.newSearchCommentValue);
-        this.props.searchFunction(this.state.newSearchCommentValue, this.state.searchTags);
-
+        this.props.searchFunction(this.state.newSearchCommentValue);
     }
 
     // Update State when modifying Comment
@@ -47,26 +40,6 @@ class SearchFields extends Component {
         this.setState({ newSearchCommentValue: event.target.value });
     }
 
-
-    setNewTags(event, values) {
-        console.log(values)
-        this.setState({ newSearchTags: event.target.value });
-    }
-
-
-    selectTags = (event, values) => {
-        var currentList = []
-        this.props.updateSearchTags(values);
-        values.map(value =>
-            this.props.tags.map(tag =>
-            (tag.id === value.id ? currentList.push(tag)
-                : null)));
-
-        this.setState({
-            searchTags: currentList
-        });
-    }
-    
     // Rendering
     render() {
         return (
@@ -92,11 +65,9 @@ class SearchFields extends Component {
                                     }
                                 })
                             }
-                            defaultValue={this.props.searchTags}
                             getOptionLabel={(option) => option.name}
                             renderInput={(params) => <TextField {...params} label="Tag" />}
                             style={{ width: "100%" }}
-                            onChange={this.selectTags}
                         />
                     </Col>
                     <Col md={4}>
@@ -134,6 +105,7 @@ class SearchFields extends Component {
                             defaultValue={150}
                             id="sizeSlider"
                             style={{ width: "100%" }}
+
                             onChange={this.handleSliderChange}
                         />
 

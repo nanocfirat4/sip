@@ -18,10 +18,8 @@ function findById(id) {
 function findByFilter(textTokens, tags) {
     var res = instance.post('/api/search/filter', {
         textTokens: textTokens,
-        searchFavHashtagsList: tags.length == 0 ? [] : tags
-
-    });
-
+        searchFavHashtagsList: tags
+    })
     return res
 }
 
