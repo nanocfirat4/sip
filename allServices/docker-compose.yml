@@ -17,6 +17,7 @@ services:
       - orthanc
     restart: always
 
+# Certbot
   certbot:
     image: certbot/certbot
     volumes:
@@ -24,7 +25,13 @@ services:
       - ./nginx/certbot/www:/var/www/certbot
     entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
 
-
+# status page
+  status:
+    image: php:7.3.0-apache
+    volumes:
+      - ../status:/var/www/html
+    restart: always
+  
 
 # PostgreSQL Database
   postgres:
