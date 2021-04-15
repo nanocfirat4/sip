@@ -52,15 +52,14 @@ class App extends Component {
   }
 
   // Search images by txt
-  searchImages(textTokens) {
-    this.setState({ isLoading: true });
-    ImageService.authToken(keycloak.token);
-    ImageService.findByFilter(textTokens, []).then((res) => {
+  searchImages(textTokens, searchTags) {
+    this.setState({ isLoading: true })
+    ImageService.authToken(keycloak.token)
+    ImageService.findByFilter(textTokens, searchTags).then((res) => {
       this.setState({
         images: res.data,
         selectedImages: [],
         matchingComments: [],
-        matchingTags: [],
         isLoading: false
       });
     });

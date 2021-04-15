@@ -102,6 +102,11 @@ public class ImageService {
         if(!hashtags.isEmpty()){
             //if hashtag not found remove
             resultList.removeIf(image -> !checkHashtagsInImageTags(image.getImageHashtagsList(), hashtags));
+            if(resultList.size()==0){
+                resultList = images;
+            }
+            logger.info(hashtags.get(0).getHashtagtxt());
+
         }
         return resultList;
     }
@@ -111,10 +116,13 @@ public class ImageService {
         for(Hashtag searchedhashtag: hashtags){
             boolean subtest = false;
             for(Hashtag hashtag:imageHashtagsList){
-                if(hashtag.equals(searchedhashtag)) {
+                if(hashtag.getHashtagtxt().equals(searchedhashtag.getHashtagtxt())) {
                     subtest=true;
+                    break;
                 }
-            }
+            }                
+            if(subtest)break;
+
             //IF one hashtag wasn't found in all imageHashtags -return false
             if(!subtest) {
                 return false;
