@@ -66,9 +66,14 @@ startMicroServices:
   when: manual
 
 LoadImagesToPACS:
+  image: docker:19.03.12
   stage: deploy
+  services:
+    - docker:19.03.12-dind
   script:
     - cd Pictures
+    - apt install python3
+    - apt install python3-pip
     - pip install httplib2
     - python ImportDicomFiles.py v000561.fhnw.ch/orthanc/ 8080 DICOM/ orthanc password
   only: 
