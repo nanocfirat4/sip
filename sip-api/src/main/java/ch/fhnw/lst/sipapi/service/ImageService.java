@@ -111,10 +111,13 @@ public class ImageService {
         for(Hashtag searchedhashtag: hashtags){
             boolean subtest = false;
             for(Hashtag hashtag:imageHashtagsList){
-                if(hashtag.equals(searchedhashtag)) {
+                if(hashtag.getHashtagtxt().equals(searchedhashtag.getHashtagtxt())) {
                     subtest=true;
+                    break;
                 }
-            }
+            }                
+            if(subtest)break;
+
             //IF one hashtag wasn't found in all imageHashtags -return false
             if(!subtest) {
                 return false;

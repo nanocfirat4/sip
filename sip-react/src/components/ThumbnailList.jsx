@@ -11,18 +11,25 @@ import TextField from '@material-ui/core/TextField';
 import keycloak from '../keycloak'
 import { PacsService } from '../services/PacsService';
 import Tag from './Tag';
+import { TagService } from '../services/TagService'
+
 
 class ThumbnailList extends Component {
     constructor(props) {
         super(props);
-
+        this.updateSearchTags = this.updateSearchTags.bind(this);
         this.updateSearchComment = this.updateSearchComment.bind(this);
         this.handleAddCommentText = this.handleAddCommentText.bind(this);
         this.handleAddComment = this.handleAddComment.bind(this);
-
+        this.handleAddTagText = this.handleAddTagText.bind(this);
+        this.handleAddTag = this.handleAddTag.bind(this);
+        this.updateSelectedTagObject = this.updateSelectedTagObject.bind(this);
         this.state = {
             searchComment: "",
+            searchTags: [],
             newComment: "",
+            newTag: "",
+            selectedTagObject:[]
         };
     }
 
@@ -31,6 +38,15 @@ class ThumbnailList extends Component {
     updateSearchComment(newComment) {
         this.setState({ searchComment: newComment });
     }
+        // Set the last searched Tag
+
+        updateSearchTags(newTags) {
+            this.setState({ searchTags: newTags });
+        }
+    
+        updateSelectedTagObject(values){
+            this.setState({selectedTagObject: values})
+        }
 
     // Add new Comment to all selected images
     handleAddComment() {
@@ -41,11 +57,24 @@ class ThumbnailList extends Component {
             })
         })
     }
+
+        // Add new Tag to all selected images
+        handleAddTag() {
+            TagService.authToken(keycloak.token)
+            TagService.add(this.state.newTag).then((res) => {
+                this.props.selectedImages.map((image) => {
+                    TagService.assignTag(image.id, res.data.id)
+                })
+            })
+        }
+
     handleAddCommentText(event) {
         this.setState({ newComment: event.target.value })
     }
 
-
+    handleAddTagText(event) {
+        this.setState({ newTag: event.target.value })
+    }
 
     render() {
         const { isLoading, images, searchImages, selectedImages, tags, matchingComments, updateMatchingComments, matchingTags } = this.props;
@@ -54,9 +83,8 @@ class ThumbnailList extends Component {
         return (
             isLoading ? <p>Loading...</p> : (
                 <div className="mt-3">
-                    <SearchFields searchFunction={searchImages} searchComment={this.state.searchComment}
-                        updateSearchComment={this.updateSearchComment} tags={tags}
-                    />
+                    <SearchFields searchFunction={searchImages} searchComment={this.state.searchComment} searchTags={this.state.searchTags}
+                        updateSearchComment={this.updateSearchComment} updateSelectedTagObject = {this.updateSelectedTagObject} updateSearchTags={this.updateSearchTags} tags={tags} selectedTagObject={this.state.selectedTagObject} />
 
                     <Row>
                         <Col md={12} lg={3}>
@@ -90,14 +118,6 @@ class ThumbnailList extends Component {
                                 Save Comment
                             </Button>
 
-
-                            {/* Tags -> Show tags of selected images and add new ones */}
-                            <div id="matchingTags">
-                                {/* {matchingTags.map(tag =>
-                                    <Tag tag={tag} />
-                                )} */}
-                            </div>
-
                             <TextField
                                 id="add_tag"
                                 label="New Tag"
@@ -112,6 +132,14 @@ class ThumbnailList extends Component {
                             >
                                 Save Tag
                             </Button>
+                            {/* Tags -> Show tags of selected images and add new ones */}
+                            <div id="matchingTags">
+                                {/* {matchingTags.map(tag =>
+                                    <Tag tag={tag} />
+                                )} */}
+                            </div>
+
+
 
                             {this.props.selectedImages.length > 0 ?
                                 <LinkContainer to="/view">
