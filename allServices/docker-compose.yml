@@ -44,7 +44,7 @@ services:
     image: jboss/keycloak:12.0.3
     volumes:
       - ./keycloak/imports:/opt/jboss/keycloak/imports
-      - ./keycloak/themes:/opt/jboss/keycloak/themes
+      - ./keycloak/themes/custom:/opt/jboss/keycloak/themes/custom
     command:
       - "-b 0.0.0.0 -Dkeycloak.import=/opt/jboss/keycloak/imports/realm-export.json"
     environment:

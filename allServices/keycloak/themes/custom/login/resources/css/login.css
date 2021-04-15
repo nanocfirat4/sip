@@ -1,5 +1,5 @@
 .login-pf body {
-    background: url("../img/histo.jpg") no-repeat center center fixed;
+    background: url("../img/keycloak-bg.png") no-repeat center center fixed;
     background-size: cover;
     height: 100%;
 }
@@ -242,7 +242,6 @@ div.kc-logo-text span {
     color: #ededed;
     overflow: visible;
     white-space: nowrap;
-
 }
 
 #kc-header-wrapper {

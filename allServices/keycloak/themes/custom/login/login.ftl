@@ -1,5 +1,6 @@
 <#import "template.ftl" as layout>
 <@layout.registrationLayout displayMessage=!messagesPerField.existsError('username','password') displayInfo=realm.password && realm.registrationAllowed && !registrationDisabled??; section>
+<h1>hallooooooooooooooo</h1>
     <#if section = "header">
         ${msg("loginAccountTitle")}
     <#elseif section = "form">
