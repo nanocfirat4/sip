@@ -121,14 +121,14 @@ class ThumbnailList extends Component {
                             <TextField
                                 id="add_tag"
                                 label="New Tag"
-                                onChange={this.handleAddCommentText}
+                                onChange={this.handleAddTagText}
                                 style={{ width: "100%" }}
                             />
                             <Button
                                 variant="contained"
                                 color="primary"
                                 style={{ margin: "5px" }}
-                                onClick={this.handleAddComment}
+                                onClick={this.handleAddTag}
                             >
                                 Save Tag
                             </Button>
