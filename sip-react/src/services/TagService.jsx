@@ -5,22 +5,18 @@ export const TagService = {
     findAll,
     findById,
     add,
-    authToken,
-    assignTag
+    authToken
 }
 function findAll() {
     return instance.get('/api/hashtags')
 }
 function findById(id) {
-    return instance.get(`/api/hashtag/${id}`).then((response) => response.data)
+    return instance.get(`/api/hashtag/${id}`)
 }
 function add(hashtagtxt) {
     return instance.post(`/api/hashtag`, {
         hashtagtxt: hashtagtxt
     })
-}
-function assignTag(imageId, TagId) {
-    return instance.post(`/api/image/${imageId}/savetag/${TagId}`)
 }
 
 
