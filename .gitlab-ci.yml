@@ -72,8 +72,6 @@ LoadImagesToPACS:
     - docker:19.03.12-dind
   script:
     - cd Pictures
-    - sudo apt install python3
-    - sudo apt install python3-pip
     - pip install httplib2
     - python ImportDicomFiles.py v000561.fhnw.ch/orthanc/ 8080 DICOM/ orthanc password
   only: 
