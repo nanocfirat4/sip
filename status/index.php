@@ -3,15 +3,19 @@
 <html>
 <head>
     <title>SIP Status</title>
+    <link rel="shortcut icon" href="./Histo-logo.png"/>
     <style>
         body {
-            background-color: lightgray;
+            background: url('./histo.jpg') no-repeat center center fixed;
+            background-size: cover;
+            height: 100%;
         }
         #states {
             background-color: white;
             margin: auto;
             width: 300px;
             border: 5px solid gray;
+            border-radius: 20px;
             padding: 20px 40px 30px 40px;
         }
         img {
@@ -187,6 +191,7 @@
     ?>
 
 <div id="states">
+    <h3>Status SIP Services</h3>
 
     <?php
     // Orthanc
