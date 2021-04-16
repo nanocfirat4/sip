@@ -84,7 +84,7 @@ services:
   databaseloader:
     image: cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipdatabaseloader
     depends_on:
-      - api: service_healthy
+      - api
     volumes:
       - '../sip-react/public/Pictures:/var/lib/sip-react/Pictures'
     restart: always
