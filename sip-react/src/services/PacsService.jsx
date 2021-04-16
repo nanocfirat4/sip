@@ -1,8 +1,4 @@
-export const PacsService = {
-    find,
-}
-
-function  find(pacsID) {
+export function GetPacsImage(pacsID) {
     var url = 'https://v000561.fhnw.ch/orthanc/instances/'+pacsID+'/preview';
     return fetch(url, {
         method: 'GET',
