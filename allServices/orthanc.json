@@ -2,14 +2,11 @@
   "Name" : "SIP Orthanc",
   "RemoteAccessAllowed" : true,
 
-
-  "AUTHZ_WEBSERVICE": "http://localhost:8080/auth/realms/FHNW-LST-MI/protocol/openid-connect/token",
-  
   "PostgreSQL": {
     "EnableIndex": true,
     "EnableStorage": false,
     "Port": 5432,
-    "Host": "orthancDB",
+    "Host": "postgres",
     "Database": "orthanc",
     "Username": "administrator",
     "Password": "MyS3cureP@55!!",
