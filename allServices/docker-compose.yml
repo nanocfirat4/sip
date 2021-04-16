@@ -69,8 +69,6 @@ services:
       - postgres
     restart: always
 
-
-
 # Orthanc
   orthanc:
     image: jodogne/orthanc-plugins:1.9.1
@@ -81,17 +79,21 @@ services:
       - postgres
     restart: always
 
-
-#  # API
-#  #- docker run --name=sip_api --restart always -p 8081:8081 -dit cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipapi
+  #  # API
+  #  #- docker run --name=sip_api --restart always -p 8081:8081 -dit cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipapi
   api:
     image: cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipapi
     restart: always
     depends_on:
       - postgres
+    healthcheck:
+      test: curl -m 5 --silent --fail --request GET https://v000561.fhnw.ch/api/actuator/health | jq --exit-status -n 'inputs | if has("status") then .status=="UP" else false end' > /dev/null || exit 1
+      interval: 10s
+      timeout: 2s
+      retries: 10
 
 
-# REACT
+  # REACT
   react:
     image: cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipreact
     volumes:

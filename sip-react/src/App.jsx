@@ -19,14 +19,17 @@ class App extends Component {
     this.searchImages = this.searchImages.bind(this)
     this.updateComments = this.updateComments.bind(this)
     this.updateMatchingComments = this.updateMatchingComments.bind(this)
-    
+    this.updateMatchingTags = this.updateMatchingTags.bind(this)
+
     this.state = {
       isLoading: false,
       selectedImages: [],
       images: [],
       comments: [],
       tags: [],
-      matchingComments: []
+      matchingComments: [],
+      matchingTags: [],
+
     };
   }
 
@@ -91,6 +94,33 @@ class App extends Component {
     });
   }
 
+  updateMatchingTags() {
+    var allTags = this.state.selectedImages.map(image => { return image.imageHashtagsList.map(tag => { return tag.id }) });
+    var matchingTags = []
+
+    if (allTags.length > 0) {
+      var result = allTags.shift().filter(function (v) {
+        return allTags.every(function (a) {
+          return a.indexOf(v) !== -1;
+        });
+      });
+
+      for (var j = 0; j < this.state.tags.length; j++) {
+        for (var i = 0; i < result.length; i++) {
+          if (this.state.tags[j].id == result[i]) {
+            matchingTags.push(this.state.tags[j].hashtagtxt);
+          }
+        }
+      }
+    }
+    this.setState({
+      matchingTags: matchingTags
+    });
+
+
+  }
+
+
 
   // Update all Coments
   updateComments() {
@@ -103,7 +133,7 @@ class App extends Component {
 
 
   render() {
-    const { isLoading, images, selectedImages, tags, matchingComments, matchingTags } = this.state;
+    const { isLoading, images, selectedImages, tags, matchingComments, updateMatchingTags,matchingTags } = this.state;
 
     return (
       <Container fluid style={{
@@ -115,9 +145,16 @@ class App extends Component {
           <AppNavBar />
           <Switch>
             <Route exact path='/'>
-              <ThumbnailList tags={tags} isLoading={isLoading} images={images} searchImages={this.searchImages} selectedImages={selectedImages}
-                updateComments={this.updateComments} matchingTags={matchingTags} matchingComments={matchingComments}
-                updateMatchingComments={this.updateMatchingComments} />
+            <ThumbnailList tags={tags} 
+            isLoading={isLoading} 
+            images={images} 
+            searchImages={this.searchImages} 
+            selectedImages={selectedImages} 
+            matchingTags= {matchingTags}
+            updateComments={this.updateComments} 
+            matchingComments={matchingComments} 
+            updateMatchingComments={this.updateMatchingComments} updateMatchingTags={this.updateMatchingTags}/>
+
             </Route>
             <Route path='/about' component={About} />
             <Route path='/view'>

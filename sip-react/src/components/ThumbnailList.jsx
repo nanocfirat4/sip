@@ -14,6 +14,7 @@ import Tag from './Tag';
 import { TagService } from '../services/TagService'
 
 
+
 class ThumbnailList extends Component {
     constructor(props) {
         super(props);
@@ -29,7 +30,7 @@ class ThumbnailList extends Component {
             searchTags: [],
             newComment: "",
             newTag: "",
-            selectedTagObject:[]
+            selectedTagObject: []
         };
     }
 
@@ -38,15 +39,15 @@ class ThumbnailList extends Component {
     updateSearchComment(newComment) {
         this.setState({ searchComment: newComment });
     }
-        // Set the last searched Tag
+    // Set the last searched Tag
 
-        updateSearchTags(newTags) {
-            this.setState({ searchTags: newTags });
-        }
-    
-        updateSelectedTagObject(values){
-            this.setState({selectedTagObject: values})
-        }
+    updateSearchTags(newTags) {
+        this.setState({ searchTags: newTags });
+    }
+
+    updateSelectedTagObject(values) {
+        this.setState({ selectedTagObject: values })
+    }
 
     // Add new Comment to all selected images
     handleAddComment() {
@@ -58,15 +59,15 @@ class ThumbnailList extends Component {
         })
     }
 
-        // Add new Tag to all selected images
-        handleAddTag() {
-            TagService.authToken(keycloak.token)
-            TagService.add(this.state.newTag).then((res) => {
-                this.props.selectedImages.map((image) => {
-                    TagService.assignTag(image.id, res.data.id)
-                })
+    // Add new Tag to all selected images
+    handleAddTag() {
+        TagService.authToken(keycloak.token)
+        TagService.add(this.state.newTag).then((res) => {
+            this.props.selectedImages.map((image) => {
+                TagService.assignTag(image.id, res.data.id)
             })
-        }
+        })
+    }
 
     handleAddCommentText(event) {
         this.setState({ newComment: event.target.value })
@@ -77,14 +78,24 @@ class ThumbnailList extends Component {
     }
 
     render() {
-        const { isLoading, images, searchImages, selectedImages, tags, matchingComments, updateMatchingComments, matchingTags } = this.props;
+        const { isLoading, images, searchImages, selectedImages, tags, matchingComments, updateMatchingComments,updateMatchingTags, matchingTags } = this.props;
 
 
         return (
             isLoading ? <p>Loading...</p> : (
                 <div className="mt-3">
-                    <SearchFields searchFunction={searchImages} searchComment={this.state.searchComment} searchTags={this.state.searchTags}
-                        updateSearchComment={this.updateSearchComment} updateSelectedTagObject = {this.updateSelectedTagObject} updateSearchTags={this.updateSearchTags} tags={tags} selectedTagObject={this.state.selectedTagObject} />
+                    <SearchFields
+                        searchFunction={searchImages}
+                        searchComment={this.state.searchComment}
+                        searchTags={this.state.searchTags}
+                        updateSearchComment={this.updateSearchComment}
+                        updateSelectedTagObject={this.updateSelectedTagObject}
+                        updateSearchTags={this.updateSearchTags}
+                        tags={tags}
+                        selectedTagObject={this.state.selectedTagObject}
+                    />
+
+
 
                     <Row>
                         <Col md={12} lg={3}>
@@ -101,7 +112,15 @@ class ThumbnailList extends Component {
                                         <Comment comment={comment} />
                                     )}
                                 </div>
-                            : null}
+                                : null}
+
+                            {/* <ChipInput
+                                label=" Tags"
+                                value={matchingTags}
+                                //onAdd={(chip) => this.handleAddChip(chip)}
+                                onDelete={(chip, index) => this.handleDeleteChip(chip, index)}
+                            /> */}
+
 
                             <TextField
                                 id="add_comment"
@@ -152,12 +171,12 @@ class ThumbnailList extends Component {
                                         Show Images
                                 </Button>
                                 </LinkContainer>
-                            : null}
+                                : null}
 
                         </Col>
                         <Col md={12} lg={9}>
                             {images.map(image =>
-                                <Thumbnail updateMatchingComments={updateMatchingComments} selectedImages={selectedImages} image={image} />
+                                <Thumbnail updateMatchingTags={updateMatchingTags} updateMatchingComments={updateMatchingComments} selectedImages={selectedImages} image={image} />
                             )}
                         </Col>
                     </Row>

@@ -58,12 +58,10 @@ startMicroServices:
   stage: deploy
   script:
     - cd allServices
-    - docker-compose stop
     - docker-compose pull
     - docker-compose up -d
   only: 
       - master
-  when: manual
 
 LoadImagesToPACS:
   stage: deploy
