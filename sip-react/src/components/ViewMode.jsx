@@ -3,8 +3,7 @@ import { Col, Row } from 'react-bootstrap';
 import { Slide } from 'react-slideshow-image';
 import 'react-slideshow-image/dist/styles.css';
 import Comment from './Comment';
-
-
+import { PacsService } from '../services/PacsService'
 
 
 export default class ViewMode extends Component {
@@ -36,12 +35,15 @@ export default class ViewMode extends Component {
                     >
                         {this.props.selectedImages.map(image =>
                             <div className="each-slide">
-                                <img src={"Pictures/Raw/" + image.pacs_id + ".jpg"}
+                                <img 
+                                    src={this.state.myImage ?
+                                        URL.createObjectURL(PacsService.find(image.pacs_id)) : null}
                                     style={{
                                         display: 'block',
                                         margin: 'auto',
                                         maxWidth: '100%'
-                                    }} />
+                                    }}
+                                />
                             </div>
                         )}
                     </Slide>
