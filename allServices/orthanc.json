@@ -1,18 +1,6 @@
 {
   "Name" : "SIP Orthanc",
   "RemoteAccessAllowed" : true,
-
-  "PostgreSQL": {
-    "EnableIndex": true,
-    "EnableStorage": false,
-    "Port": 5432,
-    "Host": "postgres",
-    "Database": "orthanc",
-    "Username": "administrator",
-    "Password": "MyS3cureP@55!!",
-    "EnableSsl": false,
-    "Lock": false
-  },
   
   "RegisteredUsers" : {
     "orthanc" : "g04D!c0m#orT(h)anks"

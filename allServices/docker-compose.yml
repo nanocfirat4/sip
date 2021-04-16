@@ -24,7 +24,6 @@ services:
       - /home/sip/sip/confNGINX:/etc/letsencrypt
       - ./nginx/certbot/www:/var/www/certbot
     entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
-    restart: always
 
 # status page
   status:
@@ -73,9 +72,13 @@ services:
 # Orthanc
   orthanc:
     image: jodogne/orthanc-plugins:1.9.1
+    command: /run/secrets/  # Path to the configuration files (stored as secrets)
     volumes: 
       - /home/sip/sip/orthancDB/:/var/lib/orthanc/db/
+    secrets:
+      - orthanc.json
     restart: always
+    
 
   #  # API
   #  #- docker run --name=sip_api --restart always -p 8081:8081 -dit cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipapi
@@ -112,3 +115,8 @@ services:
       - postgres
     volumes:
       - '/home/sip/sip/react/Pictures:/var/lib/sip-react/Pictures'
+
+# Orthanc configuration
+secrets:
+  orthanc.json:
+    file: ./orthanc.json
