@@ -3,7 +3,7 @@ import { Col, Row } from 'react-bootstrap';
 import { Slide } from 'react-slideshow-image';
 import 'react-slideshow-image/dist/styles.css';
 import Comment from './Comment';
-import { PacsService } from '../services/PacsService'
+import { GetPacsImage } from '../services/PacsService'
 
 
 export default class ViewMode extends Component {
@@ -14,9 +14,22 @@ export default class ViewMode extends Component {
 
         this.state = {
             currentImage: this.props.selectedImages[0],
+            imageBlobs: {},
         };
     }
 
+    componentDidMount() {
+        this.props.selectedImages.map(image => {
+            GetPacsImage(image.pacs_id).then(response => {
+
+                var joined = this.state.imageBlobs;
+                joined[image.pacs_id] = response;
+
+                this.setState({ imageBlobs: joined });
+            })
+        });
+    }
+    
 
     handleChange(previous, next) {
         this.setState({currentImage: this.props.selectedImages[next]});
@@ -33,19 +46,19 @@ export default class ViewMode extends Component {
                         autoplay={false}
                         onChange={this.handleChange}
                     >
-                        {this.props.selectedImages.map(image =>
-                            <div className="each-slide">
-                                {PacsService.find(image.pacs_id).then(blob => 
-                                    <img src={URL.createObjectURL(blob)}
+                        {this.state.imageBlobs ?
+                            this.props.selectedImages.map(image =>
+                                <div className="each-slide">
+                                    <img src={this.state.imageBlobs[image.pacs_id] ? URL.createObjectURL(this.state.imageBlobs[image.pacs_id]) : null}
                                         style={{
                                             display: 'block',
                                             margin: 'auto',
                                             maxWidth: '100%'
                                         }}
                                     />
-                                )}
-                            </div>
-                        )}
+                                </div>)
+                            : null
+                        }
                     </Slide>
                 </div>
                 <Row>
