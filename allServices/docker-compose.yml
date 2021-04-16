@@ -96,6 +96,7 @@ services:
     image: cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipreact
     volumes:
       - '../sip-react:/app'
+      - '/home/sip/sip/react/Pictures:/app/public/Pictures'
       - '/app/node_modules'
     restart: always
     environment:
@@ -110,7 +111,7 @@ services:
     depends_on:
       - postgres
     volumes:
-      - '../sip-react/public/Pictures:/var/lib/sip-react/Pictures'
+      - '/home/sip/sip/react/Pictures:/var/lib/sip-react/Pictures'
 
 # Orthanc configuration
 secrets:
