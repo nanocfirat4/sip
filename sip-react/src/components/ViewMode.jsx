@@ -36,8 +36,7 @@ export default class ViewMode extends Component {
                         {this.props.selectedImages.map(image =>
                             <div className="each-slide">
                                 <img 
-                                    src={this.state.myImage ?
-                                        URL.createObjectURL(PacsService.find(image.pacs_id)) : null}
+                                    src={URL.createObjectURL(PacsService.find(image.pacs_id))}
                                     style={{
                                         display: 'block',
                                         margin: 'auto',
