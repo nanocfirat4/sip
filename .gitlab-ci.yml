@@ -63,7 +63,6 @@ startMicroServices:
     - docker-compose up -d
   only: 
       - master
-  when: manual
 
 LoadImagesToPACS:
   stage: deploy
