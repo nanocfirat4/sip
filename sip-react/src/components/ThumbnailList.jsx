@@ -12,6 +12,8 @@ import keycloak from '../keycloak'
 import { PacsService } from '../services/PacsService';
 import Tag from './Tag';
 import { TagService } from '../services/TagService'
+import ChipInput from 'material-ui-chip-input'
+
 
 
 class ThumbnailList extends Component {
@@ -77,7 +79,7 @@ class ThumbnailList extends Component {
     }
 
     render() {
-        const { isLoading, images, searchImages, selectedImages, tags, matchingComments, updateMatchingComments, matchingTags } = this.props;
+        const { isLoading, images, searchImages, selectedImages, tags, matchingComments, updateMatchingComments,updateMatchingTags, matchingTags } = this.props;
 
 
         return (
