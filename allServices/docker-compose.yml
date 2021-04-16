@@ -21,7 +21,7 @@ services:
   certbot:
     image: certbot/certbot
     volumes:
-      - ./nginx/certbot/conf:/etc/letsencrypt
+      - /home/sip/sip/confNGINX:/etc/letsencrypt
       - ./nginx/certbot/www:/var/www/certbot
     entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
 
@@ -38,7 +38,7 @@ services:
     image: postgres
     volumes:
       - ./postgres:/docker-entrypoint-initdb.d
-      - /home/sip/postgresDB/:/var/lib/postgresql/data
+      - /home/sip/sip/postgresDB/:/var/lib/postgresql/data
     environment:
       POSTGRES_MULTIPLE_DATABASES: "keycloak,orthanc,sipapi"
       POSTGRES_USER: administrator
@@ -96,7 +96,8 @@ services:
     image: cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipreact
     volumes:
       - '../sip-react:/app'
-      - '/app/node_modules'
+      - '/home/sip/sip/react/Pictures:/app/public/Pictures'
+      - '/home/sip/sip/react/node_modules:/app/node_modules'
     restart: always
     environment:
       - CHOKIDAR_USEPOLLING=true
@@ -110,7 +111,7 @@ services:
     depends_on:
       - postgres
     volumes:
-      - '../sip-react/public/Pictures:/var/lib/sip-react/Pictures'
+      - '/home/sip/sip/react/Pictures:/var/lib/sip-react/Pictures'
 
 # Orthanc configuration
 secrets:
