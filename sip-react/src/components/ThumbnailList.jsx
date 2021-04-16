@@ -9,7 +9,6 @@ import { LinkContainer } from 'react-router-bootstrap'
 import { CommentService } from '../services/CommentService'
 import TextField from '@material-ui/core/TextField';
 import keycloak from '../keycloak'
-import { PacsService } from '../services/PacsService';
 import Tag from './Tag';
 import { TagService } from '../services/TagService'
 
@@ -166,7 +165,6 @@ class ThumbnailList extends Component {
                                         variant="contained"
                                         color="primary"
                                         style={{ margin: "5px" }}
-                                        onClick={() => PacsService.find()}
                                     >
                                         Show Images
                                 </Button>
@@ -180,22 +178,6 @@ class ThumbnailList extends Component {
                             )}
                         </Col>
                     </Row>
-
-                    {/* <table className="table">
-                        <thead>
-                            <tr><th>ID</th><th>Description</th><th>Thumbnail</th><th>PACS</th></tr>
-                        </thead>
-                        <tbody>
-                            {images.map(image =>
-                                <tr key={image.id}>
-                                    <td>{image.id}</td>
-                                    <td>{image.description}</td>
-                                    <td>{image.thumbnail}</td>
-                                    <td>{image.pacs_id}</td>
-                                </tr>
-                            )}
-                        </tbody>
-                    </table> */}
                 </div>
             )
         )
