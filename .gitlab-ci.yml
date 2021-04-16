@@ -60,20 +60,16 @@ startMicroServices:
     - cd allServices
     - docker-compose stop
     - docker-compose pull
-    - docker-compose up
+    - docker-compose up -d
   only: 
       - master
   when: manual
 
 LoadImagesToPACS:
-  image: docker:19.03.12
   stage: deploy
-  services:
-    - docker:19.03.12-dind
   script:
     - cd Pictures
-    - pip install httplib2
-    - python ImportDicomFiles.py v000561.fhnw.ch/orthanc/ 8080 DICOM/ orthanc password
+    - python3 ImportDicomFiles.py v000561.fhnw.ch/orthanc/ 8080 DICOM/ orthanc password
   only: 
       - master
   when: manual
