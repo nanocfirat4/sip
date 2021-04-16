@@ -11,7 +11,6 @@ import TextField from '@material-ui/core/TextField';
 import keycloak from '../keycloak'
 import Tag from './Tag';
 import { TagService } from '../services/TagService'
-import ChipInput from 'material-ui-chip-input'
 
 
 
@@ -94,7 +93,7 @@ class ThumbnailList extends Component {
                         tags={tags}
                         selectedTagObject={this.state.selectedTagObject}
                     />
-}
+
 
 
                     <Row>
