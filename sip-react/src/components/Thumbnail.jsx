@@ -38,7 +38,7 @@ class Thumbnail extends Component {
         }
         console.log(this.props.selectedImages);
         this.props.updateMatchingComments();
-
+        this.props.updateMatchingTags();
         this.setState({
             checked: !this.state.checked
         });
