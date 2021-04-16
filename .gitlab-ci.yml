@@ -69,7 +69,7 @@ LoadImagesToPACS:
   stage: deploy
   script:
     - cd Pictures
-    - python ImportDicomFiles.py v000561.fhnw.ch/orthanc/ 8080 DICOM/ orthanc password
+    - python3 ImportDicomFiles.py v000561.fhnw.ch/orthanc/ 8080 DICOM/ orthanc password
   only: 
       - master
   when: manual
