@@ -89,6 +89,11 @@ services:
     restart: always
     depends_on:
       - postgres
+    healthcheck:
+      test: curl -m 5 --silent --fail --request GET https://v000561.fhnw.ch/api/actuator/health | jq --exit-status -n 'inputs | if has("status") then .status=="UP" else false end' > /dev/null || exit 1
+      interval: 10s
+      timeout: 2s
+      retries: 10
 
 
 # REACT
@@ -108,7 +113,8 @@ services:
     image: cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipdatabaseloader
     restart: always
     depends_on:
-      - postgres
+      api:
+        condition: service_healthy
     volumes:
       - '../sip-react/public/Pictures:/var/lib/sip-react/Pictures'
 
