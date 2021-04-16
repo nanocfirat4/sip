@@ -114,12 +114,12 @@ class ThumbnailList extends Component {
                                 </div>
                                 : null}
 
-                            <ChipInput
+                            {/* <ChipInput
                                 label=" Tags"
                                 value={matchingTags}
                                 //onAdd={(chip) => this.handleAddChip(chip)}
                                 onDelete={(chip, index) => this.handleDeleteChip(chip, index)}
-                            />
+                            /> */}
 
 
                             <TextField
