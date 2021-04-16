@@ -35,14 +35,15 @@ export default class ViewMode extends Component {
                     >
                         {this.props.selectedImages.map(image =>
                             <div className="each-slide">
-                                <img 
-                                    src={URL.createObjectURL(PacsService.find(image.pacs_id))}
-                                    style={{
-                                        display: 'block',
-                                        margin: 'auto',
-                                        maxWidth: '100%'
-                                    }}
-                                />
+                                {PacsService.find(image.pacs_id).then(blob => 
+                                    <img src={URL.createObjectURL(blob)}
+                                        style={{
+                                            display: 'block',
+                                            margin: 'auto',
+                                            maxWidth: '100%'
+                                        }}
+                                    />
+                                )}
                             </div>
                         )}
                     </Slide>
