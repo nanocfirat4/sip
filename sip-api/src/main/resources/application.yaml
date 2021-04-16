@@ -3,7 +3,7 @@ server:
 
 keycloak:
   realm: FHNW-LST-MI
-  auth-server-url: http://localhost/auth
+  auth-server-url: http://v000561.fhnw.ch/auth
   resource: rest-api
   bearer-only: true
   enabled: true
@@ -11,7 +11,7 @@ keycloak:
 spring:
   datasource:
     password: MyS3cureP@55!!
-    url: jdbc:postgresql://localhost:5432/sipapi
+    url: jdbc:postgresql://postgres:5432/sipapi
     username: administrator
   jpa:
     hibernate:
