@@ -78,6 +78,8 @@ export default class ViewMode extends Component {
                         </div>
                     </Col>
                     <Col md={12} lg={9} id="bordered">
+                        Description:<br />
+                        {this.state.currentImage.description}<br /><br />
                         Kommentare zum aktuellen Bild<br />
                         {this.state.currentImage.imageCommentsList.map(comment => <Comment comment = {comment} />)} 
 

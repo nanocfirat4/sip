@@ -74,12 +74,11 @@ class Thumbnail extends Component {
                         margin: "2px"
                     }}
                 >
-                    <div className="thumbnail_description"
-                        style={{
-                            display: this.state.isHovered ? "block" : "none",
-                        }}
-                    >{this.props.image.description}</div>
-                    <img src={"Pictures/Thumb/" + this.props.image.pacs_id + ".jpg"} className="thumbnail_img" />
+                    <img 
+                        src={"Pictures/Thumb/" + this.props.image.pacs_id + ".jpg"}
+                        className="thumbnail_img"
+                        title={this.props.image.description}
+                    />
                 </div>
             </div>
         )

@@ -24,6 +24,7 @@ services:
       - /home/sip/sip/confNGINX:/etc/letsencrypt
       - ./nginx/certbot/www:/var/www/certbot
     entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+    restart: always
 
 # status page
   status:

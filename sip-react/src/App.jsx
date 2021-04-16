@@ -116,8 +116,6 @@ class App extends Component {
     this.setState({
       matchingTags: matchingTags
     });
-
-
   }
 
 
