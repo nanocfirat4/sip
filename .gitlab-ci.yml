@@ -58,9 +58,9 @@ startMicroServices:
   stage: deploy
   script:
     - cd allServices
-    - docker-compose stop
+    - docker-compose down
     - docker-compose pull
-    - docker-compose up -d
+    - docker-compose up
   only: 
       - master
 
