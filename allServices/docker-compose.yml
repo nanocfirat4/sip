@@ -1,4 +1,4 @@
-version: '3.1'
+version: '3'
 
 services:
 # nginx
@@ -69,8 +69,6 @@ services:
       - postgres
     restart: always
 
-
-
 # Orthanc
   orthanc:
     image: jodogne/orthanc-plugins:1.9.1
@@ -85,12 +83,11 @@ services:
   #- docker run --name=sip_dataloader --restart always -dit cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipdataloader
   databaseloader:
     image: cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipdatabaseloader
-    restart: always
     depends_on:
-      api:
-        condition: service_healthy
+      - api: service_healthy
     volumes:
       - '../sip-react/public/Pictures:/var/lib/sip-react/Pictures'
+    restart: always
 
   #  # API
   #  #- docker run --name=sip_api --restart always -p 8081:8081 -dit cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipapi

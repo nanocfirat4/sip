@@ -7,6 +7,8 @@ stages:
 before_script:
   - docker info
   - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+  - cd allServices
+  - docker-compose down
 
 buildJARFiles:
   image: docker:19.03.12
@@ -58,7 +60,6 @@ startMicroServices:
   stage: deploy
   script:
     - cd allServices
-    - docker-compose down
     - docker-compose pull
     - docker-compose up
   only: 
