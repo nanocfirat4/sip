@@ -72,11 +72,8 @@ services:
 # Orthanc
   orthanc:
     image: jodogne/orthanc-plugins:1.9.1
-    command: /run/secrets/  # Path to the configuration files (stored as secrets)
-    secrets:
-      - orthanc.json
-    depends_on:
-      - postgres
+    volumes: 
+      - /home/sip/sip/orthancDB/:/var/lib/orthanc/db/
     restart: always
 
   #  # API
@@ -114,8 +111,3 @@ services:
       - postgres
     volumes:
       - '/home/sip/sip/react/Pictures:/var/lib/sip-react/Pictures'
-
-# Orthanc configuration
-secrets:
-  orthanc.json:
-    file: ./orthanc.json
