@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import Button from '@material-ui/core/Button';
 import { Col, Row } from 'react-bootstrap';
 import { CommentService } from '../services/CommentService';
 import Icon from '@mdi/react';
