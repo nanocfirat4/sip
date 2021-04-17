@@ -1,25 +1,64 @@
 const Reducer = (state, action) => {
     switch (action.type) {
-        case 'SET_POSTS':
+        // Website / API is loading
+        case 'SET_LOADING':
             return {
                 ...state,
-                posts: action.payload
+                loading: action.payload
             };
-        case 'ADD_POST':
+        
+        // Set all Images 
+        case 'SET_ALL_IMAGES':
             return {
                 ...state,
-                posts: state.posts.concat(action.payload)
+                allImages: action.payload
+                //allImages: state.posts.concat(action.payload)
             };
-        case 'REMOVE_POST':
+        
+        // Select / unselect an image
+        case 'SELECT_IMAGE':
             return {
                 ...state,
-                posts: state.posts.filter(post => post.id !== action.payload)
+                selectedImages: state.posts.filter(post => post.id !== action.payload)
             };
-        case 'SET_ERROR':
+        
+        // Comments
+        case 'SET_ALL_COMMENTS':
             return {
                 ...state,
-                error: action.payload
+                allComments: action.payload
             };
+        case 'SET_MATCHING_COMMENTS':
+            return {
+                ...state,
+                matchingComments: action.payload
+            };
+
+        // Tags
+        case 'SET_ALL_TAGS':
+            return {
+                ...state,
+                allTags: action.payload
+            };
+        case 'SET_MATCHING_TAGS':
+            return {
+                ...state,
+                matchingTags: action.payload
+            };
+
+        // Store searches
+        case 'SET_SEARCH_TAGS':
+            return {
+                ...state,
+                searchTags: action.payload
+            };
+        case 'SET_SEARCH_COMMENTS':
+            return {
+                ...state,
+                searchComments: action.payload
+            };
+    
+
         default:
             return state;
     }

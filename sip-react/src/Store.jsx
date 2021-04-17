@@ -3,8 +3,18 @@ import Reducer from './Reducer'
 
 
 const initialState = {
-    posts: [],
-    error: null
+    loading: false,
+    
+    allImages: [],
+    selectedImages: [],
+
+    allComments: [],
+    matchingComments: [],
+    allTags: [],
+    matchingTags: [],
+
+    searchTags: [],
+    searchComments: "",
 };
 
 const Store = ({children}) => {
