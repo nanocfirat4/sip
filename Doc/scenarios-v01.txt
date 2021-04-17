@@ -1,4 +1,4 @@
-Szenario 1:
+Szenario 1: 
 
 Die Assistenzärztin Dr. Messer kommt aus der Operation und hat eine halbe Stunde Zeit, bevor sie auf Visite muss. Sie möchte diese Zeit nutzen, um eine Hypothese zu überprüfen, die ihr am Morgen beim Hinfahren zum Spital in den Sinn gekommen ist. Sie startet die SIP Applikation und sieht den Inhalt der Bilddatenbank. Es scheinen keine neuen Bilder dazu gekommen zu sein seit dem letzten Mal. Dr. Messer forscht an Hautkrebs und möchte überprüfen, ob eine auffällige Struktur, die sie gestern bei einem Patienten gesehen hat, auch in den Histologiebildern von Hautkrebsen zu sehen ist.
 
