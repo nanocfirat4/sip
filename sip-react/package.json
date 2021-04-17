@@ -28,7 +28,7 @@
     "react-simple-image-slider": "^2.0.3",
     "react-slideshow-image": "^3.4.3",
     "web-vitals": "^1.1.1",
-    "@material-ui/core/Button": "latest"
+    "@material-ui/core/Chip": "latest"
   },
   "scripts": {
     "start": "react-scripts start",
