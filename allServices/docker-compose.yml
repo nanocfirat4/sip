@@ -3,53 +3,37 @@ version: '3.1'
 services:
 # nginx
   nginx:
-    image: 'nginx:stable'
-    ports: 
-      - 80:80
-      - 443:443
-    volumes:  
-      - './nginx/nginx.conf:/etc/nginx/nginx.conf:ro'
-      # Volumes we need for TLS / certbot
-      - ./nginx/certbot/conf:/etc/letsencrypt
-      - ./nginx/certbot/www:/var/www/certbot
-    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+    container_name: dev-nginx
+    ports:
+      - 8085:80
+    volumes:
+      - './nginx.conf:/etc/nginx/nginx.conf:ro'
+    image: 'nginx:latest'
+    network_mode: "host"
     depends_on:
       - orthanc
     restart: always
 
-# Certbot
-  certbot:
-    image: certbot/certbot
-    volumes:
-      - /home/sip/sip/confNGINX:/etc/letsencrypt
-      - ./nginx/certbot/www:/var/www/certbot
-    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
-
-# status page
-  status:
-    image: php:7.3.0-apache
-    volumes:
-      - ../status:/var/www/html
-    restart: always
-  
 
 # PostgreSQL Database
   postgres:
     image: postgres
     volumes:
       - ./postgres:/docker-entrypoint-initdb.d
-      - /home/sip/sip/postgresDB/:/var/lib/postgresql/data
+      - ./postgresDB/:/var/lib/postgresql/data
     environment:
       POSTGRES_MULTIPLE_DATABASES: "keycloak,orthanc,sipapi"
       POSTGRES_USER: administrator
       POSTGRES_PASSWORD: MyS3cureP@55!!
+    ports:
+      - 5432:5432
     restart: always
 
 
 #keycloak
   keycloak:
     image: jboss/keycloak:12.0.3
-    volumes:
+    volumes: 
       - ./keycloak/imports:/opt/jboss/keycloak/imports
       - ./keycloak/themes/custom:/opt/jboss/keycloak/themes/custom
     command:
@@ -64,57 +48,57 @@ services:
       DB_PORT: 5432
       KEYCLOAK_USER: admin
       KEYCLOAK_PASSWORD: "k3YS4s3cur1ty!"
-      PROXY_ADDRESS_FORWARDING: "true"
+    ports:
+      - 8080:8080
     depends_on:
       - postgres
     restart: always
+
+
 
 # Orthanc
   orthanc:
     image: jodogne/orthanc-plugins:1.9.1
     command: /run/secrets/  # Path to the configuration files (stored as secrets)
-    volumes: 
-      - /home/sip/sip/orthancDB/:/run/secrets/OrthancStorage/
+    ports:
+      - 4242:4242
+      - 8042:8042
     secrets:
       - orthanc.json
-    restart: always
-    
-
-  #  # API
-  #  #- docker run --name=sip_api --restart always -p 8081:8081 -dit cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipapi
-  api:
-    image: cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipapi
-    restart: always
     depends_on:
       - postgres
-    healthcheck:
-      test: curl -m 5 --silent --fail --request GET https://v000561.fhnw.ch/api/actuator/health | jq --exit-status -n 'inputs | if has("status") then .status=="UP" else false end' > /dev/null || exit 1
-      interval: 10s
-      timeout: 2s
-      retries: 10
-
-
-  # REACT
-  react:
-    image: cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipreact
-    volumes:
-      - '../sip-react:/app'
-      - '/home/sip/sip/react/Pictures:/app/public/Pictures'
-      - '/app/node_modules'
     restart: always
-    environment:
-      - CHOKIDAR_USEPOLLING=true
 
 
+#  # API
+#  #- docker run --name=sip_api --restart always -p 8081:8081 -dit cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipapi
+#  api:
+#    image: cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipapi
+#    ports:
+#      - 8081:8081
+#    restart: always
+#    depends_on:
+#      - postgres
+
+
+#  # REACT
+#  react:
+#    image: cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipreact
+#    ports:
+#      - 3000:3000
+#    restart: always
+#    depends_on:
+#      - postgres
+#
 # Database Loader
 #- docker run --name=sip_dataloader --restart always -dit cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipdataloader
-  databaseloader:
-    image: cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipdatabaseloader
-    restart: always
-    depends_on:
-      - postgres
-    volumes:
-      - '/home/sip/sip/react/Pictures:/var/lib/sip-react/Pictures'
+#  databaseloader:
+#    image: cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipdatabaseloader
+#    restart: always
+#    depends_on:
+#      - postgres
+#    volumes:
+#      - '../sip-react/public/Pictures:/var/lib/sip-react/Pictures'
 
 # Orthanc configuration
 secrets:

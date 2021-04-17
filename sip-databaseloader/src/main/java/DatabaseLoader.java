@@ -26,10 +26,10 @@ import static java.lang.Thread.sleep;
 public class DatabaseLoader{
     static final Logger logger = LoggerFactory.getLogger(DatabaseLoader.class);
 
-    public static String AUTH_HTTP = "https://v000561.fhnw.ch/auth/realms/FHNW-LST-MI/protocol/openid-connect/token";
-    public static String API_HTTP = "https://v000561.fhnw.ch/api/image";
-    public static String ORTHANC_HTTP = "https://v000561.fhnw.ch/orthanc";
-    public static String REACT_PATH = "/var/lib/sip-react/Pictures/";
+    public static String AUTH_HTTP = "http://localhost/auth/realms/FHNW-LST-MI/protocol/openid-connect/token";
+    public static String API_HTTP = "http://localhost/api/image";
+    public static String ORTHANC_HTTP = "http://localhost/orthanc";
+    public static String REACT_PATH = "sip-react/public/Pictures/";
     public static LocalDateTime lastAccessToken = LocalDateTime.now().minusMinutes(5);
     public static String access_token = "";
 
@@ -39,7 +39,7 @@ public class DatabaseLoader{
         while(true){
             logger.info("check if there are new images in PACS");
             List<String> allPics = getListPicturesFromPacs();
-            loadedPics = getAllLoadedPicsFromAPI();
+            loadedPics = new HashSet<>();
             for (String pacsid :allPics) {
                 if(!loadedPics.contains(pacsid)){
                     String pathToRawJpgs = REACT_PATH +"/Raw/" + pacsid + ".jpg";
@@ -56,11 +56,11 @@ public class DatabaseLoader{
                     }else logger.error(pacsid+" NOT loaded to Database");
                 }
             }
-            logger.info("wait 5 minutes...");
-            sleep((long) // Reload Pictures all 5 Minutes
-                       5 *    // Minutes
-                      60 *    // Seconds to Minute
-                    1000);    // Milliseconds to Seconds
+            logger.info("wait two minutes...");
+            sleep((long) // Reload Pictures all 2 Minutes
+                2 *     // Minutes
+                60 *    // Seconds to Minute
+                1000);  // Milliseconds to Seconds
         }
     }
     private static Set<String> getAllLoadedPicsFromAPI() throws IOException, InterruptedException {
@@ -96,10 +96,10 @@ public class DatabaseLoader{
                 for (Object o : jsonArraydecode) {
                     JSONObject jsonObject = (JSONObject) o;
                     String respon = (String) jsonObject.get("pacs_id");
+                    logger.trace("RESPONSE FROM API images : " + respon);
                     result.add(respon);
                 }
             }
-            logger.trace("RESPONSE FROM API images : " + result);
         }
         return result;
     }
@@ -221,7 +221,7 @@ public class DatabaseLoader{
                 return new PasswordAuthentication ("orthanc", "g04D!c0m#orT(h)anks".toCharArray());
             }
         });
-        URL urlObj = new URL(url);
+                URL urlObj = new URL(url);
         HttpURLConnection connection = (HttpURLConnection) urlObj.openConnection();
         connection.setRequestMethod("GET");
         connection.setRequestProperty("User-Agent", "Mozilla/5.0");

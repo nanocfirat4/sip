@@ -660,7 +660,7 @@
       "clientAuthenticatorType": "client-secret",
       "secret": "**********",
       "redirectUris": [
-        "https://v000561.fhnw.ch/*"
+        "http://localhost/*"
       ],
       "webOrigins": [],
       "notBefore": 0,
@@ -781,10 +781,10 @@
       "clientAuthenticatorType": "client-secret",
       "secret": "**********",
       "redirectUris": [
-        "https://v000561.fhnw.ch/*"
+        "http://localhost/*"
       ],
       "webOrigins": [
-        "https://v000561.fhnw.ch"
+        "http://localhost"
       ],
       "notBefore": 0,
       "bearerOnly": false,
