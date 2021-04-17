@@ -11,6 +11,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 
 import './App.css'
 import { Container } from 'react-bootstrap'
+import Store from './Store'
 
 class App extends Component {
   constructor(props) {
@@ -45,21 +46,21 @@ class App extends Component {
     this.setState({ isLoading: false })
   }
 
-  updateImages(){
+  updateImages() {
     ImageService.authToken(keycloak.token)
     ImageService.findAll().then((res) => {
       this.setState({ images: res.data });
     });
   }
 
-  updateComments(){
+  updateComments() {
     CommentService.authToken(keycloak.token)
     CommentService.findAll().then((res) => {
       this.setState({ comments: res.data });
     });
   }
 
-  updateTags(){
+  updateTags() {
     TagService.authToken(keycloak.token)
     TagService.findAll().then((res) => {
       this.setState({ tags: res.data })
@@ -147,39 +148,41 @@ class App extends Component {
 
 
   render() {
-    const { isLoading, images, selectedImages, tags, matchingComments, updateMatchingTags,matchingTags } = this.state;
+    const { isLoading, images, selectedImages, tags, matchingComments, updateMatchingTags, matchingTags } = this.state;
 
     return (
-      <Container fluid style={{
-        backgroundColor: "lightgray",
-        minHeight: "100%"
-      }}>
+      <Store>
+        <Container fluid style={{
+          backgroundColor: "lightgray",
+          minHeight: "100%"
+        }}>
 
-        <Router>
-          <AppNavBar />
-          <Switch>
-            <Route exact path='/'>
-             <ThumbnailList  tags={tags} 
-              updateImages = {this.updateImages}
-              updateTags= {this.updateTags}
-              isLoading={isLoading} 
-              images={images} 
-              searchImages={this.searchImages} 
-              selectedImages={selectedImages} 
-              matchingTags= {matchingTags}
-              updateComments={this.updateComments} 
-              matchingComments={matchingComments} 
-              updateMatchingComments={this.updateMatchingComments}
-              updateMatchingTags={this.updateMatchingTags}/>
+          <Router>
+            <AppNavBar />
+            <Switch>
+              <Route exact path='/'>
+                <ThumbnailList tags={tags}
+                  updateImages={this.updateImages}
+                  updateTags={this.updateTags}
+                  isLoading={isLoading}
+                  images={images}
+                  searchImages={this.searchImages}
+                  selectedImages={selectedImages}
+                  matchingTags={matchingTags}
+                  updateComments={this.updateComments}
+                  matchingComments={matchingComments}
+                  updateMatchingComments={this.updateMatchingComments}
+                  updateMatchingTags={this.updateMatchingTags} />
 
-            </Route>
-            <Route path='/about' component={About} />
-            <Route path='/view'>
-              <ViewMode selectedImages={this.state.selectedImages}  matchingComments = {matchingComments} updateMatchingComments={this.updateMatchingComments}/>
-            </Route>
-          </Switch>
-        </Router>
-      </Container>
+              </Route>
+              <Route path='/about' component={About} />
+              <Route path='/view'>
+                <ViewMode selectedImages={this.state.selectedImages} matchingComments={matchingComments} updateMatchingComments={this.updateMatchingComments} />
+              </Route>
+            </Switch>
+          </Router>
+        </Container>
+      </Store>
     )
   }
 }
