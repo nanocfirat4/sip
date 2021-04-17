@@ -1,11 +1,5 @@
 import React, {createContext, useReducer} from "react";
 import Reducer from './Reducer'
-import keycloak from './keycloak'
-
-// Services
-import { ImageService } from './services/ImageService'
-import { CommentService } from './services/CommentService'
-import { TagService } from './services/TagService'
 
 
 

@@ -55,10 +55,6 @@ const ThumbnailList = () => {
         });
     }
 
-
-
-
-
     // Add new Comment to all selected images
     function handleAddComment() {
         CommentService.authToken(keycloak.token)
@@ -79,15 +75,12 @@ const ThumbnailList = () => {
         })
     }
 
-    const handleAddTagText = (event) => {
-        // this.setState({ newTag: event.target.value })
-    }
 
     const handleDeleteChip = (chip) => {
         console.log(chip);
         this.props.selectedImages.map(image => {
             image.imageHashtagsList.map(tag => {
-                if (tag.hashtagtxt == chip) {
+                if (tag.hashtagtxt === chip) {
                     TagService.authToken(keycloak.token);
                     TagService.remove(image.id, tag);
                     this.props.updateImages();
@@ -133,6 +126,7 @@ const ThumbnailList = () => {
                         : null
                         }
 
+                        {/* Tags -> Show tags of selected images and add new ones */}
                         {state.matchingTags ?
                             state.matchingTags.map(tag =>
                                 <Chip
@@ -142,8 +136,6 @@ const ThumbnailList = () => {
                             )
                         : null
                         }
-
-
 
                         <TextField
                             id="add_comment"

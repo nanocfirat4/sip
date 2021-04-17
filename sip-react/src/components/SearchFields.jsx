@@ -5,7 +5,6 @@ import { Col, Row } from 'react-bootstrap';
 import Button from '@material-ui/core/Button';
 import Slider from '@material-ui/core/Slider';
 import { Typography } from '@material-ui/core';
-import { TagService } from '../services/TagService'
 
 
 class SearchFields extends Component {

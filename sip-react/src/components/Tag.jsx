@@ -2,9 +2,6 @@ import React, { Component } from 'react'
 
 
 class Tag extends Component {
-    constructor(props) {
-        super(props);
-    }
 
     // Rendering
     render() {

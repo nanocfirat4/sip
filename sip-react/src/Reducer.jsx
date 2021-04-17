@@ -1,8 +1,3 @@
-
-
-
-
-
 const Reducer = (state, action) => {
     switch (action.type) {
         // Website / API is loading
@@ -17,7 +12,6 @@ const Reducer = (state, action) => {
             return {
                 ...state,
                 allImages: action.payload
-                //allImages: state.posts.concat(action.payload)
             };
 
         // Select / unselect an image
@@ -29,6 +23,7 @@ const Reducer = (state, action) => {
 
         // Comments
         case 'SET_ALL_COMMENTS':
+            console.log(action.payload);
             return {
                 ...state,
                 allComments: action.payload
@@ -48,7 +43,7 @@ const Reducer = (state, action) => {
                 // Add Comments to state
                 for (var j = 0; j < state.allComments.length; j++) {
                     for (var i = 0; i < result.length; i++) {
-                        if (state.allComments[j].id == result[i]) {
+                        if (state.allComments[j].id === result[i]) {
                             matchingComments.push(state.allComments[j]);
                         }
                     }

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useState } from 'react'
 
 // Global states
 import { Context } from '../Store';
@@ -57,6 +57,7 @@ const Thumbnail = ({ image }) => {
                     src={"Pictures/Thumb/" + image.pacs_id + ".jpg"}
                     className="thumbnail_img"
                     title={image.description}
+                    alt={image.description}
                 />
             </div>
         </div>
