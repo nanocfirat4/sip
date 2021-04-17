@@ -74,7 +74,7 @@ services:
     image: jodogne/orthanc-plugins:1.9.1
     command: /run/secrets/  # Path to the configuration files (stored as secrets)
     volumes: 
-      - /home/sip/sip/orthancDB/:/var/lib/orthanc/db/
+      - /home/sip/sip/orthancDB/:/run/secrets/OrthancStorage/
     secrets:
       - orthanc.json
     restart: always
