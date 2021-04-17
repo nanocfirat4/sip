@@ -84,17 +84,14 @@ class SearchFields extends Component {
                         <Autocomplete
                             multiple
                             id="combo-box-demo"
-                            options={
-                                this.props.tags.map(tag => {
-                                    return {
-                                        name: tag.hashtagtxt,
-                                        id: tag.id
-                                    }
-                                })
-                            }
+                            options={this.props.tags}
                             defaultValue={this.props.searchTags}
-                            getOptionLabel={(option) => option.name}
-                            renderInput={(params) => <TextField {...params} label="Tag" />}
+                            filterSelectedOptions
+                            getOptionLabel={(option) => option.hashtagtxt}
+                            renderInput={(params) => <TextField 
+                                {...params}
+                                label="Tags" />}
+
                             style={{ width: "100%" }}
                             onChange={this.selectTags}
                         />

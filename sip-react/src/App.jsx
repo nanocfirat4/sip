@@ -20,6 +20,9 @@ class App extends Component {
     this.updateComments = this.updateComments.bind(this)
     this.updateMatchingComments = this.updateMatchingComments.bind(this)
     this.updateMatchingTags = this.updateMatchingTags.bind(this)
+    this.updateImages = this.updateImages.bind(this)
+    this.updateComments = this.updateComments.bind(this)
+    this.updateTags = this.updateTags.bind(this)
 
     this.state = {
       isLoading: false,
@@ -36,23 +39,36 @@ class App extends Component {
   // Load all images, Tags and Comments on App start
   componentDidMount() {
     this.setState({ isLoading: true })
+    this.updateImages()
+    this.updateComments()
+    this.updateTags()
+    this.setState({ isLoading: false })
+  }
+
+  updateImages(){
     ImageService.authToken(keycloak.token)
     ImageService.findAll().then((res) => {
       this.setState({ images: res.data });
     });
+  }
 
+  updateComments(){
     CommentService.authToken(keycloak.token)
     CommentService.findAll().then((res) => {
       this.setState({ comments: res.data });
     });
+  }
 
+  updateTags(){
     TagService.authToken(keycloak.token)
     TagService.findAll().then((res) => {
       this.setState({ tags: res.data })
+      console.log(this.state.tags)
     });
 
     this.setState({ isLoading: false })
   }
+
 
   // Search images by txt
   searchImages(textTokens, searchTags) {
@@ -143,15 +159,18 @@ class App extends Component {
           <AppNavBar />
           <Switch>
             <Route exact path='/'>
-            <ThumbnailList tags={tags} 
-            isLoading={isLoading} 
-            images={images} 
-            searchImages={this.searchImages} 
-            selectedImages={selectedImages} 
-            matchingTags= {matchingTags}
-            updateComments={this.updateComments} 
-            matchingComments={matchingComments} 
-            updateMatchingComments={this.updateMatchingComments} updateMatchingTags={this.updateMatchingTags}/>
+             <ThumbnailList  tags={tags} 
+              updateImages = {this.updateImages}
+              updateTags= {this.updateTags}
+              isLoading={isLoading} 
+              images={images} 
+              searchImages={this.searchImages} 
+              selectedImages={selectedImages} 
+              matchingTags= {matchingTags}
+              updateComments={this.updateComments} 
+              matchingComments={matchingComments} 
+              updateMatchingComments={this.updateMatchingComments}
+              updateMatchingTags={this.updateMatchingTags}/>
 
             </Route>
             <Route path='/about' component={About} />

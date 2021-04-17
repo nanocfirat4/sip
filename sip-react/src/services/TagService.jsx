@@ -6,6 +6,7 @@ export const TagService = {
     findById,
     add,
     authToken,
+    remove,
     assignTag
 }
 function findAll() {
@@ -21,6 +22,9 @@ function add(hashtagtxt) {
 }
 function assignTag(imageId, TagId) {
     return instance.post(`/api/image/${imageId}/savetag/${TagId}`)
+}
+function remove(id, hashtag){
+    return instance.post(`/api/image/${id}/del_tag/${hashtag.id}`)
 }
 
 

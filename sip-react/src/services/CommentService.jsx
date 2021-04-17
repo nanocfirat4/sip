@@ -6,7 +6,9 @@ export const CommentService = {
     findById,
     add,
     assignComment,
-    authToken
+    authToken,
+    remove
+
 }
 function findAll() {
     return instance.get('/api/comment')
@@ -21,6 +23,9 @@ function add(commenttxt) {
 }
 function assignComment(imageId, commentId) {
     return instance.post(`/api/image/${imageId}/savecomment/${commentId}`)
+}
+function remove(id, commentId){
+    return instance.post(`/api/image/${id}/del_comment/${commentId}`)
 }
 
 

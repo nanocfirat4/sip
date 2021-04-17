@@ -11,6 +11,7 @@ import TextField from '@material-ui/core/TextField';
 import keycloak from '../keycloak'
 import Tag from './Tag';
 import { TagService } from '../services/TagService'
+import Chip from '@material-ui/core/Chip';
 
 
 
@@ -76,8 +77,31 @@ class ThumbnailList extends Component {
         this.setState({ newTag: event.target.value })
     }
 
+    handleDeleteChip(chip) {
+        console.log(chip);
+        this.props.selectedImages.map(image => {
+            image.imageHashtagsList.map(tag => {
+                  if(tag.hashtagtxt == chip){
+                      TagService.authToken(keycloak.token);
+                      TagService.remove(image.id, tag);
+                      this.props.updateImages();
+                      this.props.updateMatchingTags();
+                      console.log(this.props.matchingTags)
+                      //this.forceUpdate();
+                      // this.updateSearchTags();
+                      // this.props.searchImages();
+                      // this.props.updateMatchingTags();
+                  }
+
+            })
+        })
+      
+    }
+
+
+
     render() {
-        const { isLoading, images, searchImages, selectedImages, tags, matchingComments, updateMatchingComments,updateMatchingTags, matchingTags } = this.props;
+        const { isLoading, images, searchImages, selectedImages, tags, matchingComments, updateMatchingComments,updateMatchingTags, matchingTags, updateTags, updateImages } = this.props;
 
 
         return (
@@ -108,17 +132,22 @@ class ThumbnailList extends Component {
                                     }}
                                 >
                                     {matchingComments.map(comment =>
-                                        <Comment comment={comment} />
+                                    <Comment selectedImages = {selectedImages} comment={comment} />
                                     )}
                                 </div>
                                 : null}
 
-                            {/* <ChipInput
-                                label=" Tags"
-                                value={matchingTags}
-                                //onAdd={(chip) => this.handleAddChip(chip)}
-                                onDelete={(chip, index) => this.handleDeleteChip(chip, index)}
-                            /> */}
+{
+                                matchingTags ?
+                                matchingTags.map(tag => 
+                                    <Chip
+                                        label={tag}
+                                        onDelete={() => this.handleDeleteChip(tag)}
+                                    />
+                                )
+                                : null
+                            }
+
 
 
                             <TextField
