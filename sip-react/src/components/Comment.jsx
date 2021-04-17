@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { Col, Row } from 'react-bootstrap';
 import { CommentService } from '../services/CommentService';
-import Icon from '@mdi/react';
 import DeleteIcon from '@material-ui/icons/Delete';
 
 class Comment extends Component {
@@ -38,14 +37,15 @@ class Comment extends Component {
             ><Row>
                     {date[2]}.{date[1]}.{date[0]}, {time[0]}:{time[1]}<br />
                     {this.props.comment.commenttxt}
-                    <span class="material-icons"
-                        title="Delete"
-                        size={1}
-                        onClick={() => this.handleDeleteComment(this.props.comment)}
-                    >
+                    <span class="material-icons">
+                        <DeleteIcon
+                            title="Delete"
+                            size={1}
+                            onClick={() => this.handleDeleteComment(this.props.comment)}
+
+                        />
                         delete
                     </span>
-
 
 
                 </Row>
