@@ -37,7 +37,7 @@ class Comment extends Component {
             ><Row>
                     {date[2]}.{date[1]}.{date[0]}, {time[0]}:{time[1]}<br />
                     {this.props.comment.commenttxt}
-                    <span class="material-icons">
+                    <span className="material-icons">
                         <DeleteIcon
                             title="Delete"
                             size={1}

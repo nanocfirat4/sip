@@ -17,11 +17,13 @@ const initialState = {
 
     allComments: [],
     matchingComments: [],
-    allTags: [],
-    matchingTags: [],
-
-    searchTags: [],
     searchComments: "",
+    newCommentTxt: "",
+
+    allTags: [],
+    searchTags: [],
+    matchingTags: [],
+    newTagTxt: "",
 };
 
 

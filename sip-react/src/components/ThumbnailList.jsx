@@ -1,11 +1,10 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect } from 'react'
 import Thumbnail from './Thumbnail'
 import SearchFields from './SearchFields'
 import Comment from './Comment';
 import { Col, Row } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap'
 import keycloak from '../keycloak'
-import Tag from './Tag';
 // Services
 import { ImageService } from '../services/ImageService'
 import { CommentService } from '../services/CommentService'
@@ -18,22 +17,10 @@ import Chip from '@material-ui/core/Chip';
 import { Context } from '../Store';
 
 
-
-
-
-
-
 const ThumbnailList = () => {
     const [state, dispatch] = useContext(Context);
 
-    //TODO: remove
-    const [count, setCount] = useState(0);
-
     useEffect(() => {
-        setCount(count + 1)
-        console.log(count)
-
-
         // Load all images, Tags and Comments on mount
         dispatch({type: "SET_LOADING", payload: true});
         loadImages();
@@ -64,57 +51,32 @@ const ThumbnailList = () => {
     function laodTags() {
         TagService.authToken(keycloak.token)
         TagService.findAll().then((res) => {
-            dispatch({type: "SET_ALL_COMMENTS", payload: res.data})
+            dispatch({type: "SET_ALL_TAGS", payload: res.data})
         });
     }
 
 
 
-    const constructor = (props) => {
-        this.state = {
-            searchComment: "",
-            searchTags: [],
-            newComment: "",
-            newTag: "",
-            selectedTagObject: []
-        };
-    }
-
-
-    // Set the comments from searchfield
-    function updateSearchComment(newComment) {
-        dispatch({ type: "SET_SEARCH_COMMENTS", payload: newComment });
-    }
-
-    // Set the Tags from searchfield
-    function updateSearchTags(newTags) {
-        dispatch({ type: "SET_SEARCH_TAGS", payload: newTags });
-    }
-
 
 
     // Add new Comment to all selected images
-    const handleAddComment = () => {
-        // CommentService.authToken(keycloak.token)
-        // CommentService.add(state.newComment).then((res) => {
-        //     state.selectedImages.map((image) => {
-        //         CommentService.assignComment(image.id, res.data.id)
-        //     })
-        // })
+    function handleAddComment() {
+        CommentService.authToken(keycloak.token)
+        CommentService.add(state.newCommentTxt).then((res) => {
+            state.selectedImages.map((image) => {
+                CommentService.assignComment(image.id, res.data.id)
+            })
+        })
     }
 
     // Add new Tag to all selected images
-    const handleAddTag = () => {
-        // TagService.authToken(keycloak.token)
-        // TagService.add(state.newTag).then((res) => {
-        //     state.selectedImages.map((image) => {
-        //         TagService.assignTag(image.id, res.data.id)
-        //     })
-        // })
-    }
-
-    const handleAddCommentText = (event) => {
-        // this.setState({ newComment: event.target.value })
+    function handleAddTag() {
+        TagService.authToken(keycloak.token)
+        TagService.add(state.newTagTxt).then((res) => {
+            state.selectedImages.map((image) => {
+                TagService.assignTag(image.id, res.data.id)
+            })
+        })
     }
 
     const handleAddTagText = (event) => {
@@ -186,14 +148,14 @@ const ThumbnailList = () => {
                         <TextField
                             id="add_comment"
                             label="New Comment"
-                            // onChange={() => handleAddCommentText()}
+                            onChange={(event) => dispatch({type: "SET_NEW_COMMENT_TEXT", payload: event.target.value})}
                             style={{ width: "100%" }}
                         />
                         <Button
                             variant="contained"
                             color="primary"
                             style={{ margin: "5px" }}
-                            // onClick={() => handleAddComment()}
+                            onClick={() => handleAddComment()}
                         >
                             Save Comment
                         </Button>
@@ -201,14 +163,14 @@ const ThumbnailList = () => {
                         <TextField
                             id="add_tag"
                             label="New Tag"
-                            // onChange={() => handleAddTagText()}
+                            onChange={(event) => dispatch({type: "SET_NEW_TAG_TEXT", payload: event.target.value})}
                             style={{ width: "100%" }}
                         />
                         <Button
                             variant="contained"
                             color="primary"
                             style={{ margin: "5px" }}
-                            // onClick={() => handleAddTag()}
+                            onClick={() => handleAddTag()}
                         >
                             Save Tag
                         </Button>

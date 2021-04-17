@@ -33,8 +33,8 @@ const Thumbnail = ({ image }) => {
         }
         console.log(state.selectedImages);
 
-        // this.props.updateMatchingComments();
-        // this.props.updateMatchingTags();
+        dispatch({type: "SET_MATCHING_COMMENTS"})
+        dispatch({type: "SET_MATCHING_TAGS"})
 
         setChecked(!checked);
     }
