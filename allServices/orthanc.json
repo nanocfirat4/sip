@@ -1,7 +1,6 @@
 {
   "Name" : "SIP Orthanc",
   "RemoteAccessAllowed" : true,
-  "OrthancStorage" : "/var/lib/orthanc/db/",
 
   "RegisteredUsers" : {
     "orthanc" : "g04D!c0m#orT(h)anks"
