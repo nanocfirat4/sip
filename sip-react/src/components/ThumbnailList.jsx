@@ -166,15 +166,9 @@ const ThumbnailList = () => {
                         >
                             Save Tag
                         </Button>
-                        {/* Tags -> Show tags of selected images and add new ones */}
-                        <div id="matchingTags">
-                            {/* {matchingTags.map(tag =>
-                                <Tag tag={tag} />
-                            )} */}
-                        </div>
 
 
-
+                        {/* Display 'Show Images'-Button */}
                         {state.selectedImages.length > 0 ?
                             <LinkContainer to="/view">
                                 <Button
@@ -189,6 +183,7 @@ const ThumbnailList = () => {
 
                     </Col>
                     <Col md={12} lg={9}>
+                        {/* Display Thumbnails */}
                         {state.allImages.map(image =>
                             <Thumbnail
                                 selectedImages={state.selectedImages}

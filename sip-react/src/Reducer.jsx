@@ -23,7 +23,6 @@ const Reducer = (state, action) => {
 
         // Comments
         case 'SET_ALL_COMMENTS':
-            console.log(action.payload);
             return {
                 ...state,
                 allComments: action.payload
@@ -80,8 +79,6 @@ const Reducer = (state, action) => {
                     }
                 }
             }
-            console.log(state.allTags)
-            console.log(matchingTags)
 
             return {
                 ...state,
@@ -90,11 +87,13 @@ const Reducer = (state, action) => {
 
         // Store searches
         case 'SET_SEARCH_TAGS':
+            console.log(action.payload)
             return {
                 ...state,
                 searchTags: action.payload
             };
         case 'SET_SEARCH_COMMENTS':
+            console.log(action.payload)
             return {
                 ...state,
                 searchComments: action.payload
