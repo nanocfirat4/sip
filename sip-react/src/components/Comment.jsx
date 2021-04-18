@@ -2,11 +2,16 @@ import React, { Component } from 'react'
 import { Row } from 'react-bootstrap';
 import { CommentService } from '../services/CommentService';
 import DeleteIcon from '@material-ui/icons/Delete';
+import { Grid, IconButton, Tooltip } from '@material-ui/core';
 
 class Comment extends Component {
     handleDeleteComment(comment) {
+        var i = 1;
         this.props.selectedImages.map(image => {
             CommentService.remove(image.id, comment.id)
+                .then(() => {
+                    i === this.props.selectedImages.length ? this.props.updateSelected() : i++;
+                })
         })
     }
 
@@ -24,24 +29,23 @@ class Comment extends Component {
                     backgroundColor: "white",
                     padding: "10px",
                     borderTop: "1px solid",
-                    borderBottom: "1px solid"
+                    borderBottom: "1px solid",
                 }}
-            ><Row>
-                    {date[2]}.{date[1]}.{date[0]}, {time[0]}:{time[1]}<br />
-                    {this.props.comment.commenttxt}
-                    <span className="material-icons">
-                        <DeleteIcon
-                            title="Delete"
-                            size={1}
-                            onClick={() => this.handleDeleteComment(this.props.comment)}
-
-                        />
-                        delete
-                    </span>
-
-
+            >
+                <Row>
+                    <Tooltip title="Delete">
+                        <IconButton aria-label="delete">
+                            <DeleteIcon
+                                size={1}
+                                onClick={() => this.handleDeleteComment(this.props.comment)}
+                            />
+                        </IconButton>
+                    </Tooltip>
+                    <div>
+                        {date[2]}.{date[1]}.{date[0]}, {time[0]}:{time[1]}<br />
+                        {this.props.comment.commenttxt}
+                    </div>
                 </Row>
-
             </div>
         )
     }
