@@ -1,5 +1,4 @@
 import React, { useContext, useState } from 'react'
-
 // Global states
 import { Context } from '../Store';
 

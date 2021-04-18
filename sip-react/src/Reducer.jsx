@@ -21,6 +21,13 @@ const Reducer = (state, action) => {
                 selectedImages: state.posts.filter(post => post.id !== action.payload)
             };
 
+        // Select / unselect an image
+        case 'SET_IMAGE_BLOBS':
+            return {
+                ...state,
+                imageBlobs: action.payload
+            };
+
         // Comments
         case 'SET_ALL_COMMENTS':
             return {
@@ -87,13 +94,11 @@ const Reducer = (state, action) => {
 
         // Store searches
         case 'SET_SEARCH_TAGS':
-            console.log(action.payload)
             return {
                 ...state,
                 searchTags: action.payload
             };
         case 'SET_SEARCH_COMMENTS':
-            console.log(action.payload)
             return {
                 ...state,
                 searchComments: action.payload

@@ -175,9 +175,10 @@ const ThumbnailList = () => {
                                     variant="contained"
                                     color="primary"
                                     style={{ margin: "5px" }}
+                                    onClick={() => dispatch({type: "SET_LOADING", payload: true})}
                                 >
                                     Show Images
-                            </Button>
+                                </Button>
                             </LinkContainer>
                             : null}
 

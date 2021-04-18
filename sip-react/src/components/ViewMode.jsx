@@ -1,64 +1,60 @@
-import React, { Component } from 'react';
+import React, { useContext, useEffect, useState } from 'react'
 import { Col, Row } from 'react-bootstrap';
 import { Slide } from 'react-slideshow-image';
 import 'react-slideshow-image/dist/styles.css';
 import Comment from './Comment';
 import { GetPacsImage } from '../services/PacsService'
+import { Context } from '../Store';
 
 
-export default class ViewMode extends Component {
-    constructor(props) {
-        super(props);
+const ViewMode = () => {
+    const [state, dispatch] = useContext(Context);
+    const [currentImage, setCurrentImage] = useState(state.selectedImages[0]);
+    
+    useEffect(() => {
+        dispatch({type: "SET_IMAGE_BLOBS", payload: {}})
 
-        this.handleChange = this.handleChange.bind(this);
+        // Load all images, Tags and Comments on mount
+        state.selectedImages.map(image => {
+            GetPacsImage(image.pacs_id)
+                .then(response => {
+                    var joined = state.imageBlobs;
+                    joined[image.pacs_id] = response;
+                    dispatch({type: "SET_IMAGE_BLOBS", payload: joined})
 
-        this.state = {
-            currentImage: this.props.selectedImages[0],
-            imageBlobs: {},
-        };
-    }
-
-    componentDidMount() {
-        this.props.selectedImages.map(image => {
-            GetPacsImage(image.pacs_id).then(response => {
-
-                var joined = this.state.imageBlobs;
-                joined[image.pacs_id] = response;
-
-                this.setState({ imageBlobs: joined });
-            })
+                    if(state.selectedImages.length == Object.keys(state.imageBlobs).length) {
+                        dispatch({type: "SET_LOADING", payload: false})
+                    }
+                })
         });
+    }, []);
+
+
+    // Select image when Sliding
+    function handleChange(previous, next) {
+        setCurrentImage(state.selectedImages[next]);
     }
     
 
-    handleChange(previous, next) {
-        this.setState({currentImage: this.props.selectedImages[next]});
-    }
-    
-
-
-    render() {
-        return (
-
+    return (
+        state.loading ? <div>Loading...</div> :
             <div id="imageView">
                 <div className="slide-container">
                     <Slide
                         autoplay={false}
-                        onChange={this.handleChange}
+                        onChange={handleChange}
                     >
-                        {this.state.imageBlobs ?
-                            this.props.selectedImages.map(image =>
-                                <div className="each-slide">
-                                    <img src={this.state.imageBlobs[image.pacs_id] ? URL.createObjectURL(this.state.imageBlobs[image.pacs_id]) : null}
-                                        style={{
-                                            display: 'block',
-                                            margin: 'auto',
-                                            maxWidth: '100%'
-                                        }}
-                                    />
-                                </div>)
-                            : null
-                        }
+                        {state.selectedImages.map(image =>
+                            <div className="each-slide">
+                                <img src={URL.createObjectURL(state.imageBlobs[image.pacs_id])}
+                                    style={{
+                                        display: 'block',
+                                        margin: 'auto',
+                                        maxWidth: '100%'
+                                    }}
+                                />
+                            </div>
+                        )}
                     </Slide>
                 </div>
                 <Row>
@@ -72,20 +68,19 @@ export default class ViewMode extends Component {
                     <Col md={12} lg={3} id="bordered">
                         Kommentare und Tags in Common<br />
                         <div id="matchingComments">
-                            {this.props.matchingComments.map(comment =>
+                            {state.matchingComments.map(comment =>
                                 <Comment comment={comment} />
                             )}
                         </div>
                     </Col>
                     <Col md={12} lg={9} id="bordered">
                         Description:<br />
-                        {this.state.currentImage.description}<br /><br />
+                        {currentImage.description}<br /><br />
                         Kommentare zum aktuellen Bild<br />
-                        {this.state.currentImage.imageCommentsList.map(comment => <Comment comment = {comment} />)} 
-
+                        {currentImage.imageCommentsList.map(comment => <Comment comment = {comment} />)} 
                     </Col>
                 </Row>
             </div>
-        )
-    }
+    )
 }
+export default ViewMode

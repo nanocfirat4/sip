@@ -1,13 +1,12 @@
 import React, {createContext, useReducer} from "react";
 import Reducer from './Reducer'
 
-
-
 const initialState = {
     loading: false,
 
     allImages: [],
     selectedImages: [],
+    imageBlobs: {},
 
     allComments: [],
     matchingComments: [],
@@ -20,9 +19,6 @@ const initialState = {
     newTagTxt: "",
 };
 
-
-
-
 const Store = ({children}) => {
     const [state, dispatch] = useReducer(Reducer, initialState);
 
@@ -32,6 +28,5 @@ const Store = ({children}) => {
         </Context.Provider>
     )
 };
-
 export const Context = createContext(initialState);
 export default Store;
