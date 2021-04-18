@@ -34,7 +34,7 @@ const ThumbnailList = () => {
     // Load all images
     function loadImages() {
         ImageService.authToken(keycloak.token)
-        ImageService.findAll().then((res) => {
+        ImageService.findByFilter(state.searchComments, state.searchTags).then((res) => {
             dispatch({type: "SET_ALL_IMAGES", payload: res.data})
         });
     }
@@ -74,6 +74,8 @@ const ThumbnailList = () => {
             })
         })
     }
+
+
 
 
     const handleDeleteChip = (chip) => {
