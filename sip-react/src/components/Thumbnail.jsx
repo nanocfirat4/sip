@@ -25,7 +25,7 @@ const Thumbnail = ({ image }) => {
 
         else {
             for (var i = 0; i < state.selectedImages.length; i++) {
-                if (state.selectedImages[i] === image) {
+                if (state.selectedImages[i].id === image.id) {
                     state.selectedImages.splice(i, 1);
                 }
             }
