@@ -8,7 +8,7 @@ const Thumbnail = ({ image }) => {
 
     const [checked, setChecked] = useState(() => {
         for (var i = 0; i < state.selectedImages.length; i++) {
-            if (state.selectedImages[i] === image) {
+            if (state.selectedImages[i].id === image.id) {
                 return true;
             }
         }
@@ -20,20 +20,20 @@ const Thumbnail = ({ image }) => {
     
     // Add / remove images from selectedImages array
     function selectImage() {
-        if (!checked)
-            state.selectedImages.push(image);
-
+        var selected = state.selectedImages;
+        if (!checked) {
+            selected.push(image);
+            dispatch({type: "SET_SELECTED_IMAGES", payload: selected});
+        }
         else {
             for (var i = 0; i < state.selectedImages.length; i++) {
-                if (state.selectedImages[i] === image) {
-                    state.selectedImages.splice(i, 1);
+                if (state.selectedImages[i].id === image.id) {
+                    selected.splice(i, 1);
+                    dispatch({type: "SET_SELECTED_IMAGES", payload: selected});
+                    break;
                 }
             }
         }
-        console.log(state.selectedImages);
-
-        dispatch({type: "SET_MATCHING_COMMENTS"})
-        dispatch({type: "SET_MATCHING_TAGS"})
 
         setChecked(!checked);
     }

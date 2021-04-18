@@ -15,10 +15,14 @@ const Reducer = (state, action) => {
             };
 
         // Select / unselect an image
-        case 'SELECT_IMAGE':
+        case 'SET_SELECTED_IMAGES':
+            var matchingComments = getMatchingComments(action.payload)
+            var matchingTags = getMatchingTags(action.payload)
             return {
                 ...state,
-                selectedImages: state.posts.filter(post => post.id !== action.payload)
+                selectedImages: action.payload,
+                matchingComments: matchingComments,
+                matchingTags: matchingTags
             };
 
         // Select / unselect an image
@@ -34,62 +38,12 @@ const Reducer = (state, action) => {
                 ...state,
                 allComments: action.payload
             };
-        case 'SET_MATCHING_COMMENTS':
-            // Check which comments do all selected images have in common
-            var allComments = state.selectedImages.map(image => { return image.imageCommentsList.map(comment => { return comment.id }) });
-            var matchingComments = []
-
-            if (allComments.length > 0) {
-                // Filter Comments
-                var result = allComments.shift().filter(function (v) {
-                    return allComments.every(function (a) {
-                        return a.indexOf(v) !== -1;
-                    });
-                });
-                // Add Comments to state
-                for (var j = 0; j < state.allComments.length; j++) {
-                    for (var i = 0; i < result.length; i++) {
-                        if (state.allComments[j].id === result[i]) {
-                            matchingComments.push(state.allComments[j]);
-                        }
-                    }
-                }
-            }
-
-            return {
-                ...state,
-                matchingComments: matchingComments
-            };
 
         // Tags
         case 'SET_ALL_TAGS':
             return {
                 ...state,
                 allTags: action.payload
-            };
-        case 'SET_MATCHING_TAGS':
-            var allTags = state.selectedImages.map(image => { return image.imageHashtagsList.map(tag => { return tag.id }) });
-            var matchingTags = []
-
-            if (allTags.length > 0) {
-                var result = allTags.shift().filter(function (v) {
-                    return allTags.every(function (a) {
-                        return a.indexOf(v) !== -1;
-                    });
-                });
-
-                for (var j = 0; j < state.allTags.length; j++) {
-                    for (var i = 0; i < result.length; i++) {
-                        if (state.allTags[j].id == result[i]) {
-                            matchingTags.push(state.allTags[j].hashtagtxt);
-                        }
-                    }
-                }
-            }
-
-            return {
-                ...state,
-                matchingTags: matchingTags
             };
 
         // Store searches
@@ -118,6 +72,55 @@ const Reducer = (state, action) => {
 
         default:
             return state;
+    }
+
+
+    function getMatchingComments(images) {
+        // Check which comments do all selected images have in common
+        var allComments = images.map(image => { return image.imageCommentsList.map(comment => { return comment.id }) });
+        var matchingComments = []
+
+        if (allComments.length > 0) {
+            // Filter Comments
+            var result = allComments.shift().filter(function (v) {
+                return allComments.every(function (a) {
+                    return a.indexOf(v) !== -1;
+                });
+            });
+
+            // Add Comments to state
+            for (var j = 0; j < state.allComments.length; j++) {
+                for (var i = 0; i < result.length; i++) {
+                    if (state.allComments[j].id === result[i]) {
+                        matchingComments.push(state.allComments[j]);
+                    }
+                }
+            }
+        }
+        return matchingComments
+    }
+    
+    function getMatchingTags(images) {
+        var allTags = images.map(image => { return image.imageHashtagsList.map(tag => { return tag.id }) });
+        var matchingTags = []
+    
+        if (allTags.length > 0) {
+            var result = allTags.shift().filter(function (v) {
+                return allTags.every(function (a) {
+                    return a.indexOf(v) !== -1;
+                });
+            });
+    
+            for (var j = 0; j < state.allTags.length; j++) {
+                for (var i = 0; i < result.length; i++) {
+                    if (state.allTags[j].id == result[i]) {
+                        matchingTags.push(state.allTags[j].hashtagtxt);
+                    }
+                }
+            }
+        }
+    
+        return matchingTags
     }
 };
 

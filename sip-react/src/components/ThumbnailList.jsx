@@ -22,20 +22,20 @@ const ThumbnailList = () => {
 
     useEffect(() => {
         // Load all images, Tags and Comments on mount
-        dispatch({type: "SET_LOADING", payload: true});
+        dispatch({ type: "SET_LOADING", payload: true });
         loadImages();
         loadComments();
         laodTags();
-        dispatch({type: "SET_LOADING", payload: false});
-        
+        dispatch({ type: "SET_LOADING", payload: false });
+
     }, []);
 
-    
+
     // Load all images
     function loadImages() {
         ImageService.authToken(keycloak.token)
-        ImageService.findAll().then((res) => {
-            dispatch({type: "SET_ALL_IMAGES", payload: res.data})
+        ImageService.findByFilter(state.searchComments, state.searchTags).then((res) => {
+            dispatch({ type: "SET_ALL_IMAGES", payload: res.data })
         });
     }
 
@@ -43,7 +43,7 @@ const ThumbnailList = () => {
     function loadComments() {
         CommentService.authToken(keycloak.token)
         CommentService.findAll().then((res) => {
-            dispatch({type: "SET_ALL_COMMENTS", payload: res.data})
+            dispatch({ type: "SET_ALL_COMMENTS", payload: res.data })
         });
     }
 
@@ -51,29 +51,80 @@ const ThumbnailList = () => {
     function laodTags() {
         TagService.authToken(keycloak.token)
         TagService.findAll().then((res) => {
-            dispatch({type: "SET_ALL_TAGS", payload: res.data})
+            dispatch({ type: "SET_ALL_TAGS", payload: res.data })
         });
     }
 
     // Add new Comment to all selected images
     function handleAddComment() {
+        var i = 1;
+
         CommentService.authToken(keycloak.token)
-        CommentService.add(state.newCommentTxt).then((res) => {
-            state.selectedImages.map((image) => {
-                CommentService.assignComment(image.id, res.data.id)
+        CommentService.add(state.newCommentTxt)
+            .then(res => {
+                state.selectedImages.map((image) => {
+                    CommentService.assignComment(image.id, res.data.id)
+                        .then(() => {
+                            i === state.selectedImages.length ? updateSelected() : i++;
+                        })
+                })
             })
-        })
     }
 
     // Add new Tag to all selected images
     function handleAddTag() {
+        var i = 1;
+
         TagService.authToken(keycloak.token)
-        TagService.add(state.newTagTxt).then((res) => {
-            state.selectedImages.map((image) => {
-                TagService.assignTag(image.id, res.data.id)
-            })
+        TagService.add(state.newTagTxt)
+            .then((res) => {
+                state.selectedImages.map((image) => {
+                    TagService.assignTag(image.id, res.data.id)
+                        .then(() => {
+                            i === state.selectedImages.length ? updateSelected() : i++;
+                        })
+                })
         })
     }
+    
+    // Update all Comments and Tags and update selected images
+    function updateSelected() {
+
+        // Update all Comments
+        CommentService.authToken(keycloak.token)
+        CommentService.findAll()
+            .then(res => {
+                dispatch({ type: "SET_ALL_COMMENTS", payload: res.data })
+
+
+                // Update all Tags
+                TagService.authToken(keycloak.token)
+                TagService.findAll().then(res => {
+                    dispatch({ type: "SET_ALL_TAGS", payload: res.data })
+
+
+                    // Update the selected images
+                    ImageService.authToken(keycloak.token)
+                    var selectedImages = []
+                    var i = 1
+                    state.selectedImages.map(image => {
+                        ImageService.findById(image.id)
+                            .then(res => {
+                                selectedImages.push(res.data)
+                                if (i === state.selectedImages.length) {
+                                    dispatch({ type: "SET_SELECTED_IMAGES", payload: selectedImages })
+
+                                    // Update only selected images in allImages state
+                                    var allImages = state.allImages.reduce((acc, cur) => [...acc, selectedImages.find(({ id }) => cur.id === id) || cur], [])
+                                    dispatch({type: "SET_ALL_IMAGES", payload: allImages})
+                                }
+                                else i++
+                            })
+                    })
+                })
+            })
+    }
+
 
 
     const handleDeleteChip = (chip) => {
@@ -120,10 +171,10 @@ const ThumbnailList = () => {
                                 }}
                             >
                                 {state.matchingComments.map(comment =>
-                                    <Comment selectedImages={state.selectedImages} comment={comment} />
+                                    <Comment selectedImages={state.selectedImages} comment={comment} updateSelected={updateSelected} />
                                 )}
                             </div>
-                        : null
+                            : null
                         }
 
                         {/* Tags -> Show tags of selected images and add new ones */}
@@ -131,16 +182,16 @@ const ThumbnailList = () => {
                             state.matchingTags.map(tag =>
                                 <Chip
                                     label={tag}
-                                    // onDelete={() => handleDeleteChip(tag)}
+                                // onDelete={() => handleDeleteChip(tag)}
                                 />
                             )
-                        : null
+                            : null
                         }
 
                         <TextField
                             id="add_comment"
                             label="New Comment"
-                            onChange={(event) => dispatch({type: "SET_NEW_COMMENT_TEXT", payload: event.target.value})}
+                            onChange={(event) => dispatch({ type: "SET_NEW_COMMENT_TEXT", payload: event.target.value })}
                             style={{ width: "100%" }}
                         />
                         <Button
@@ -150,12 +201,12 @@ const ThumbnailList = () => {
                             onClick={() => handleAddComment()}
                         >
                             Save Comment
-                        </Button>
+                            </Button>
 
                         <TextField
                             id="add_tag"
                             label="New Tag"
-                            onChange={(event) => dispatch({type: "SET_NEW_TAG_TEXT", payload: event.target.value})}
+                            onChange={(event) => dispatch({ type: "SET_NEW_TAG_TEXT", payload: event.target.value })}
                             style={{ width: "100%" }}
                         />
                         <Button
@@ -175,10 +226,10 @@ const ThumbnailList = () => {
                                     variant="contained"
                                     color="primary"
                                     style={{ margin: "5px" }}
-                                    onClick={() => dispatch({type: "SET_LOADING", payload: true})}
+                                    onClick={() => dispatch({ type: "SET_LOADING", payload: true })}
                                 >
                                     Show Images
-                                </Button>
+                                    </Button>
                             </LinkContainer>
                             : null}
 
