@@ -1,215 +1,200 @@
-import React, { Component } from 'react'
-import Button from '@material-ui/core/Button';
+import React, { useContext, useEffect } from 'react'
 import Thumbnail from './Thumbnail'
 import SearchFields from './SearchFields'
 import Comment from './Comment';
-import { withRouter } from 'react-router-dom'
 import { Col, Row } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap'
-import { CommentService } from '../services/CommentService'
-import TextField from '@material-ui/core/TextField';
 import keycloak from '../keycloak'
-import Tag from './Tag';
+// Services
+import { ImageService } from '../services/ImageService'
+import { CommentService } from '../services/CommentService'
 import { TagService } from '../services/TagService'
+// Material-UI
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
 import Chip from '@material-ui/core/Chip';
+// Global states
+import { Context } from '../Store';
 
 
+const ThumbnailList = () => {
+    const [state, dispatch] = useContext(Context);
 
-class ThumbnailList extends Component {
-    constructor(props) {
-        super(props);
-        this.updateSearchTags = this.updateSearchTags.bind(this);
-        this.updateSearchComment = this.updateSearchComment.bind(this);
-        this.handleAddCommentText = this.handleAddCommentText.bind(this);
-        this.handleAddComment = this.handleAddComment.bind(this);
-        this.handleAddTagText = this.handleAddTagText.bind(this);
-        this.handleAddTag = this.handleAddTag.bind(this);
-        this.updateSelectedTagObject = this.updateSelectedTagObject.bind(this);
-        this.state = {
-            searchComment: "",
-            searchTags: [],
-            newComment: "",
-            newTag: "",
-            selectedTagObject: []
-        };
+    useEffect(() => {
+        // Load all images, Tags and Comments on mount
+        dispatch({type: "SET_LOADING", payload: true});
+        loadImages();
+        loadComments();
+        laodTags();
+        dispatch({type: "SET_LOADING", payload: false});
+        
+    }, []);
+
+    
+    // Load all images
+    function loadImages() {
+        ImageService.authToken(keycloak.token)
+        ImageService.findAll().then((res) => {
+            dispatch({type: "SET_ALL_IMAGES", payload: res.data})
+        });
     }
 
-
-    // Set the last searched Comment
-    updateSearchComment(newComment) {
-        this.setState({ searchComment: newComment });
-    }
-    // Set the last searched Tag
-
-    updateSearchTags(newTags) {
-        this.setState({ searchTags: newTags });
+    // Load all comments
+    function loadComments() {
+        CommentService.authToken(keycloak.token)
+        CommentService.findAll().then((res) => {
+            dispatch({type: "SET_ALL_COMMENTS", payload: res.data})
+        });
     }
 
-    updateSelectedTagObject(values) {
-        this.setState({ selectedTagObject: values })
+    // Load all tags
+    function laodTags() {
+        TagService.authToken(keycloak.token)
+        TagService.findAll().then((res) => {
+            dispatch({type: "SET_ALL_TAGS", payload: res.data})
+        });
     }
 
     // Add new Comment to all selected images
-    handleAddComment() {
+    function handleAddComment() {
         CommentService.authToken(keycloak.token)
-        CommentService.add(this.state.newComment).then((res) => {
-            this.props.selectedImages.map((image) => {
+        CommentService.add(state.newCommentTxt).then((res) => {
+            state.selectedImages.map((image) => {
                 CommentService.assignComment(image.id, res.data.id)
             })
         })
     }
 
     // Add new Tag to all selected images
-    handleAddTag() {
+    function handleAddTag() {
         TagService.authToken(keycloak.token)
-        TagService.add(this.state.newTag).then((res) => {
-            this.props.selectedImages.map((image) => {
+        TagService.add(state.newTagTxt).then((res) => {
+            state.selectedImages.map((image) => {
                 TagService.assignTag(image.id, res.data.id)
             })
         })
     }
 
-    handleAddCommentText(event) {
-        this.setState({ newComment: event.target.value })
-    }
 
-    handleAddTagText(event) {
-        this.setState({ newTag: event.target.value })
-    }
-
-    handleDeleteChip(chip) {
+    const handleDeleteChip = (chip) => {
         console.log(chip);
         this.props.selectedImages.map(image => {
             image.imageHashtagsList.map(tag => {
-                  if(tag.hashtagtxt == chip){
-                      TagService.authToken(keycloak.token);
-                      TagService.remove(image.id, tag);
-                      this.props.updateImages();
-                      this.props.updateMatchingTags();
-                      console.log(this.props.matchingTags)
-                      //this.forceUpdate();
-                      // this.updateSearchTags();
-                      // this.props.searchImages();
-                      // this.props.updateMatchingTags();
-                  }
+                if (tag.hashtagtxt === chip) {
+                    TagService.authToken(keycloak.token);
+                    TagService.remove(image.id, tag);
+                    this.props.updateImages();
+                    this.props.updateMatchingTags();
+                    console.log(this.props.matchingTags)
+                    //this.forceUpdate();
+                    // this.updateSearchTags();
+                    // this.props.searchImages();
+                    // this.props.updateMatchingTags();
+                }
 
             })
         })
-      
     }
 
 
 
-    render() {
-        const { isLoading, images, searchImages, selectedImages, tags, matchingComments, updateMatchingComments,updateMatchingTags, matchingTags, updateTags, updateImages } = this.props;
 
-
-        return (
-            isLoading ? <p>Loading...</p> : (
-                <div className="mt-3">
-                    <SearchFields
-                        searchFunction={searchImages}
-                        searchComment={this.state.searchComment}
-                        searchTags={this.state.searchTags}
-                        updateSearchComment={this.updateSearchComment}
-                        updateSelectedTagObject={this.updateSelectedTagObject}
-                        updateSearchTags={this.updateSearchTags}
-                        tags={tags}
-                        selectedTagObject={this.state.selectedTagObject}
-                    />
+    return (
+        state.loading ? <p>Loading...</p> : (
+            <div className="mt-3">
+                <SearchFields
+                    tags={state.allTags}
+                />
 
 
 
-                    <Row>
-                        <Col md={12} lg={3}>
-                            {/* Comments -> Show comments of selected images and add new ones */}
-                            {matchingComments.length > 0 ?
-                                <div id="matchingComments"
-                                    style={{
-                                        borderRadius: "20px",
-                                        backgroundColor: "white",
-                                        padding: "10px"
-                                    }}
-                                >
-                                    {matchingComments.map(comment =>
-                                    <Comment selectedImages = {selectedImages} comment={comment} />
-                                    )}
-                                </div>
-                                : null}
-
-{
-                                matchingTags ?
-                                matchingTags.map(tag => 
-                                    <Chip
-                                        label={tag}
-                                        onDelete={() => this.handleDeleteChip(tag)}
-                                    />
-                                )
-                                : null
-                            }
-
-
-
-                            <TextField
-                                id="add_comment"
-                                label="New Comment"
-                                onChange={this.handleAddCommentText}
-                                style={{ width: "100%" }}
-                            />
-                            <Button
-                                variant="contained"
-                                color="primary"
-                                style={{ margin: "5px" }}
-                                onClick={this.handleAddComment}
+                <Row>
+                    <Col md={12} lg={3}>
+                        {/* Comments -> Show comments of selected images and add new ones */}
+                        {state.matchingComments.length > 0 ?
+                            <div id="matchingComments"
+                                style={{
+                                    borderRadius: "20px",
+                                    backgroundColor: "white",
+                                    padding: "10px"
+                                }}
                             >
-                                Save Comment
-                            </Button>
-
-                            <TextField
-                                id="add_tag"
-                                label="New Tag"
-                                onChange={this.handleAddTagText}
-                                style={{ width: "100%" }}
-                            />
-                            <Button
-                                variant="contained"
-                                color="primary"
-                                style={{ margin: "5px" }}
-                                onClick={this.handleAddTag}
-                            >
-                                Save Tag
-                            </Button>
-                            {/* Tags -> Show tags of selected images and add new ones */}
-                            <div id="matchingTags">
-                                {/* {matchingTags.map(tag =>
-                                    <Tag tag={tag} />
-                                )} */}
+                                {state.matchingComments.map(comment =>
+                                    <Comment selectedImages={state.selectedImages} comment={comment} />
+                                )}
                             </div>
+                        : null
+                        }
+
+                        {/* Tags -> Show tags of selected images and add new ones */}
+                        {state.matchingTags ?
+                            state.matchingTags.map(tag =>
+                                <Chip
+                                    label={tag}
+                                    // onDelete={() => handleDeleteChip(tag)}
+                                />
+                            )
+                        : null
+                        }
+
+                        <TextField
+                            id="add_comment"
+                            label="New Comment"
+                            onChange={(event) => dispatch({type: "SET_NEW_COMMENT_TEXT", payload: event.target.value})}
+                            style={{ width: "100%" }}
+                        />
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            style={{ margin: "5px" }}
+                            onClick={() => handleAddComment()}
+                        >
+                            Save Comment
+                        </Button>
+
+                        <TextField
+                            id="add_tag"
+                            label="New Tag"
+                            onChange={(event) => dispatch({type: "SET_NEW_TAG_TEXT", payload: event.target.value})}
+                            style={{ width: "100%" }}
+                        />
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            style={{ margin: "5px" }}
+                            onClick={() => handleAddTag()}
+                        >
+                            Save Tag
+                        </Button>
 
 
-
-                            {this.props.selectedImages.length > 0 ?
-                                <LinkContainer to="/view">
-                                    <Button
-                                        variant="contained"
-                                        color="primary"
-                                        style={{ margin: "5px" }}
-                                    >
-                                        Show Images
+                        {/* Display 'Show Images'-Button */}
+                        {state.selectedImages.length > 0 ?
+                            <LinkContainer to="/view">
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                    style={{ margin: "5px" }}
+                                    onClick={() => dispatch({type: "SET_LOADING", payload: true})}
+                                >
+                                    Show Images
                                 </Button>
-                                </LinkContainer>
-                                : null}
+                            </LinkContainer>
+                            : null}
 
-                        </Col>
-                        <Col md={12} lg={9}>
-                            {images.map(image =>
-                                <Thumbnail updateMatchingTags={updateMatchingTags} updateMatchingComments={updateMatchingComments} selectedImages={selectedImages} image={image} />
-                            )}
-                        </Col>
-                    </Row>
-                </div>
-            )
+                    </Col>
+                    <Col md={12} lg={9}>
+                        {/* Display Thumbnails */}
+                        {state.allImages.map(image =>
+                            <Thumbnail
+                                selectedImages={state.selectedImages}
+                                image={image}
+                            />
+                        )}
+                    </Col>
+                </Row>
+            </div>
         )
-    }
+    )
 }
-export default withRouter(ThumbnailList)
+export default ThumbnailList

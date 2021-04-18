@@ -1,21 +1,13 @@
 import React, { Component } from 'react'
-import { Col, Row } from 'react-bootstrap';
+import { Row } from 'react-bootstrap';
 import { CommentService } from '../services/CommentService';
 import DeleteIcon from '@material-ui/icons/Delete';
 
 class Comment extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     handleDeleteComment(comment) {
         this.props.selectedImages.map(image => {
-
             CommentService.remove(image.id, comment.id)
-
         })
-
-
     }
 
 
@@ -37,7 +29,7 @@ class Comment extends Component {
             ><Row>
                     {date[2]}.{date[1]}.{date[0]}, {time[0]}:{time[1]}<br />
                     {this.props.comment.commenttxt}
-                    <span class="material-icons">
+                    <span className="material-icons">
                         <DeleteIcon
                             title="Delete"
                             size={1}

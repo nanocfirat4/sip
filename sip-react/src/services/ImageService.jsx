@@ -1,6 +1,5 @@
 import axios from 'axios'
 import { config } from '../config'
-import { useState } from 'react'
 
 export const ImageService = {
     findAll,
