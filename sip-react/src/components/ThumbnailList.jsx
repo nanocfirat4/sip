@@ -206,7 +206,7 @@ const ThumbnailList = () => {
                             onClick={() => handleAddComment()}
                         >
                             Save Comment
-                            </Button>
+                        </Button>
 
                         <TextField
                             id="add_tag"
@@ -225,6 +225,7 @@ const ThumbnailList = () => {
                             Save Tag
                         </Button>
 
+                        <br />
 
                         {/* Display 'Show Images'-Button */}
                         {state.selectedImages.length > 0 ?
@@ -239,6 +240,25 @@ const ThumbnailList = () => {
                                     </Button>
                             </LinkContainer>
                             : null}
+
+                        <br />
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            style={{ margin: "5px" }}
+                            onClick={() => dispatch({type: "SET_SELECTED_IMAGES", payload: state.allImages})}
+                        >
+                            Select all
+                        </Button>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            style={{ margin: "5px" }}
+                            onClick={() => dispatch({type: "SET_SELECTED_IMAGES", payload: []})}
+                        >
+                            unselect all
+                        </Button>
+
 
                     </Col>
                     <Col md={12} lg={9}>
