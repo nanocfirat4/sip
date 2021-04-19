@@ -45,11 +45,28 @@ public class Hashtag {
     @ManyToMany(mappedBy = "searchFavHashtagsList")
     private List<Search_Favorites> searchFavList = new ArrayList<>();
 
+    public int getHashtagCount() {
+        return hashtagCount;
+    }
+
+    @Column(
+            name = "UseCount",
+            columnDefinition = "INTEGER")
+    private int hashtagCount;
+
     public void addSearch_Favorites(Search_Favorites searchFavorites){
         searchFavList.add(searchFavorites);
     }
 
     public Hashtag() {
+    }
+
+    public void increaseCount(){
+        this.hashtagCount = this.hashtagCount +1;
+    }
+
+    public void decreaseCount(){
+        this.hashtagCount = this.hashtagCount -1;
     }
 
     public Hashtag(String hashtagtxt) {

@@ -77,6 +77,9 @@ public class ImageService {
         hashtagRepository.findById(hashtagId).orElseThrow(() ->
                 new ResourceNotFoundException("no such HashtagId with id "+id));
         imageRepository.findById(id).get().removeHashtag(hashtagRepository.findById(hashtagId).get());
+        if(hashtagRepository.findById(hashtagId).get().getHashtagCount()==0){
+            hashtagRepository.delete(hashtagRepository.findById(hashtagId).get());
+        }
     }
 
     public List<Image> findBySearch(Search_Favorites search) {
