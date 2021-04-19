@@ -119,11 +119,9 @@ public class ImageService {
                 if(hashtag.getHashtagtxt().equals(searchedhashtag.getHashtagtxt())) {
                     subtest=true;
                 }
-            }                
-            if(subtest)break;
-
+            }
             //IF one hashtag wasn't found in all imageHashtags -return false
-            else {
+            if(!subtest) {
                 return false;
             }
         }
