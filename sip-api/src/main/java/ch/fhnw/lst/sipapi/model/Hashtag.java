@@ -45,28 +45,28 @@ public class Hashtag {
     @ManyToMany(mappedBy = "searchFavHashtagsList")
     private List<Search_Favorites> searchFavList = new ArrayList<>();
 
-    public int getHashtagCount() {
-        return hashtagCount;
-    }
-
     @Column(
             name = "UseCount",
             columnDefinition = "INTEGER")
     private int hashtagCount;
 
-    public void addSearch_Favorites(Search_Favorites searchFavorites){
-        searchFavList.add(searchFavorites);
+    public int getHashtagCount() {
+        return hashtagCount;
+    }
+
+    public void setHashtagCount(int hashtagCount) {
+        this.hashtagCount = hashtagCount;
     }
 
     public Hashtag() {
     }
 
     public void increaseCount(){
-        this.hashtagCount = this.hashtagCount +1;
+        this.setHashtagCount(this.getHashtagCount()+1);
     }
 
     public void decreaseCount(){
-        this.hashtagCount = this.hashtagCount -1;
+        this.setHashtagCount(this.getHashtagCount()-1);
     }
 
     public Hashtag(String hashtagtxt) {
@@ -91,5 +91,9 @@ public class Hashtag {
 
     public Date getTimestamp() {
         return timestamp;
+    }
+
+    public void addSearch_Favorites(Search_Favorites searchFavorites){
+        searchFavList.add(searchFavorites);
     }
 }
