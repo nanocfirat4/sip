@@ -69,6 +69,7 @@ const ThumbnailList = () => {
                         })
                 })
             })
+        dispatch({ type: "SET_NEW_COMMENT_TEXT", payload: "" })
     }
 
     // Add new Tag to all selected images
@@ -85,6 +86,7 @@ const ThumbnailList = () => {
                         })
                 })
         })
+        dispatch({ type: "SET_NEW_TAG_TEXT", payload: "" })
     }
     
     // Update all Comments and Tags and update selected images
@@ -136,10 +138,22 @@ const ThumbnailList = () => {
                 i === state.selectedImages.length ? updateSelected() : i++;
             })
         })
+
     }
 
 
-
+    // Search when enter ist pressed in comments field
+    function handleKeyDownComment(e) {
+        if (e.key === 'Enter') {
+            handleAddComment();
+        }
+    }
+    // Search when enter ist pressed in comments field
+    function handleKeyDownTag(e) {
+        if (e.key === 'Enter') {
+            handleAddTag();
+        }
+    }
 
     return (
         state.loading ? <p>Loading...</p> : (
@@ -147,8 +161,6 @@ const ThumbnailList = () => {
                 <SearchFields
                     tags={state.allTags}
                 />
-
-
 
                 <Row>
                     <Col md={12} lg={3}>
@@ -182,8 +194,10 @@ const ThumbnailList = () => {
                         <TextField
                             id="add_comment"
                             label="New Comment"
+                            value={state.newCommentTxt}
                             onChange={(event) => dispatch({ type: "SET_NEW_COMMENT_TEXT", payload: event.target.value })}
                             style={{ width: "100%" }}
+                            onKeyDown={handleKeyDownComment}
                         />
                         <Button
                             variant="contained"
@@ -197,8 +211,10 @@ const ThumbnailList = () => {
                         <TextField
                             id="add_tag"
                             label="New Tag"
+                            value={state.newTagTxt}
                             onChange={(event) => dispatch({ type: "SET_NEW_TAG_TEXT", payload: event.target.value })}
                             style={{ width: "100%" }}
+                            onKeyDown={handleKeyDownTag}
                         />
                         <Button
                             variant="contained"
