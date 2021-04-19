@@ -20,7 +20,8 @@ buildJARFiles:
         - ./sip-api/target/*.jar
         - ./sip-react/target/*.jar
         - ./sip-databaseloader/target/*.jar
-
+  only:
+    - master
 UnitTests:
   image: docker:19.03.12
   stage: test
@@ -34,7 +35,8 @@ UnitTests:
       - ./sip-react/target/site/*
       - ./sip-api/target/site/*
       - ./sip-databaseloader/target/site/*
-
+  only:
+    - master
 
 buildContainer_pushRegistry:
   image: docker:19.03.12
