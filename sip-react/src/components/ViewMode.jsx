@@ -15,14 +15,14 @@ const ViewMode = () => {
         dispatch({type: "SET_IMAGE_BLOBS", payload: {}})
 
         // Load all images, Tags and Comments on mount
+        var blobs = {}
         state.selectedImages.map(image => {
             GetPacsImage(image.pacs_id)
                 .then(response => {
-                    var joined = state.imageBlobs;
-                    joined[image.pacs_id] = response;
-                    dispatch({type: "SET_IMAGE_BLOBS", payload: joined})
+                    blobs[image.pacs_id] = response;
 
-                    if(state.selectedImages.length == Object.keys(state.imageBlobs).length) {
+                    if(state.selectedImages.length == Object.keys(blobs).length) {
+                        dispatch({type: "SET_IMAGE_BLOBS", payload: blobs})
                         dispatch({type: "SET_LOADING", payload: false})
                     }
                 })
