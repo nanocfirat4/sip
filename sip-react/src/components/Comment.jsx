@@ -3,10 +3,12 @@ import { Row } from 'react-bootstrap';
 import { CommentService } from '../services/CommentService';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { Grid, IconButton, Tooltip } from '@material-ui/core';
+import keycloak from '../keycloak';
 
 class Comment extends Component {
     handleDeleteComment(comment) {
         var i = 1;
+        CommentService.authToken(keycloak.token);
         this.props.selectedImages.map(image => {
             CommentService.remove(image.id, comment.id)
                 .then(() => {

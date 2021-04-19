@@ -114,7 +114,7 @@ const Reducer = (state, action) => {
             for (var j = 0; j < state.allTags.length; j++) {
                 for (var i = 0; i < result.length; i++) {
                     if (state.allTags[j].id == result[i]) {
-                        matchingTags.push(state.allTags[j].hashtagtxt);
+                        matchingTags.push(state.allTags[j]);
                     }
                 }
             }

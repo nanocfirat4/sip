@@ -127,22 +127,13 @@ const ThumbnailList = () => {
 
 
 
-    const handleDeleteChip = (chip) => {
-        console.log(chip);
-        this.props.selectedImages.map(image => {
-            image.imageHashtagsList.map(tag => {
-                if (tag.hashtagtxt === chip) {
-                    TagService.authToken(keycloak.token);
-                    TagService.remove(image.id, tag);
-                    this.props.updateImages();
-                    this.props.updateMatchingTags();
-                    console.log(this.props.matchingTags)
-                    //this.forceUpdate();
-                    // this.updateSearchTags();
-                    // this.props.searchImages();
-                    // this.props.updateMatchingTags();
-                }
+    const handleDeleteTag = (tag) => {
+        var i = 1;
 
+        TagService.authToken(keycloak.token);
+        state.selectedImages.map(image => {
+            TagService.remove(image.id, tag).then(() => {
+                i === state.selectedImages.length ? updateSelected() : i++;
             })
         })
     }
@@ -181,8 +172,8 @@ const ThumbnailList = () => {
                         {state.matchingTags ?
                             state.matchingTags.map(tag =>
                                 <Chip
-                                    label={tag}
-                                // onDelete={() => handleDeleteChip(tag)}
+                                    label={tag.hashtagtxt}
+                                    onDelete={() => handleDeleteTag(tag)}
                                 />
                             )
                             : null
