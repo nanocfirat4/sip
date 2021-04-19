@@ -158,9 +158,7 @@ const ThumbnailList = () => {
     return (
         state.loading ? <p>Loading...</p> : (
             <div className="mt-3">
-                <SearchFields
-                    tags={state.allTags}
-                />
+
 
                 <Row>
                     <Col md={12} lg={3}>
@@ -224,41 +222,6 @@ const ThumbnailList = () => {
                         >
                             Save Tag
                         </Button>
-
-                        <br />
-
-                        {/* Display 'Show Images'-Button */}
-                        {state.selectedImages.length > 0 ?
-                            <LinkContainer to="/view">
-                                <Button
-                                    variant="contained"
-                                    color="primary"
-                                    style={{ margin: "5px" }}
-                                    onClick={() => dispatch({ type: "SET_LOADING", payload: true })}
-                                >
-                                    Show Images
-                                    </Button>
-                            </LinkContainer>
-                            : null}
-
-                        <br />
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            style={{ margin: "5px" }}
-                            onClick={() => dispatch({type: "SET_SELECTED_IMAGES", payload: state.allImages})}
-                        >
-                            Select all
-                        </Button>
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            style={{ margin: "5px" }}
-                            onClick={() => dispatch({type: "SET_SELECTED_IMAGES", payload: []})}
-                        >
-                            unselect all
-                        </Button>
-
 
                     </Col>
                     <Col md={12} lg={9}>

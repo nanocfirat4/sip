@@ -3,10 +3,11 @@ import React from 'react'
 import { Navbar, Nav, Button } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 import keycloak from '../keycloak'
+import SearchFields from './SearchFields'
 
 function AppNavBar() {
     return (
-        <Navbar bg='dark' expand='lg' variant='dark' style={{margin: "0 -15px"}}>
+        <Navbar bg='dark' expand='lg' variant='dark' >
             <Navbar.Toggle aria-controls='basic-navbar-nav' />
             <Navbar.Collapse id='basic-navbar-nav'>
                 <Nav className='mr-auto'>
