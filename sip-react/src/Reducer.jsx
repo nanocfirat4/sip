@@ -77,7 +77,11 @@ const Reducer = (state, action) => {
 
     function getMatchingComments(images) {
         // Check which comments do all selected images have in common
-        var allComments = images.map(image => { return image.imageCommentsList.map(comment => { return comment.id }) });
+        var allComments = images.map(image => {
+            if(image.imageCommentsList)
+                return image.imageCommentsList.map(comment => { return comment.id })
+            return null
+            });
         var matchingComments = []
 
         if (allComments.length > 0) {
