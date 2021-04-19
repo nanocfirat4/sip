@@ -1,4 +1,3 @@
-/*
 package ch.fhnw.lst.sipapi.controller;
 
 import ch.fhnw.lst.sipapi.model.Image;
@@ -6,21 +5,20 @@ import ch.fhnw.lst.sipapi.repository.CommentRepository;
 import ch.fhnw.lst.sipapi.repository.HashtagRepository;
 import ch.fhnw.lst.sipapi.repository.ImageRepository;
 import ch.fhnw.lst.sipapi.service.ImageService;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
-@RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
+//@TestPropertySource(locations = "classpath:src/test/resources/application.properties")
 class ImageControllerIntTest {
     @MockBean
     private HashtagRepository hashtagRepository;
@@ -56,4 +54,3 @@ class ImageControllerIntTest {
         imageRepository.save(douglas);
     }
 }
-*/
