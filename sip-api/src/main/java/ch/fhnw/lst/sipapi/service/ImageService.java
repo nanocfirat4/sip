@@ -102,10 +102,10 @@ public class ImageService {
         if(!hashtags.isEmpty()){
             //if hashtag not found remove
             resultList.removeIf(image -> !checkHashtagsInImageTags(image.getImageHashtagsList(), hashtags));
-            if(resultList.size()==0){
-                resultList = images;
-            }
-            logger.info(hashtags.get(0).getHashtagtxt());
+            //if(resultList.size()==0){
+            //    resultList = images;
+            //}
+            //logger.info(hashtags.get(0).getHashtagtxt());
 
         }
         return resultList;
