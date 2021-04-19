@@ -77,10 +77,12 @@ public class Image {
 
     public void addHashtag(Hashtag hashtag){
         imageHashtagsList.add(hashtag);
+        hashtag.increaseCount();
     }
 
     public void removeHashtag(Hashtag hashtag){
         imageHashtagsList.remove(hashtag);
+        hashtag.decreaseCount();
     }
 
     public Image(String description, String thumbnail, String pacs_id) {
