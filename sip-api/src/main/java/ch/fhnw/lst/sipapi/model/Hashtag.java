@@ -38,10 +38,6 @@ public class Hashtag {
     @ManyToMany(mappedBy = "imageHashtagsList")
     private List<Image> imageList = new ArrayList<>();
 
-    public void addImage(Image image){
-        imageList.add(image);
-    }
-
     @ManyToMany(mappedBy = "searchFavHashtagsList")
     private List<Search_Favorites> searchFavList = new ArrayList<>();
 
@@ -50,23 +46,25 @@ public class Hashtag {
             columnDefinition = "INTEGER")
     private int hashtagCount;
 
+    public void addImage(Image image){
+        imageList.add(image);
+        hashtagCount = imageList.size();
+    }
+
+    public List<Image> getImageList() {
+        return imageList;
+    }
+
+    public void removeImage(Image image){
+        imageList.remove(image);
+        hashtagCount = imageList.size();
+    }
+
     public int getHashtagCount() {
         return hashtagCount;
     }
 
-    public void setHashtagCount(int hashtagCount) {
-        this.hashtagCount = hashtagCount;
-    }
-
     public Hashtag() {
-    }
-
-    public void increaseCount(){
-        this.setHashtagCount(this.getHashtagCount()+1);
-    }
-
-    public void decreaseCount(){
-        this.setHashtagCount(this.getHashtagCount()-1);
     }
 
     public Hashtag(String hashtagtxt) {
@@ -85,15 +83,4 @@ public class Hashtag {
         return hashtagtxt;
     }
 
-    public void setHashtagtxt(String hashtagtxt) {
-        this.hashtagtxt = hashtagtxt;
-    }
-
-    public Date getTimestamp() {
-        return timestamp;
-    }
-
-    public void addSearch_Favorites(Search_Favorites searchFavorites){
-        searchFavList.add(searchFavorites);
-    }
 }

@@ -68,6 +68,7 @@ public class ImageService {
         hashtagRepository.findById(hashtagId).orElseThrow(() ->
                 new ResourceNotFoundException("no such HashtagId with id "+id));
         imageRepository.findById(id).get().addHashtag(hashtagRepository.findById(hashtagId).get());
+        hashtagRepository.findById(hashtagId).get().addImage(imageRepository.findById(id).get());
     }
 
     public void removeHashtagToImage(Long hashtagId, Long id) {
@@ -77,7 +78,8 @@ public class ImageService {
         hashtagRepository.findById(hashtagId).orElseThrow(() ->
                 new ResourceNotFoundException("no such HashtagId with id "+id));
         imageRepository.findById(id).get().removeHashtag(hashtagRepository.findById(hashtagId).get());
-        if(hashtagRepository.findById(hashtagId).get().getHashtagCount()==0){
+        hashtagRepository.findById(hashtagId).get().removeImage(imageRepository.findById(id).get());
+        if(hashtagRepository.findById(hashtagId).get().getImageList().size()==0){
             hashtagRepository.delete(hashtagRepository.findById(hashtagId).get());
         }
     }
