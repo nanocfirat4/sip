@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -18,7 +17,7 @@ public class HashtagService {
 
     public List<Hashtag> findAll(){
         List<Hashtag> allHashtags = hashtagRepository.findAll();
-        allHashtags.sort(Comparator.comparingInt(Hashtag::getHashtagCount));
+        allHashtags.sort((h1, h2) -> Integer.compare(h2.getHashtagCount(), h1.getHashtagCount()));
         return allHashtags;
     }
     public Hashtag findById(Long id){
