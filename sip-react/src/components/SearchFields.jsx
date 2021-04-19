@@ -31,6 +31,7 @@ const SearchFields = () => {
         ImageService.findByFilter(state.searchComments, state.searchTags)
             .then(res => dispatch({type: "SET_ALL_IMAGES", payload: res.data}))
             .then(dispatch({type: "SET_LOADING", payload: false}))
+        dispatch({type: "SET_SELECTED_IMAGES", payload: []})
     }
 
     // Search when enter ist pressed in comments field
