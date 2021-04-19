@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 // Global states
 import { Context } from '../Store';
 
@@ -6,14 +6,18 @@ const Thumbnail = ({ image }) => {
 
     const [state, dispatch] = useContext(Context);
 
-    const [checked, setChecked] = useState(() => {
+    const [checked, setChecked] = useState(false);
+
+    useEffect(() => {
+        var isChecked = false;
         for (var i = 0; i < state.selectedImages.length; i++) {
             if (state.selectedImages[i].id === image.id) {
-                return true;
+                isChecked = true;
             }
         }
-        return false;
-    });
+        setChecked(isChecked)
+
+    }, [state.selectedImages])
 
 
 
