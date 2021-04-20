@@ -10,9 +10,9 @@ import { Context } from '../Store';
 const ViewMode = () => {
     const [state, dispatch] = useContext(Context);
     const [currentImage, setCurrentImage] = useState(state.selectedImages[0]);
-    
+
     useEffect(() => {
-        dispatch({type: "SET_IMAGE_BLOBS", payload: {}})
+        dispatch({ type: "SET_IMAGE_BLOBS", payload: {} })
 
         // Load all images, Tags and Comments on mount
         var blobs = {}
@@ -21,9 +21,9 @@ const ViewMode = () => {
                 .then(response => {
                     blobs[image.pacs_id] = response;
 
-                    if(state.selectedImages.length == Object.keys(blobs).length) {
-                        dispatch({type: "SET_IMAGE_BLOBS", payload: blobs})
-                        dispatch({type: "SET_LOADING", payload: false})
+                    if (state.selectedImages.length == Object.keys(blobs).length) {
+                        dispatch({ type: "SET_IMAGE_BLOBS", payload: blobs })
+                        dispatch({ type: "SET_LOADING", payload: false })
                     }
                 })
         });
@@ -34,50 +34,47 @@ const ViewMode = () => {
     function handleChange(previous, next) {
         setCurrentImage(state.selectedImages[next]);
     }
-    
+
 
     return (
         state.loading ? <div>Loading...</div> :
             <div id="imageView">
-                <div className="slide-container">
-                    <Slide
-                        autoplay={false}
-                        onChange={handleChange}
-                    >
-                        {state.selectedImages.map(image =>
-                            <div className="each-slide">
-                                <img src={URL.createObjectURL(state.imageBlobs[image.pacs_id])}
-                                    style={{
-                                        display: 'block',
-                                        margin: 'auto',
-                                        maxWidth: '100%'
-                                    }}
-                                />
-                            </div>
-                        )}
-                    </Slide>
-                </div>
                 <Row>
-                    <Col md={12} lg={3} id="bordered">
-                        Kommentare und Tags
-                        </Col>
-                    <Col md={12} lg={9} id="bordered">
-                    </Col>
-                </Row>
-                <Row>
-                    <Col md={12} lg={3} id="bordered">
-                        Kommentare und Tags in Common<br />
-                        <div id="matchingComments">
-                            {state.matchingComments.map(comment =>
-                                <Comment comment={comment} />
-                            )}
+                    <Col md={8}>
+                        <div className="slide-container">
+                            <Slide
+                                autoplay={false}
+                                onChange={handleChange}
+                            >
+                                {state.selectedImages.map(image =>
+                                    <div className="each-slide">
+                                        <img src={URL.createObjectURL(state.imageBlobs[image.pacs_id])}
+                                            style={{
+                                                display: 'block',
+                                                margin: 'auto',
+                                                maxWidth: '100%'
+                                            }}
+                                        />
+                                    </div>
+                                )}
+                            </Slide>
                         </div>
                     </Col>
-                    <Col md={12} lg={9} id="bordered">
-                        Description:<br />
-                        {currentImage.description}<br /><br />
-                        Kommentare zum aktuellen Bild<br />
-                        {currentImage.imageCommentsList.map(comment => <Comment comment = {comment} />)} 
+                    <Col md={4}>
+                        <div>
+                            Kommentare und Tags in Common<br />
+                            <div id="matchingComments">
+                                {state.matchingComments.map(comment =>
+                                    <Comment comment={comment} />
+                                )}
+                            </div>
+                        </div>
+                        <div>
+                            Description:<br />
+                            {currentImage.description}<br /><br />
+                            Kommentare zum aktuellen Bild<br />
+                            {currentImage.imageCommentsList.map(comment => <Comment comment={comment} />)}
+                        </div>
                     </Col>
                 </Row>
             </div>

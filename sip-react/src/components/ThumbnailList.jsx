@@ -1,9 +1,7 @@
 import React, { useContext, useEffect } from 'react'
 import Thumbnail from './Thumbnail'
-import SearchFields from './SearchFields'
 import Comment from './Comment';
 import { Col, Row } from 'react-bootstrap';
-import { LinkContainer } from 'react-router-bootstrap'
 import keycloak from '../keycloak'
 // Services
 import { ImageService } from '../services/ImageService'
@@ -13,6 +11,7 @@ import { TagService } from '../services/TagService'
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Chip from '@material-ui/core/Chip';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 // Global states
 import { Context } from '../Store';
 
@@ -57,38 +56,58 @@ const ThumbnailList = () => {
 
     // Add new Comment to all selected images
     function handleAddComment() {
-        var i = 1;
+        if (state.newCommentTxt !== "") {
+            var i = 1;
 
-        CommentService.authToken(keycloak.token)
-        CommentService.add(state.newCommentTxt)
-            .then(res => {
-                state.selectedImages.map((image) => {
-                    CommentService.assignComment(image.id, res.data.id)
-                        .then(() => {
-                            i === state.selectedImages.length ? updateSelected() : i++;
-                        })
+            CommentService.authToken(keycloak.token)
+            CommentService.add(state.newCommentTxt)
+                .then(res => {
+                    state.selectedImages.map((image) => {
+                        CommentService.assignComment(image.id, res.data.id)
+                            .then(() => {
+                                i === state.selectedImages.length ? updateSelected() : i++;
+                            })
+                    })
                 })
-            })
-        dispatch({ type: "SET_NEW_COMMENT_TEXT", payload: "" })
+            dispatch({ type: "SET_NEW_COMMENT_TEXT", payload: "" })
+        }
     }
 
     // Add new Tag to all selected images
     function handleAddTag() {
-        var i = 1;
+        if (state.newTagTxt !== "") {
+            var double = false;
+            var i = 1;
 
-        TagService.authToken(keycloak.token)
-        TagService.add(state.newTagTxt)
-            .then((res) => {
-                state.selectedImages.map((image) => {
-                    TagService.assignTag(image.id, res.data.id)
-                        .then(() => {
-                            i === state.selectedImages.length ? updateSelected() : i++;
+            TagService.authToken(keycloak.token)
+
+            state.allTags.map(tag => {
+                if (tag.hashtagtxt === state.newTagTxt) {
+                    state.selectedImages.map((image) => {
+                        TagService.assignTag(image.id, tag.id)
+                            .then(() => {
+                                i === state.selectedImages.length ? updateSelected() : i++;
+                            })
+                    })
+                    double = true;
+                }
+            });
+
+            if (!double) {
+                TagService.add(state.newTagTxt)
+                    .then((res) => {
+                        state.selectedImages.map((image) => {
+                            TagService.assignTag(image.id, res.data.id)
+                                .then(() => {
+                                    i === state.selectedImages.length ? updateSelected() : i++;
+                                })
                         })
-                })
-        })
-        dispatch({ type: "SET_NEW_TAG_TEXT", payload: "" })
+                    })
+                dispatch({ type: "SET_NEW_TAG_TEXT", payload: "" })
+            }
+        }
     }
-    
+
     // Update all Comments and Tags and update selected images
     function updateSelected() {
 
@@ -118,7 +137,7 @@ const ThumbnailList = () => {
 
                                     // Update only selected images in allImages state
                                     var allImages = state.allImages.reduce((acc, cur) => [...acc, selectedImages.find(({ id }) => cur.id === id) || cur], [])
-                                    dispatch({type: "SET_ALL_IMAGES", payload: allImages})
+                                    dispatch({ type: "SET_ALL_IMAGES", payload: allImages })
                                 }
                                 else i++
                             })
@@ -167,33 +186,6 @@ const ThumbnailList = () => {
                             position: "sticky",
                             top: 0,
                         }}>
-                            {/* Comments -> Show comments of selected images and add new ones */}
-                            {state.matchingComments.length > 0 ?
-                                <div id="matchingComments"
-                                    style={{
-                                        borderRadius: "20px",
-                                        backgroundColor: "white",
-                                        padding: "10px"
-                                    }}
-                                >
-                                    {state.matchingComments.map(comment =>
-                                        <Comment selectedImages={state.selectedImages} comment={comment} updateSelected={updateSelected} />
-                                    )}
-                                </div>
-                                : null
-                            }
-
-                            {/* Tags -> Show tags of selected images and add new ones */}
-                            {state.matchingTags ?
-                                state.matchingTags.map(tag =>
-                                    <Chip
-                                        label={tag.hashtagtxt}
-                                        onDelete={() => handleDeleteTag(tag)}
-                                    />
-                                )
-                                : null
-                            }
-
                             <TextField
                                 id="add_comment"
                                 label="New Comment"
@@ -211,14 +203,50 @@ const ThumbnailList = () => {
                                 Save Comment
                             </Button>
 
-                            <TextField
-                                id="add_tag"
-                                label="New Tag"
-                                value={state.newTagTxt}
-                                onChange={(event) => dispatch({ type: "SET_NEW_TAG_TEXT", payload: event.target.value })}
+                            <Autocomplete
+                                freeSolo
+                                options={state.allTags}
+                                getOptionLabel={(option) => option.hashtagtxt}
+                                renderOption={(option) => (
+                                    <React.Fragment>
+                                        <div style={{
+                                            width: "100%",
+                                            overflow: "hidden",
+                                        }}>
+                                            <div style={{
+                                                float: "left"
+                                            }}>
+                                                {option.hashtagtxt}
+                                            </div>
+                                            <div style={{
+                                                textAlign: "right",
+                                                float: "right",
+                                                color: "gray"
+                                            }}>
+                                                {option.hashtagCount}
+                                            </div>
+                                        </div>
+                                    </React.Fragment>
+                                )}
+                                renderInput={(params) =>
+                                    <TextField
+                                        {...params}
+                                        label="New Tag"
+                                        defaultValue={state.newTagTxt}
+                                        inputProps={{
+                                            ...params.inputProps,
+                                            autoComplete: 'new-password', // disable autocomplete and autofill
+                                        }}
+                                        onKeyDown={handleKeyDownTag}
+                                    />
+                                }
+                                onInputChange={(event, value) => 
+                                    value ? dispatch({ type: "SET_NEW_TAG_TEXT", payload: value }) : null
+                                }
+
                                 style={{ width: "100%" }}
-                                onKeyDown={handleKeyDownTag}
                             />
+
                             <Button
                                 variant="contained"
                                 color="primary"
@@ -227,6 +255,42 @@ const ThumbnailList = () => {
                             >
                                 Save Tag
                             </Button>
+                            <div>
+                                <div style={{ margin: "20px 0" }}>
+                                    {/* Tags -> Show tags of selected images and add new ones */}
+                                    {state.matchingTags ?
+                                        state.matchingTags.map(tag =>
+                                            <Chip
+                                                label={tag.hashtagtxt}
+                                                size="medium"
+                                                onDelete={() => handleDeleteTag(tag)}
+                                                style={{
+                                                    margin: "5px",
+                                                    fontSize: "11pt"
+                                                }}
+                                            />
+                                        )
+                                        : null
+                                    }
+                                </div>
+                                <div>
+                                    {/* Comments -> Show comments of selected images and add new ones */}
+                                    {state.matchingComments.length > 0 ?
+                                        <div id="matchingComments"
+                                            style={{
+                                                borderRadius: "20px",
+                                                backgroundColor: "white",
+                                                padding: "10px"
+                                            }}
+                                        >
+                                            {state.matchingComments.map(comment =>
+                                                <Comment selectedImages={state.selectedImages} comment={comment} updateSelected={updateSelected} />
+                                            )}
+                                        </div>
+                                        : null
+                                    }
+                                </div>
+                            </div>
                         </div>
                     </Col>
                     <Col md={12} lg={9}>

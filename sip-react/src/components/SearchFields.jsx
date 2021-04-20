@@ -57,15 +57,29 @@ const SearchFields = () => {
             <Col md={3}>
                 <Autocomplete
                     multiple
-                    id="combo-box-demo"
                     options={state.allTags}
                     defaultValue={state.searchTags}
                     filterSelectedOptions
                     getOptionLabel={(option) => option.hashtagtxt}
                     renderOption={(option) => (
                         <React.Fragment>
-                            {option.hashtagtxt} 
-                            <text style={{textAlign: "right"}}>{option.hashtagCount}</text>
+                            <div style={{
+                                width: "100%",
+                                overflow: "hidden",
+                            }}>
+                                <div style={{
+                                    float: "left"
+                                }}>
+                                    {option.hashtagtxt}
+                                </div> 
+                                <div style={{
+                                    textAlign: "right",
+                                    float: "right",
+                                    color: "gray"
+                                }}>
+                                    {option.hashtagCount}
+                                </div>
+                            </div>
                         </React.Fragment>
                     )}
                     renderInput={(params) =>

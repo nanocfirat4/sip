@@ -29,26 +29,26 @@ const styles = (theme) => ({
 const App = (props) => {
     const { classes } = props;
 
-    const[hide, setHide] = useState(false)
+    const [hide, setHide] = useState(false)
 
     function HideOnScroll(props) {
         const { children, window } = props;
         const trigger = useScrollTrigger({ target: window ? window() : undefined });
-    
+
         setHide(false)
-    
+
         return (
             <Slide appear={false} direction="right" in={hide ? trigger : !trigger}>
                 {children}
             </Slide>
         );
     }
-    
+
     HideOnScroll.propTypes = {
         children: PropTypes.element.isRequired,
         window: PropTypes.func,
     };
-    
+
 
     return (
         <Store>
@@ -57,23 +57,33 @@ const App = (props) => {
                 minHeight: "100%"
             }}>
                 <Router>
-                    <Toolbar>
-                        <HideOnScroll {...props}>
-                            <AppBar position="fixed">
-                                <AppNavBar setHide={setHide} />
-                                <SearchFields />
-                            </AppBar>
-                        </HideOnScroll>
-                    </Toolbar>
-
-                    <div className={classes.toolbar} style={{marginTop: "15px"}} />
 
                     <Switch>
                         <Route exact path='/'>
+                            <Toolbar>
+                                <HideOnScroll {...props}>
+                                    <AppBar position="fixed">
+                                        <AppNavBar setHide={setHide} />
+                                        <SearchFields />
+                                    </AppBar>
+                                </HideOnScroll>
+                            </Toolbar>
+                            <div className={classes.toolbar} style={{ marginTop: "20px" }} />
+
                             <ThumbnailList />
                         </Route>
-                        <Route path='/about' component={About} />
+                        <Route path='/about'>
+                            <AppBar>
+                                <AppNavBar setHide={false} />
+                            </AppBar>
+                            <div className={classes.toolbar} style={{ marginTop: "20px" }} />
+                            <About />
+                        </Route>
                         <Route path='/view'>
+                            <AppBar>
+                                <AppNavBar setHide={false} />
+                            </AppBar>
+                            <div className={classes.toolbar} style={{ marginTop: "20px" }} />
                             <ViewMode />
                         </Route>
                     </Switch>

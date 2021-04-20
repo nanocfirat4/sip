@@ -4,7 +4,7 @@ import { Navbar, Nav, Button } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 import keycloak from '../keycloak'
 
-function AppNavBar({setHide}) {
+function AppNavBar({ setHide }) {
     return (
         <Navbar bg='dark' expand='lg' variant='dark' >
             <Navbar.Toggle aria-controls='basic-navbar-nav' />
@@ -26,12 +26,15 @@ function AppNavBar({setHide}) {
                     >
                         Logout
                     </Button>
-                    <Button
-                        style={{ margin: "5px" }}
-                        onClick={() => setHide(true)}
-                    >
-                        hide
-                    </Button>
+                    {setHide ?
+                        <Button
+                            style={{ margin: "5px" }}
+                            onClick={() => setHide(true)}
+                        >
+                            hide
+                        </Button>
+                    :
+                        null}
 
                 </Navbar.Text>
             </Navbar.Collapse>
