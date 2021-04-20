@@ -71,7 +71,10 @@ public class Image {
     @JoinTable(
             name = "image_hashtag_association",
             joinColumns = {@JoinColumn(name = "image_id",referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "hashtag_id",referencedColumnName = "id")}
+            inverseJoinColumns = {@JoinColumn(name = "hashtag_id",referencedColumnName = "id")},
+            uniqueConstraints={
+                    @UniqueConstraint( name = "idx_image_id_hashtag_id",  columnNames ={"image_id","hashtag_id"})
+            }
     )
     private List<Hashtag> imageHashtagsList = new ArrayList<>();
 
