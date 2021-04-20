@@ -14,6 +14,7 @@ import Chip from '@material-ui/core/Chip';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 // Global states
 import { Context } from '../Store';
+import AddFields from './AddFields';
 
 
 const ThumbnailList = () => {
@@ -186,75 +187,8 @@ const ThumbnailList = () => {
                             position: "sticky",
                             top: 0,
                         }}>
-                            <TextField
-                                id="add_comment"
-                                label="New Comment"
-                                value={state.newCommentTxt}
-                                onChange={(event) => dispatch({ type: "SET_NEW_COMMENT_TEXT", payload: event.target.value })}
-                                style={{ width: "100%" }}
-                                onKeyDown={handleKeyDownComment}
-                            />
-                            <Button
-                                variant="contained"
-                                color="primary"
-                                style={{ margin: "5px" }}
-                                onClick={() => handleAddComment()}
-                            >
-                                Save Comment
-                            </Button>
+                            <AddFields />
 
-                            <Autocomplete
-                                freeSolo
-                                options={state.allTags}
-                                getOptionLabel={(option) => option.hashtagtxt}
-                                renderOption={(option) => (
-                                    <React.Fragment>
-                                        <div style={{
-                                            width: "100%",
-                                            overflow: "hidden",
-                                        }}>
-                                            <div style={{
-                                                float: "left"
-                                            }}>
-                                                {option.hashtagtxt}
-                                            </div>
-                                            <div style={{
-                                                textAlign: "right",
-                                                float: "right",
-                                                color: "gray"
-                                            }}>
-                                                {option.hashtagCount}
-                                            </div>
-                                        </div>
-                                    </React.Fragment>
-                                )}
-                                renderInput={(params) =>
-                                    <TextField
-                                        {...params}
-                                        label="New Tag"
-                                        defaultValue={state.newTagTxt}
-                                        inputProps={{
-                                            ...params.inputProps,
-                                            autoComplete: 'new-password', // disable autocomplete and autofill
-                                        }}
-                                        onKeyDown={handleKeyDownTag}
-                                    />
-                                }
-                                onInputChange={(event, value) => 
-                                    value ? dispatch({ type: "SET_NEW_TAG_TEXT", payload: value }) : null
-                                }
-
-                                style={{ width: "100%" }}
-                            />
-
-                            <Button
-                                variant="contained"
-                                color="primary"
-                                style={{ margin: "5px" }}
-                                onClick={() => handleAddTag()}
-                            >
-                                Save Tag
-                            </Button>
                             <div>
                                 <div style={{ margin: "20px 0" }}>
                                     {/* Tags -> Show tags of selected images and add new ones */}

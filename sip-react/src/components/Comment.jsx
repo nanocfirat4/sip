@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import { Row } from 'react-bootstrap';
 import { CommentService } from '../services/CommentService';
 import DeleteIcon from '@material-ui/icons/Delete';
-import { Grid, IconButton, Tooltip } from '@material-ui/core';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import { IconButton, Tooltip } from '@material-ui/core';
 import keycloak from '../keycloak';
 
 class Comment extends Component {
@@ -17,6 +18,19 @@ class Comment extends Component {
         })
     }
 
+    deleteForCurrent() {
+        return (
+            <Tooltip title="Delete for current">
+                <IconButton aria-label="delete">
+                    <DeleteIcon
+                        fontSize="medium"
+                        onClick={() => this.handleDeleteComment(this.props.comment)}
+                    />
+                </IconButton>
+            </Tooltip>
+        )
+    }
+
 
     // Rendering
     render() {
@@ -28,21 +42,28 @@ class Comment extends Component {
         return (
             <div className="comment"
                 style={{
-                    backgroundColor: "white",
+                    backgroundColor: this.props.isCommon ? "gray" : "white",
                     padding: "10px",
                     borderTop: "1px solid",
                     borderBottom: "1px solid",
                 }}
             >
                 <Row>
-                    <Tooltip title="Delete">
-                        <IconButton aria-label="delete">
-                            <DeleteIcon
-                                size={1}
-                                onClick={() => this.handleDeleteComment(this.props.comment)}
-                            />
-                        </IconButton>
-                    </Tooltip>
+                    {!this.props.isCommon ?
+                        this.deleteForCurrent()
+                        :
+                        <div>
+                            {this.deleteForCurrent()}
+                            <Tooltip title="Delete for all">
+                                <IconButton aria-label="delete">
+                                    <DeleteForeverIcon
+                                        fontSize="medium"
+                                        onClick={() => this.handleDeleteComment(this.props.comment)}
+                                    />
+                                </IconButton>
+                            </Tooltip>
+                        </div>
+                    }
                     <div>
                         {date[2]}.{date[1]}.{date[0]}, {time[0]}:{time[1]}<br />
                         {this.props.comment.commenttxt}

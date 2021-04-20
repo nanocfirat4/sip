@@ -5,10 +5,12 @@ import 'react-slideshow-image/dist/styles.css';
 import Comment from './Comment';
 import { GetPacsImage } from '../services/PacsService'
 import { Context } from '../Store';
+import AddFields from './AddFields';
 
 
 const ViewMode = () => {
     const [state, dispatch] = useContext(Context);
+    const [currentIndex, setCurrentIndex] = useState(0)
     const [currentImage, setCurrentImage] = useState(state.selectedImages[0]);
 
     useEffect(() => {
@@ -29,10 +31,34 @@ const ViewMode = () => {
         });
     }, []);
 
+    useEffect(() => {
+        setCurrentImage(state.selectedImages[currentIndex])
+    }, [state.selectedImages]);
+
 
     // Select image when Sliding
     function handleChange(previous, next) {
         setCurrentImage(state.selectedImages[next]);
+        setCurrentIndex(next)
+    }
+
+
+    function getCommentList() {
+        console.log(currentImage.imageCommentsList)
+        console.log(state.matchingComments)
+        var arr1 = currentImage.imageCommentsList
+        var arr2 = state.matchingComments
+
+        const result = arr1.reduce((acc, cur) => [...acc, arr2.find(({ id }) => cur.id === id) || cur], []);
+
+        return (
+            <div>
+                <h5>Kommentare und Tags in Common</h5>
+                {currentImage.imageCommentsList.map(comment =>
+                    state.matchingComments.find(({ id }) => comment.id === id) ? <Comment comment={comment} selectedImages={state.selectedImages} isCommon={true} /> : <Comment selectedImages={state.selectedImages} comment={comment} />
+                )}
+            </div>
+        )
     }
 
 
@@ -61,20 +87,13 @@ const ViewMode = () => {
                         </div>
                     </Col>
                     <Col md={4}>
-                        <div>
-                            Kommentare und Tags in Common<br />
-                            <div id="matchingComments">
-                                {state.matchingComments.map(comment =>
-                                    <Comment comment={comment} />
-                                )}
-                            </div>
-                        </div>
-                        <div>
-                            Description:<br />
-                            {currentImage.description}<br /><br />
-                            Kommentare zum aktuellen Bild<br />
-                            {currentImage.imageCommentsList.map(comment => <Comment comment={comment} />)}
-                        </div>
+                        <h3>{currentImage.description}</h3>
+
+
+                        <AddFields currentImage={currentImage} />
+
+                        {getCommentList()}
+
                     </Col>
                 </Row>
             </div>
