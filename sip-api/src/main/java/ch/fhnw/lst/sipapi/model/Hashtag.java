@@ -55,7 +55,7 @@ public class Hashtag {
             columnDefinition = "INTEGER")
     private int hashtagCount;
 
-    private void countHashtags(){
+    public void countHashtags(){
         this.hashtagCount = imageList.size();
     }
 

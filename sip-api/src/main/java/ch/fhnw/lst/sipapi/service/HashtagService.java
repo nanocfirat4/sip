@@ -17,6 +17,7 @@ public class HashtagService {
 
     public List<Hashtag> findAll(){
         List<Hashtag> allHashtags = hashtagRepository.findAll();
+        for (Hashtag hashtag:allHashtags) {hashtag.countHashtags();}
         allHashtags.sort((h1, h2) -> Integer.compare(h2.getHashtagCount(), h1.getHashtagCount()));
         return allHashtags;
     }
