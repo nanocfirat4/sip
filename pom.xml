@@ -9,6 +9,7 @@
         <module>sip-api</module>
         <module>sip-react</module>
         <module>sip-databaseloader</module>
+        <module>sip-status</module>
     </modules>
     <packaging>pom</packaging>
     <name>SIP Admin</name>
