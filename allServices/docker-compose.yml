@@ -29,7 +29,7 @@ services:
   status:
     image: php:7.3.0-apache
     volumes:
-      - ../status:/var/www/html
+      - ../sip-status:/var/www/html
     restart: always
   
 
