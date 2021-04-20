@@ -61,7 +61,7 @@ const SearchFields = () => {
                     options={state.allTags}
                     defaultValue={state.searchTags}
                     filterSelectedOptions
-                    getOptionLabel={(option) => option.hashtagtxt}
+                    getOptionLabel={(option) => {option.hashtagtxt + "(" + option.hashtagCount + ")"}}
                     renderInput={(params) =>
                         <TextField
                             {...params}
