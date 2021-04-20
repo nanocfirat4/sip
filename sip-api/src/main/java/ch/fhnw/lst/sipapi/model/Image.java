@@ -59,10 +59,7 @@ public class Image {
     @JoinTable(
             name = "image_comment_association",
             joinColumns = {@JoinColumn(name = "image_id",referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "comment_id",referencedColumnName = "id")},
-            uniqueConstraints={
-                    @UniqueConstraint( name = "idx_col1_col2",  columnNames ={"col1","col2"})
-            }
+            inverseJoinColumns = {@JoinColumn(name = "comment_id",referencedColumnName = "id")}
     )
     private List<Comment> imageCommentsList = new ArrayList<>();
 
@@ -74,10 +71,7 @@ public class Image {
     @JoinTable(
             name = "image_hashtag_association",
             joinColumns = {@JoinColumn(name = "image_id",referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "hashtag_id",referencedColumnName = "id")},
-            uniqueConstraints={
-                    @UniqueConstraint( name = "idx_col1_col2",  columnNames ={"col1","col2"})
-            }
+            inverseJoinColumns = {@JoinColumn(name = "hashtag_id",referencedColumnName = "id")}
     )
     private List<Hashtag> imageHashtagsList = new ArrayList<>();
 
