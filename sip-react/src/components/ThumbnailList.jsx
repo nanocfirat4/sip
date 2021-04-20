@@ -158,108 +158,76 @@ const ThumbnailList = () => {
     return (
         state.loading ? <p>Loading...</p> : (
             <div className="mt-3">
-                <SearchFields
-                    tags={state.allTags}
-                />
+
 
                 <Row>
                     <Col md={12} lg={3}>
-                        {/* Comments -> Show comments of selected images and add new ones */}
-                        {state.matchingComments.length > 0 ?
-                            <div id="matchingComments"
-                                style={{
-                                    borderRadius: "20px",
-                                    backgroundColor: "white",
-                                    padding: "10px"
-                                }}
-                            >
-                                {state.matchingComments.map(comment =>
-                                    <Comment selectedImages={state.selectedImages} comment={comment} updateSelected={updateSelected} />
-                                )}
-                            </div>
-                            : null
-                        }
-
-                        {/* Tags -> Show tags of selected images and add new ones */}
-                        {state.matchingTags ?
-                            state.matchingTags.map(tag =>
-                                <Chip
-                                    label={tag.hashtagtxt}
-                                    onDelete={() => handleDeleteTag(tag)}
-                                />
-                            )
-                            : null
-                        }
-
-                        <TextField
-                            id="add_comment"
-                            label="New Comment"
-                            value={state.newCommentTxt}
-                            onChange={(event) => dispatch({ type: "SET_NEW_COMMENT_TEXT", payload: event.target.value })}
-                            style={{ width: "100%" }}
-                            onKeyDown={handleKeyDownComment}
-                        />
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            style={{ margin: "5px" }}
-                            onClick={() => handleAddComment()}
-                        >
-                            Save Comment
-                        </Button>
-
-                        <TextField
-                            id="add_tag"
-                            label="New Tag"
-                            value={state.newTagTxt}
-                            onChange={(event) => dispatch({ type: "SET_NEW_TAG_TEXT", payload: event.target.value })}
-                            style={{ width: "100%" }}
-                            onKeyDown={handleKeyDownTag}
-                        />
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            style={{ margin: "5px" }}
-                            onClick={() => handleAddTag()}
-                        >
-                            Save Tag
-                        </Button>
-
-                        <br />
-
-                        {/* Display 'Show Images'-Button */}
-                        {state.selectedImages.length > 0 ?
-                            <LinkContainer to="/view">
-                                <Button
-                                    variant="contained"
-                                    color="primary"
-                                    style={{ margin: "5px" }}
-                                    onClick={() => dispatch({ type: "SET_LOADING", payload: true })}
+                        <div style={{
+                            position: "-webkit-sticky",
+                            position: "sticky",
+                            top: 0,
+                        }}>
+                            {/* Comments -> Show comments of selected images and add new ones */}
+                            {state.matchingComments.length > 0 ?
+                                <div id="matchingComments"
+                                    style={{
+                                        borderRadius: "20px",
+                                        backgroundColor: "white",
+                                        padding: "10px"
+                                    }}
                                 >
-                                    Show Images
-                                    </Button>
-                            </LinkContainer>
-                            : null}
+                                    {state.matchingComments.map(comment =>
+                                        <Comment selectedImages={state.selectedImages} comment={comment} updateSelected={updateSelected} />
+                                    )}
+                                </div>
+                                : null
+                            }
 
-                        <br />
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            style={{ margin: "5px" }}
-                            onClick={() => dispatch({type: "SET_SELECTED_IMAGES", payload: state.allImages})}
-                        >
-                            Select all
-                        </Button>
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            style={{ margin: "5px" }}
-                            onClick={() => dispatch({type: "SET_SELECTED_IMAGES", payload: []})}
-                        >
-                            unselect all
-                        </Button>
+                            {/* Tags -> Show tags of selected images and add new ones */}
+                            {state.matchingTags ?
+                                state.matchingTags.map(tag =>
+                                    <Chip
+                                        label={tag.hashtagtxt}
+                                        onDelete={() => handleDeleteTag(tag)}
+                                    />
+                                )
+                                : null
+                            }
 
+                            <TextField
+                                id="add_comment"
+                                label="New Comment"
+                                value={state.newCommentTxt}
+                                onChange={(event) => dispatch({ type: "SET_NEW_COMMENT_TEXT", payload: event.target.value })}
+                                style={{ width: "100%" }}
+                                onKeyDown={handleKeyDownComment}
+                            />
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                style={{ margin: "5px" }}
+                                onClick={() => handleAddComment()}
+                            >
+                                Save Comment
+                            </Button>
 
+                            <TextField
+                                id="add_tag"
+                                label="New Tag"
+                                value={state.newTagTxt}
+                                onChange={(event) => dispatch({ type: "SET_NEW_TAG_TEXT", payload: event.target.value })}
+                                style={{ width: "100%" }}
+                                onKeyDown={handleKeyDownTag}
+                            />
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                style={{ margin: "5px" }}
+                                onClick={() => handleAddTag()}
+                            >
+                                Save Tag
+                            </Button>
+                        </div>
                     </Col>
                     <Col md={12} lg={9}>
                         {/* Display Thumbnails */}
