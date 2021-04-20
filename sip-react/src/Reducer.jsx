@@ -60,6 +60,7 @@ const Reducer = (state, action) => {
 
         // Store searches
         case 'SET_NEW_TAG_TEXT':
+            console.log(action.payload)
             return {
                 ...state,
                 newTagTxt: action.payload

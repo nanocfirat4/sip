@@ -57,7 +57,6 @@ const SearchFields = () => {
             <Col md={3}>
                 <Autocomplete
                     multiple
-                    id="combo-box-demo"
                     options={state.allTags}
                     defaultValue={state.searchTags}
                     filterSelectedOptions
