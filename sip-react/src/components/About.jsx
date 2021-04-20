@@ -50,7 +50,7 @@ const About = () => {
             onChange={(event) => setToIndex(event.target.value)}
             style={{ margin: "20px", width: "100px" }}
         >
-            {Array.from({ length: state.allTags.length - fromIndex }, (v, i) => i + fromIndex + 2).map((option) => (
+            {Array.from({ length: state.allTags.length - fromIndex }, (v, i) => i + fromIndex + 1).map((option) => (
                 <MenuItem key={option} value={option}>
                     {option}
                 </MenuItem>
@@ -58,7 +58,7 @@ const About = () => {
         </TextField>
         
         <Paper>
-            <Chart data={state.allTags.slice(fromIndex, toIndex)}>
+            <Chart data={state.allTags.slice(fromIndex - 1, toIndex - 1)}>
                 <ArgumentAxis />
                 <ValueAxis may={7} />
 
