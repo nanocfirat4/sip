@@ -7,6 +7,7 @@ import { GetPacsImage } from '../services/PacsService'
 import { Context } from '../Store';
 import AddFields from './AddFields';
 import keycloak from '../keycloak'
+import PhotoSizeSelectLargeIcon from '@material-ui/icons/PhotoSizeSelectLarge';
 // Services
 import { ImageService } from '../services/ImageService'
 import { CommentService } from '../services/CommentService'
@@ -141,14 +142,26 @@ const ViewMode = () => {
                                 onChange={handleChange}
                             >
                                 {state.selectedImages.map(image =>
-                                    <div className="each-slide">
-                                        <img src={URL.createObjectURL(state.imageBlobs[image.pacs_id])}
-                                            style={{
-                                                display: 'block',
-                                                margin: 'auto',
-                                                maxWidth: '100%'
-                                            }}
-                                        />
+                                    <div className="each-slide" style={{
+                                        position: "relative",
+                                    }}>
+                                        
+                                            <img src={URL.createObjectURL(state.imageBlobs[image.pacs_id])}
+                                                style={{
+                                                    display: 'block',
+                                                    margin: 'auto',
+                                                    maxWidth: '100%'
+                                                }}
+                                            />
+                                            <a href={URL.createObjectURL(state.imageBlobs[image.pacs_id])} target="_blank"
+                                                style={{
+                                                    position: "absolute", top:"0", right:"0", 
+                                                }}
+                                            >
+                                                <PhotoSizeSelectLargeIcon 
+                                                    fontSize="large"
+                                                />
+                                            </a>
                                     </div>
                                 )}
                             </Slide>
