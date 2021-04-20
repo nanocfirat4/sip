@@ -22,8 +22,10 @@ const About = () => {
 
     useEffect(() => {
         TagService.authToken(keycloak.token)
-        TagService.findAll().then(res => dispatch({ type: "SET_ALL_TAGS", payload: res.data }))
-    }, [])
+        TagService.findAll().then((res) => {
+            dispatch({ type: "SET_ALL_TAGS", payload: res.data })
+        });
+    })
 
 
     return <div className='mt-3'>
