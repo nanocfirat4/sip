@@ -18,7 +18,6 @@ import Store from './Store'
 // Styles
 import './App.css'
 import SearchFields from './components/SearchFields';
-import { Button } from '@material-ui/core';
 
 
 const styles = (theme) => ({
