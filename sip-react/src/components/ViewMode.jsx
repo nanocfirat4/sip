@@ -6,6 +6,11 @@ import Comment from './Comment';
 import { GetPacsImage } from '../services/PacsService'
 import { Context } from '../Store';
 import AddFields from './AddFields';
+import keycloak from '../keycloak'
+// Services
+import { ImageService } from '../services/ImageService'
+import { CommentService } from '../services/CommentService'
+import { TagService } from '../services/TagService'
 
 
 const ViewMode = () => {
@@ -31,6 +36,45 @@ const ViewMode = () => {
         });
     }, []);
 
+    // Update all Comments and Tags and update selected images
+    function updateSelected() {
+
+        // Update all Comments
+        CommentService.authToken(keycloak.token)
+        CommentService.findAll()
+            .then(res => {
+                dispatch({ type: "SET_ALL_COMMENTS", payload: res.data })
+
+
+                // Update all Tags
+                TagService.authToken(keycloak.token)
+                TagService.findAll().then(res => {
+                    dispatch({ type: "SET_ALL_TAGS", payload: res.data })
+
+
+                    // Update the selected images
+                    ImageService.authToken(keycloak.token)
+                    var selectedImages = []
+                    var i = 1
+                    state.selectedImages.map(image => {
+                        ImageService.findById(image.id)
+                            .then(res => {
+                                selectedImages.push(res.data)
+                                if (i === state.selectedImages.length) {
+                                    dispatch({ type: "SET_SELECTED_IMAGES", payload: selectedImages })
+
+                                    // Update only selected images in allImages state
+                                    var allImages = state.allImages.reduce((acc, cur) => [...acc, selectedImages.find(({ id }) => cur.id === id) || cur], [])
+                                    dispatch({ type: "SET_ALL_IMAGES", payload: allImages })
+                                }
+                                else i++
+                            })
+                    })
+                })
+            })
+    }
+
+
     useEffect(() => {
         setCurrentImage(state.selectedImages[currentIndex])
     }, [state.selectedImages]);
@@ -44,21 +88,20 @@ const ViewMode = () => {
 
 
     function getCommentList() {
-        console.log(currentImage.imageCommentsList)
-        console.log(state.matchingComments)
-        var arr1 = currentImage.imageCommentsList
-        var arr2 = state.matchingComments
-
-        const result = arr1.reduce((acc, cur) => [...acc, arr2.find(({ id }) => cur.id === id) || cur], []);
-
         return (
             <div>
-                <h5>Kommentare und Tags in Common</h5>
+                <h5>Kommentare und Tags</h5>
                 {currentImage.imageCommentsList.map(comment =>
-                    state.matchingComments.find(({ id }) => comment.id === id) ? <Comment comment={comment} selectedImages={state.selectedImages} isCommon={true} /> : <Comment selectedImages={state.selectedImages} comment={comment} />
+                    state.matchingComments.find(({ id }) => comment.id === id)
+                        ? <Comment comment={comment} currentImage={currentImage} selectedImages={state.selectedImages} isCommon={true} updateSelected={updateSelected} />
+                        : <Comment selectedImages={state.selectedImages} currentImage={currentImage} comment={comment} updateSelected={updateSelected} />
                 )}
             </div>
         )
+    }
+
+    function getTagList() {
+
     }
 
 

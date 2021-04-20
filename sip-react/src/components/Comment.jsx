@@ -7,24 +7,30 @@ import { IconButton, Tooltip } from '@material-ui/core';
 import keycloak from '../keycloak';
 
 class Comment extends Component {
-    handleDeleteComment(comment) {
+    handleDeleteComment(comment, forCurrent) {
         var i = 1;
         CommentService.authToken(keycloak.token);
-        this.props.selectedImages.map(image => {
-            CommentService.remove(image.id, comment.id)
-                .then(() => {
-                    i === this.props.selectedImages.length ? this.props.updateSelected() : i++;
-                })
-        })
+        if (forCurrent) {
+            CommentService.remove(this.props.currentImage.id, comment.id)
+                .then(this.props.updateSelected())
+        }
+        else {
+            this.props.selectedImages.map(image => {
+                CommentService.remove(image.id, comment.id)
+                    .then(() => {
+                        i === this.props.selectedImages.length ? this.props.updateSelected() : i++;
+                    })
+            })
+        }
     }
 
-    deleteForCurrent() {
+    getDeleteForCurrent() {
         return (
             <Tooltip title="Delete for current">
                 <IconButton aria-label="delete">
                     <DeleteIcon
                         fontSize="medium"
-                        onClick={() => this.handleDeleteComment(this.props.comment)}
+                        onClick={() => this.handleDeleteComment(this.props.comment, true)}
                     />
                 </IconButton>
             </Tooltip>
@@ -50,10 +56,10 @@ class Comment extends Component {
             >
                 <Row>
                     {!this.props.isCommon ?
-                        this.deleteForCurrent()
+                        this.getDeleteForCurrent()
                         :
                         <div>
-                            {this.deleteForCurrent()}
+                            {this.getDeleteForCurrent()}
                             <Tooltip title="Delete for all">
                                 <IconButton aria-label="delete">
                                     <DeleteForeverIcon

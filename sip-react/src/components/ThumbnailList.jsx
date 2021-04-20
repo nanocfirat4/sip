@@ -8,10 +8,7 @@ import { ImageService } from '../services/ImageService'
 import { CommentService } from '../services/CommentService'
 import { TagService } from '../services/TagService'
 // Material-UI
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
 import Chip from '@material-ui/core/Chip';
-import Autocomplete from '@material-ui/lab/Autocomplete';
 // Global states
 import { Context } from '../Store';
 import AddFields from './AddFields';
@@ -161,19 +158,6 @@ const ThumbnailList = () => {
 
     }
 
-
-    // Search when enter ist pressed in comments field
-    function handleKeyDownComment(e) {
-        if (e.key === 'Enter') {
-            handleAddComment();
-        }
-    }
-    // Search when enter ist pressed in comments field
-    function handleKeyDownTag(e) {
-        if (e.key === 'Enter') {
-            handleAddTag();
-        }
-    }
 
     return (
         state.loading ? <p>Loading...</p> : (
