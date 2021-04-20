@@ -58,7 +58,7 @@ const About = () => {
         </TextField>
         
         <Paper>
-            <Chart data={state.allTags.slice(fromIndex - 1, toIndex - 1)}>
+            <Chart data={state.allTags.slice(fromIndex - 1, toIndex)}>
                 <ArgumentAxis />
                 <ValueAxis may={7} />
 
