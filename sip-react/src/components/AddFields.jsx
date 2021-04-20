@@ -12,9 +12,6 @@ import { Context } from '../Store';
 import { ImageService } from '../services/ImageService';
 
 
-
-
-
 export default function AddFields({ currentImage }) {
     const [state, dispatch] = useContext(Context);
 
@@ -131,15 +128,15 @@ export default function AddFields({ currentImage }) {
 
 
     // Search when enter ist pressed in comments field
-    function handleKeyDownComment(e, forImage) {
+    function handleKeyDownComment(e) {
         if (e.key === 'Enter') {
-            forImage ? handleAddComment(forImage) : handleAddComment();
+            currentImage ? handleAddComment(currentImage) : handleAddComment();
         }
     }
     // Search when enter ist pressed in comments field
-    function handleKeyDownTag(e, forImage) {
+    function handleKeyDownTag(e) {
         if (e.key === 'Enter') {
-            forImage ? handleAddTag(forImage) : handleAddTag();
+            currentImage ? handleAddTag(currentImage) : handleAddTag();
         }
     }
 

@@ -177,7 +177,9 @@ const SearchFields = () => {
                 </Button>
                 {/* Display 'Show Images'-Button */}
                 {state.selectedImages.length > 0 ?
-                    <LinkContainer to="/view">
+                    <LinkContainer to="/view"
+                        style={{color: "white"}}
+                    >
                         <Button
                             variant="contained"
                             color="primary"

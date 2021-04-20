@@ -48,7 +48,7 @@ class Comment extends Component {
         return (
             <div className="comment"
                 style={{
-                    backgroundColor: this.props.isCommon ? "gray" : "white",
+                    backgroundColor: this.props.isCommon ? "lightgray" : "white",
                     padding: "10px",
                     borderTop: "1px solid",
                     borderBottom: "1px solid",

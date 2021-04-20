@@ -7,6 +7,7 @@ import { GetPacsImage } from '../services/PacsService'
 import { Context } from '../Store';
 import AddFields from './AddFields';
 import keycloak from '../keycloak'
+import PhotoSizeSelectLargeIcon from '@material-ui/icons/PhotoSizeSelectLarge';
 // Services
 import { ImageService } from '../services/ImageService'
 import { CommentService } from '../services/CommentService'
@@ -111,8 +112,15 @@ const ViewMode = () => {
 
     function getTagList() {
         return (
-            <div>
-                <h5>Kommentare und Tags</h5>
+            <div id="matchingComments"
+                style={{
+                    borderRadius: "20px",
+                    backgroundColor: "white",
+                    padding: "10px",
+                    margin: "20px 0"
+                }}
+            >
+                <h5>Tags</h5>
                 {currentImage.imageHashtagsList.map(tag =>
                     state.matchingTags.find(({ id }) => tag.id === id)
                         ? console.log("show Common tag")
@@ -127,27 +135,39 @@ const ViewMode = () => {
         state.loading ? <div>Loading...</div> :
             <div id="imageView">
                 <Row>
-                    <Col md={8}>
+                    <Col lg={8}>
                         <div className="slide-container">
                             <Slide
                                 autoplay={false}
                                 onChange={handleChange}
                             >
                                 {state.selectedImages.map(image =>
-                                    <div className="each-slide">
-                                        <img src={URL.createObjectURL(state.imageBlobs[image.pacs_id])}
-                                            style={{
-                                                display: 'block',
-                                                margin: 'auto',
-                                                maxWidth: '100%'
-                                            }}
-                                        />
+                                    <div className="each-slide" style={{
+                                        position: "relative",
+                                    }}>
+                                        
+                                            <img src={URL.createObjectURL(state.imageBlobs[image.pacs_id])}
+                                                style={{
+                                                    display: 'block',
+                                                    margin: 'auto',
+                                                    maxWidth: '100%'
+                                                }}
+                                            />
+                                            <a href={URL.createObjectURL(state.imageBlobs[image.pacs_id])} target="_blank"
+                                                style={{
+                                                    position: "absolute", top:"0", right:"0", 
+                                                }}
+                                            >
+                                                <PhotoSizeSelectLargeIcon 
+                                                    fontSize="large"
+                                                />
+                                            </a>
                                     </div>
                                 )}
                             </Slide>
                         </div>
                     </Col>
-                    <Col md={4}>
+                    <Col lg={4}>
                         <div
                             style={{
                                 borderRadius: "20px",
@@ -161,6 +181,7 @@ const ViewMode = () => {
 
                         <AddFields currentImage={currentImage} />
 
+                        {getTagList()}
                         {getCommentList()}
 
                     </Col>
