@@ -21,11 +21,16 @@ const About = () => {
     console.log(state.allTags)
 
     useEffect(() => {
+        laodTags();
+    }, []);
+
+    // Load all tags
+    function laodTags() {
         TagService.authToken(keycloak.token)
         TagService.findAll().then((res) => {
             dispatch({ type: "SET_ALL_TAGS", payload: res.data })
         });
-    })
+    }
 
 
     return <div className='mt-3'>
@@ -58,7 +63,7 @@ const About = () => {
                 </MenuItem>
             ))}
         </TextField>
-        
+
         <Paper>
             <Chart data={state.allTags.slice(fromIndex - 1, toIndex)}>
                 <ArgumentAxis />
