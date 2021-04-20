@@ -97,9 +97,16 @@ const ThumbnailList = () => {
     return (
         state.loading ? <p>Loading...</p> : (
             <div className="mt-3">
-
-
                 <Row>
+                    <Col md={12} lg={9}>
+                        {/* Display Thumbnails */}
+                        {state.allImages.map(image =>
+                            <Thumbnail
+                                selectedImages={state.selectedImages}
+                                image={image}
+                            />
+                        )}
+                    </Col>
                     <Col md={12} lg={3}>
                         <div style={{
                             position: "-webkit-sticky",
@@ -153,15 +160,6 @@ const ThumbnailList = () => {
                                 </div>
                             </div>
                         </div>
-                    </Col>
-                    <Col md={12} lg={9}>
-                        {/* Display Thumbnails */}
-                        {state.allImages.map(image =>
-                            <Thumbnail
-                                selectedImages={state.selectedImages}
-                                image={image}
-                            />
-                        )}
                     </Col>
                 </Row>
             </div>
