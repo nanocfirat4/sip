@@ -89,8 +89,15 @@ const ViewMode = () => {
 
     function getCommentList() {
         return (
-            <div>
-                <h5>Kommentare und Tags</h5>
+            <div id="matchingComments"
+                style={{
+                    borderRadius: "20px",
+                    backgroundColor: "white",
+                    padding: "10px",
+                    margin: "20px 0"
+                }}
+            >
+                <h5>Comments</h5>
                 {currentImage.imageCommentsList.map(comment =>
                     state.matchingComments.find(({ id }) => comment.id === id)
                         ? <Comment comment={comment} currentImage={currentImage} selectedImages={state.selectedImages} isCommon={true} updateSelected={updateSelected} />
@@ -101,7 +108,16 @@ const ViewMode = () => {
     }
 
     function getTagList() {
-
+        return (
+            <div>
+                <h5>Kommentare und Tags</h5>
+                {currentImage.imageHashtagsList.map(tag =>
+                    state.matchingTags.find(({ id }) => tag.id === id)
+                        ? console.log("show Common tag")
+                        : console.log("show unique tag")
+                )}
+            </div>
+        )
     }
 
 
@@ -130,8 +146,16 @@ const ViewMode = () => {
                         </div>
                     </Col>
                     <Col md={4}>
-                        <h3>{currentImage.description}</h3>
+                        <div
+                            style={{
+                                borderRadius: "20px",
+                                backgroundColor: "white",
+                                padding: "10px",
+                                margin: "20px 0"
+                            }}>
 
+                            <h3>{currentImage.description}</h3>
+                        </div>
 
                         <AddFields currentImage={currentImage} />
 

@@ -10,7 +10,7 @@ class Comment extends Component {
     handleDeleteComment(comment, forCurrent) {
         var i = 1;
         CommentService.authToken(keycloak.token);
-        if (forCurrent) {
+        if (forCurrent && !this.props.forThumbnails) {
             CommentService.remove(this.props.currentImage.id, comment.id)
                 .then(this.props.updateSelected())
         }

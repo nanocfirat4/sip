@@ -7,11 +7,10 @@ import keycloak from '../keycloak'
 import { ImageService } from '../services/ImageService'
 import { CommentService } from '../services/CommentService'
 import { TagService } from '../services/TagService'
-// Material-UI
-import Chip from '@material-ui/core/Chip';
 // Global states
 import { Context } from '../Store';
 import AddFields from './AddFields';
+import Tag from './Tag';
 
 
 const ThumbnailList = () => {
@@ -52,59 +51,6 @@ const ThumbnailList = () => {
         });
     }
 
-    // Add new Comment to all selected images
-    function handleAddComment() {
-        if (state.newCommentTxt !== "") {
-            var i = 1;
-
-            CommentService.authToken(keycloak.token)
-            CommentService.add(state.newCommentTxt)
-                .then(res => {
-                    state.selectedImages.map((image) => {
-                        CommentService.assignComment(image.id, res.data.id)
-                            .then(() => {
-                                i === state.selectedImages.length ? updateSelected() : i++;
-                            })
-                    })
-                })
-            dispatch({ type: "SET_NEW_COMMENT_TEXT", payload: "" })
-        }
-    }
-
-    // Add new Tag to all selected images
-    function handleAddTag() {
-        if (state.newTagTxt !== "") {
-            var double = false;
-            var i = 1;
-
-            TagService.authToken(keycloak.token)
-
-            state.allTags.map(tag => {
-                if (tag.hashtagtxt === state.newTagTxt) {
-                    state.selectedImages.map((image) => {
-                        TagService.assignTag(image.id, tag.id)
-                            .then(() => {
-                                i === state.selectedImages.length ? updateSelected() : i++;
-                            })
-                    })
-                    double = true;
-                }
-            });
-
-            if (!double) {
-                TagService.add(state.newTagTxt)
-                    .then((res) => {
-                        state.selectedImages.map((image) => {
-                            TagService.assignTag(image.id, res.data.id)
-                                .then(() => {
-                                    i === state.selectedImages.length ? updateSelected() : i++;
-                                })
-                        })
-                    })
-                dispatch({ type: "SET_NEW_TAG_TEXT", payload: "" })
-            }
-        }
-    }
 
     // Update all Comments and Tags and update selected images
     function updateSelected() {
@@ -146,17 +92,6 @@ const ThumbnailList = () => {
 
 
 
-    const handleDeleteTag = (tag) => {
-        var i = 1;
-
-        TagService.authToken(keycloak.token);
-        state.selectedImages.map(image => {
-            TagService.remove(image.id, tag).then(() => {
-                i === state.selectedImages.length ? updateSelected() : i++;
-            })
-        })
-
-    }
 
 
     return (
@@ -174,20 +109,26 @@ const ThumbnailList = () => {
                             <AddFields />
 
                             <div>
-                                <div style={{ margin: "20px 0" }}>
+                                <div >
                                     {/* Tags -> Show tags of selected images and add new ones */}
-                                    {state.matchingTags ?
-                                        state.matchingTags.map(tag =>
-                                            <Chip
-                                                label={tag.hashtagtxt}
-                                                size="medium"
-                                                onDelete={() => handleDeleteTag(tag)}
-                                                style={{
-                                                    margin: "5px",
-                                                    fontSize: "11pt"
-                                                }}
-                                            />
-                                        )
+                                    {state.matchingTags.length > 0 ?
+                                        <div id="matchingTags"
+                                            style={{
+                                                borderRadius: "20px",
+                                                backgroundColor: "white",
+                                                padding: "10px",
+                                                margin: "20px 0"
+                                            }}
+                                        >
+                                            <h5>Tags in common</h5>
+                                            {state.matchingTags.map(tag =>
+                                                <Tag
+                                                    tag={tag}
+                                                    selectedImages={state.selectedImages}
+                                                    updateSelected={updateSelected}
+                                                />
+                                            )}
+                                        </div>
                                         : null
                                     }
                                 </div>
@@ -198,11 +139,13 @@ const ThumbnailList = () => {
                                             style={{
                                                 borderRadius: "20px",
                                                 backgroundColor: "white",
-                                                padding: "10px"
+                                                padding: "10px",
+                                                margin: "20px 0"
                                             }}
                                         >
+                                            <h5>Comments in common</h5>
                                             {state.matchingComments.map(comment =>
-                                                <Comment selectedImages={state.selectedImages} comment={comment} updateSelected={updateSelected} />
+                                                <Comment forThumbnails={true} selectedImages={state.selectedImages} comment={comment} updateSelected={updateSelected} />
                                             )}
                                         </div>
                                         : null
