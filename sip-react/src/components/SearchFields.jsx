@@ -62,6 +62,27 @@ const SearchFields = () => {
                     defaultValue={state.searchTags}
                     filterSelectedOptions
                     getOptionLabel={(option) => option.hashtagtxt}
+                    renderOption={(option) => (
+                        <React.Fragment>
+                            <div style={{
+                                width: "100%",
+                                overflow: "hidden",
+                            }}>
+                                <div style={{
+                                    float: "left"
+                                }}>
+                                    {option.hashtagtxt}
+                                </div> 
+                                <div style={{
+                                    textAlign: "right",
+                                    float: "right",
+                                    color: "gray"
+                                }}>
+                                    {option.hashtagCount}
+                                </div>
+                            </div>
+                        </React.Fragment>
+                    )}
                     renderInput={(params) =>
                         <TextField
                             {...params}

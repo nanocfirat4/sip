@@ -16,7 +16,10 @@ public class HashtagService {
     HashtagRepository hashtagRepository;
 
     public List<Hashtag> findAll(){
-        return hashtagRepository.findAll();
+        List<Hashtag> allHashtags = hashtagRepository.findAll();
+        for (Hashtag hashtag:allHashtags) {hashtag.countHashtags();}
+        allHashtags.sort((h1, h2) -> Integer.compare(h2.getHashtagCount(), h1.getHashtagCount()));
+        return allHashtags;
     }
     public Hashtag findById(Long id){
         return hashtagRepository.findById(id).orElseThrow(() ->

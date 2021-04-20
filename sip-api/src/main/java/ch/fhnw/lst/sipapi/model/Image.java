@@ -79,7 +79,9 @@ public class Image {
         imageHashtagsList.add(hashtag);
     }
 
-    public void removeHashtag(Hashtag hashtag){imageHashtagsList.remove(hashtag);}
+    public void removeHashtag(Hashtag hashtag){
+        imageHashtagsList.remove(hashtag);
+    }
 
     public Image(String description, String thumbnail, String pacs_id) {
         this.description = description;

@@ -40,17 +40,30 @@ public class Hashtag {
 
     public void addImage(Image image){
         imageList.add(image);
+        countHashtags();
+    }
+    public void removeImage(Image image){
+        imageList.remove(image);
+        countHashtags();
     }
 
     @ManyToMany(mappedBy = "searchFavHashtagsList")
     private List<Search_Favorites> searchFavList = new ArrayList<>();
 
-    public void addSearch_Favorites(Search_Favorites searchFavorites){
-        searchFavList.add(searchFavorites);
+    @Column(
+            name = "UseCount",
+            columnDefinition = "INTEGER")
+    private int hashtagCount;
+
+    public void countHashtags(){
+        this.hashtagCount = imageList.size();
     }
 
-    public Hashtag() {
+    public int getHashtagCount() {
+        return hashtagCount;
     }
+
+    public Hashtag() { }
 
     public Hashtag(String hashtagtxt) {
         this.hashtagtxt = hashtagtxt;
@@ -74,5 +87,9 @@ public class Hashtag {
 
     public Date getTimestamp() {
         return timestamp;
+    }
+
+    public void addSearch_Favorites(Search_Favorites searchFavorites){
+        searchFavList.add(searchFavorites);
     }
 }

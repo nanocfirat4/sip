@@ -68,6 +68,9 @@ public class ImageService {
         hashtagRepository.findById(hashtagId).orElseThrow(() ->
                 new ResourceNotFoundException("no such HashtagId with id "+id));
         imageRepository.findById(id).get().addHashtag(hashtagRepository.findById(hashtagId).get());
+        hashtagRepository.findById(hashtagId).get().addImage(imageRepository.findById(id).get());
+        hashtagRepository.findById(hashtagId).get().countHashtags();
+
     }
 
     public void removeHashtagToImage(Long hashtagId, Long id) {
@@ -77,6 +80,11 @@ public class ImageService {
         hashtagRepository.findById(hashtagId).orElseThrow(() ->
                 new ResourceNotFoundException("no such HashtagId with id "+id));
         imageRepository.findById(id).get().removeHashtag(hashtagRepository.findById(hashtagId).get());
+        hashtagRepository.findById(hashtagId).get().removeImage(imageRepository.findById(id).get());
+        hashtagRepository.findById(hashtagId).get().countHashtags();
+        if(hashtagRepository.findById(hashtagId).get().getHashtagCount()==0){
+            hashtagRepository.delete(hashtagRepository.findById(hashtagId).get());
+        }
     }
 
     public List<Image> findBySearch(Search_Favorites search) {
@@ -102,10 +110,10 @@ public class ImageService {
         if(!hashtags.isEmpty()){
             //if hashtag not found remove
             resultList.removeIf(image -> !checkHashtagsInImageTags(image.getImageHashtagsList(), hashtags));
-            if(resultList.size()==0){
-                resultList = images;
-            }
-            logger.info(hashtags.get(0).getHashtagtxt());
+            //if(resultList.size()==0){
+            //    resultList = images;
+            //}
+            //logger.info(hashtags.get(0).getHashtagtxt());
 
         }
         return resultList;
@@ -118,11 +126,8 @@ public class ImageService {
             for(Hashtag hashtag:imageHashtagsList){
                 if(hashtag.getHashtagtxt().equals(searchedhashtag.getHashtagtxt())) {
                     subtest=true;
-                    break;
                 }
-            }                
-            if(subtest)break;
-
+            }
             //IF one hashtag wasn't found in all imageHashtags -return false
             if(!subtest) {
                 return false;

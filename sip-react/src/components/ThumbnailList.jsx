@@ -85,10 +85,10 @@ const ThumbnailList = () => {
                             i === state.selectedImages.length ? updateSelected() : i++;
                         })
                 })
-        })
+            })
         dispatch({ type: "SET_NEW_TAG_TEXT", payload: "" })
     }
-    
+
     // Update all Comments and Tags and update selected images
     function updateSelected() {
 
@@ -118,7 +118,7 @@ const ThumbnailList = () => {
 
                                     // Update only selected images in allImages state
                                     var allImages = state.allImages.reduce((acc, cur) => [...acc, selectedImages.find(({ id }) => cur.id === id) || cur], [])
-                                    dispatch({type: "SET_ALL_IMAGES", payload: allImages})
+                                    dispatch({ type: "SET_ALL_IMAGES", payload: allImages })
                                 }
                                 else i++
                             })
@@ -167,33 +167,6 @@ const ThumbnailList = () => {
                             position: "sticky",
                             top: 0,
                         }}>
-                            {/* Comments -> Show comments of selected images and add new ones */}
-                            {state.matchingComments.length > 0 ?
-                                <div id="matchingComments"
-                                    style={{
-                                        borderRadius: "20px",
-                                        backgroundColor: "white",
-                                        padding: "10px"
-                                    }}
-                                >
-                                    {state.matchingComments.map(comment =>
-                                        <Comment selectedImages={state.selectedImages} comment={comment} updateSelected={updateSelected} />
-                                    )}
-                                </div>
-                                : null
-                            }
-
-                            {/* Tags -> Show tags of selected images and add new ones */}
-                            {state.matchingTags ?
-                                state.matchingTags.map(tag =>
-                                    <Chip
-                                        label={tag.hashtagtxt}
-                                        onDelete={() => handleDeleteTag(tag)}
-                                    />
-                                )
-                                : null
-                            }
-
                             <TextField
                                 id="add_comment"
                                 label="New Comment"
@@ -227,6 +200,37 @@ const ThumbnailList = () => {
                             >
                                 Save Tag
                             </Button>
+                            <div>
+                                <div style={{ margin: "20px 0" }}>
+                                    {/* Tags -> Show tags of selected images and add new ones */}
+                                    {state.matchingTags ?
+                                        state.matchingTags.map(tag =>
+                                            <Chip
+                                                label={tag.hashtagtxt}
+                                                onDelete={() => handleDeleteTag(tag)}
+                                            />
+                                        )
+                                        : null
+                                    }
+                                </div>
+                                <div>
+                                    {/* Comments -> Show comments of selected images and add new ones */}
+                                    {state.matchingComments.length > 0 ?
+                                        <div id="matchingComments"
+                                            style={{
+                                                borderRadius: "20px",
+                                                backgroundColor: "white",
+                                                padding: "10px"
+                                            }}
+                                        >
+                                            {state.matchingComments.map(comment =>
+                                                <Comment selectedImages={state.selectedImages} comment={comment} updateSelected={updateSelected} />
+                                            )}
+                                        </div>
+                                        : null
+                                    }
+                                </div>
+                            </div>
                         </div>
                     </Col>
                     <Col md={12} lg={9}>
