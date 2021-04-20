@@ -98,12 +98,12 @@ services:
   react:
     image: cr.gitlab.fhnw.ch/b-ls-mi-sip/projects-2021/sip2021-01-sth/sipreact
     volumes:
-      - '../sip-react:/app'
-      - '/home/sip/sip/react/Pictures:/app/public/Pictures'
-      - '/app/node_modules'
+#      - '../sip-react:/app'
+      - '/home/sip/sip/react/Pictures:/usr/share/nginx/html/Pictures'
+#      - '/app/node_modules'
     restart: always
-    environment:
-      - CHOKIDAR_USEPOLLING=true
+#    environment:
+#      - CHOKIDAR_USEPOLLING=true
 
 
 # Database Loader
