@@ -88,23 +88,25 @@ const ViewMode = () => {
 
 
     function getCommentList() {
-        return (
-            <div id="matchingComments"
-                style={{
-                    borderRadius: "20px",
-                    backgroundColor: "white",
-                    padding: "10px",
-                    margin: "20px 0"
-                }}
-            >
-                <h5>Comments</h5>
-                {currentImage.imageCommentsList.map(comment =>
-                    state.matchingComments.find(({ id }) => comment.id === id)
-                        ? <Comment comment={comment} currentImage={currentImage} selectedImages={state.selectedImages} isCommon={true} updateSelected={updateSelected} />
-                        : <Comment selectedImages={state.selectedImages} currentImage={currentImage} comment={comment} updateSelected={updateSelected} />
-                )}
-            </div>
-        )
+        if (currentImage.imageCommentsList.length > 0)
+            return (
+                <div id="matchingComments"
+                    style={{
+                        borderRadius: "20px",
+                        backgroundColor: "white",
+                        padding: "10px",
+                        margin: "20px 0"
+                    }}
+                >
+                    <h5>Comments</h5>
+                    {currentImage.imageCommentsList.map(comment =>
+                        state.matchingComments.find(({ id }) => comment.id === id)
+                            ? <Comment comment={comment} currentImage={currentImage} selectedImages={state.selectedImages} isCommon={true} updateSelected={updateSelected} />
+                            : <Comment selectedImages={state.selectedImages} currentImage={currentImage} comment={comment} updateSelected={updateSelected} />
+                    )}
+                </div>
+            )
+        return null
     }
 
     function getTagList() {

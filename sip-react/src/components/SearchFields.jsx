@@ -4,16 +4,47 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import { Col, Row } from 'react-bootstrap';
 import Button from '@material-ui/core/Button';
 import Slider from '@material-ui/core/Slider';
-import { Typography } from '@material-ui/core';
+import { Fade, Grid, Tooltip, Typography, withStyles, Zoom } from '@material-ui/core';
+import HelpIcon from '@material-ui/icons/Help';
+import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
+import InputAdornment from '@material-ui/core/InputAdornment';
 // Global states
 import { Context } from '../Store';
 import { ImageService } from '../services/ImageService';
 import keycloak from '../keycloak';
 import { LinkContainer } from 'react-router-bootstrap';
 
+const CssTextField = withStyles({
+    root: {
+        '& label.Mui-focused': {
+            color: 'lightgray',
+        },
+        '& .MuiInput-underline:after': {
+            borderBottomColor: 'lightgray',
+        },
+        '& label': {
+            color: 'lightgray',
+        },
+        width: "100%",
+    },
+})(TextField);
+
+const InfoTooltip = withStyles((theme) => ({
+    tooltip: {
+        backgroundColor: '#d3d3d3',
+        color: 'rgba(0, 0, 0, 0.87)',
+        border: "1px solid gray",
+        maxWidth: 420,
+        fontSize: theme.typography.pxToRem(14),
+    },
+}))(Tooltip);
+
+
 
 const SearchFields = () => {
     const [state, dispatch] = useContext(Context);
+
+
 
     // adjust thumbnail sizes
     function handleSliderChange(event, newValue) {
@@ -71,7 +102,7 @@ const SearchFields = () => {
                                     float: "left"
                                 }}>
                                     {option.hashtagtxt}
-                                </div> 
+                                </div>
                                 <div style={{
                                     textAlign: "right",
                                     float: "right",
@@ -83,25 +114,41 @@ const SearchFields = () => {
                         </React.Fragment>
                     )}
                     renderInput={(params) =>
-                        <TextField
+                        <CssTextField
                             {...params}
                             label="Tags"
                         />
                     }
-                    style={{ width: "100%" }}
                     onChange={(event, values) => dispatch({ type: "SET_SEARCH_TAGS", payload: values })}
                 />
             </Col>
             <Col md={3}>
-                <TextField
-                    id="comment-search"
-                    label="Comments"
-                    type="search"
-                    defaultValue={state.searchComments}
-                    onChange={(event) => dispatch({ type: "SET_SEARCH_COMMENTS", payload: event.target.value })}
-                    style={{ width: "100%" }}
-                    onKeyDown={handleKeyDown}
-                />
+                <div style={{
+
+                }}>
+                    <CssTextField
+                        id="comment-search"
+                        label="Comments & Description"
+                        type="search"
+                        defaultValue={state.searchComments}
+                        onChange={(event) => dispatch({ type: "SET_SEARCH_COMMENTS", payload: event.target.value })}
+                        onKeyDown={handleKeyDown}
+                        InputProps={{
+                            endAdornment: (
+                                <InputAdornment>
+                                    <InfoTooltip
+                                        title="Free text search for keywords in comments or image description. Use a colon ',' for an 'AND' request. For example 'Azan, tooth' for 'Azan' AND 'tooth'."
+                                    >
+                                        <HelpIcon
+                                            color="disabled"
+                                            alt="Fuck off"
+                                        />
+                                    </InfoTooltip>
+                                </InputAdornment>
+                            )
+                        }}
+                    />
+                </div>
             </Col>
             <Col md={4} xs={12}>
                 <Button
@@ -127,7 +174,7 @@ const SearchFields = () => {
                     onClick={() => dispatch({ type: "SET_SELECTED_IMAGES", payload: [] })}
                 >
                     unselect all
-                        </Button>
+                </Button>
                 {/* Display 'Show Images'-Button */}
                 {state.selectedImages.length > 0 ?
                     <LinkContainer to="/view">
@@ -138,7 +185,7 @@ const SearchFields = () => {
                             onClick={() => dispatch({ type: "SET_LOADING", payload: true })}
                         >
                             Show Images
-                                    </Button>
+                        </Button>
                     </LinkContainer>
                     : null}
 
