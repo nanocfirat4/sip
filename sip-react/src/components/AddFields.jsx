@@ -50,7 +50,7 @@ export default function AddFields({ currentImage }) {
             TagService.authToken(keycloak.token)
 
             state.allTags.map(tag => {
-                if (tag.hashtagtxt === state.newTagTxt) {
+                if (tag.hashtagtxt.toLowerCase() === state.newTagTxt.toLowerCase()) {
                     if (forImage){
                         TagService.assignTag(forImage.id, tag.id)
                             .then(() => updateSelected())
@@ -68,7 +68,7 @@ export default function AddFields({ currentImage }) {
             });
 
             if (!double) {
-                TagService.add(state.newTagTxt)
+                TagService.add(state.newTagTxt.toLowerCase())
                     .then((res) => {
                         if (forImage) {
                             TagService.assignTag(forImage.id, res.data.id)
