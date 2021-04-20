@@ -51,7 +51,6 @@ public class DatabaseLoader{
                     logger.trace("Got all information from "+pacsid+" : "+description);
                     boolean worked = savePictureInDatabase(description,thumbnail,pacs_id);
                     if(worked){
-                        loadedPics.add(pacs_id);
                         logger.info(pacsid+" loaded to Database");
                     }else logger.error(pacsid+" NOT loaded to Database");
                 }
