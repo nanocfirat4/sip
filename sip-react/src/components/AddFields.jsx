@@ -10,6 +10,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 // Global states
 import { Context } from '../Store';
 import { ImageService } from '../services/ImageService';
+import { ThemeProvider } from '@material-ui/styles';
 
 
 export default function AddFields({ currentImage }) {
@@ -188,7 +189,7 @@ export default function AddFields({ currentImage }) {
             />
 
             {currentImage ?
-                <Button
+            <ThemeProvider theme={buttonTheme}>                <Button
                     variant="contained"
                     color="primary"
                     style={{ margin: "5px" }}
@@ -196,6 +197,8 @@ export default function AddFields({ currentImage }) {
                 >
                     Save for current
                 </Button>
+                </ThemeProvider>
+
             : null}
 
             <Button

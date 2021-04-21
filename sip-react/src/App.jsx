@@ -56,7 +56,6 @@ const App = (props) => {
                 main: '#4a646c',
             },
             secondary: {
-                // This is green.A700 as hex.
                 main: '#81c784',
             },
         },
@@ -97,7 +96,7 @@ const App = (props) => {
                                 <AppNavBar setHide={false} buttonTheme={buttonTheme}/>
                             </AppBar>
                             <div className={classes.toolbar} style={{ marginTop: "20px" }} />
-                            <ViewMode />
+                            <ViewMode buttonTheme={buttonTheme}/>
                         </Route>
                     </Switch>
                 </Router>

@@ -217,6 +217,8 @@ const SearchFields = (props) => {
                 <Typography style={{ textAlign: "center" }}>
                     Thumbnail size
                 </Typography>
+                
+                <ThemeProvider theme={props.buttonTheme}>
                 <Slider
                     // getAriaValueText={this.valuetext}
                     aria-labelledby="discrete-slider"
@@ -230,6 +232,8 @@ const SearchFields = (props) => {
                     style={{ width: "100%" }}
                     onChange={handleSliderChange}
                 />
+                </ThemeProvider>
+                
             </Col>
         </Row>
     );
