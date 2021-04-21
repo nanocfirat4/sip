@@ -30,6 +30,7 @@ public class DatabaseLoader{
     public static String API_HTTP = "https://v000561.fhnw.ch/api/image";
     public static String ORTHANC_HTTP = "https://v000561.fhnw.ch/orthanc";
     public static String REACT_PATH = "/var/lib/sip-react/Pictures/";
+    // LOCAL public static String REACT_PATH = "sip-react/public/Pictures";
     public static LocalDateTime lastAccessToken = LocalDateTime.now().minusMinutes(5);
     public static String access_token = "";
 
@@ -262,6 +263,7 @@ public class DatabaseLoader{
             throw ioe;
         }
         int thumbnailWidth = 150;
+        int thumbnailheight = originalBufferedImage.getHeight()/(originalBufferedImage.getWidth()/thumbnailWidth) ;
 
         int widthToScale, heightToScale;
         if (originalBufferedImage.getWidth() > originalBufferedImage.getHeight()) {
@@ -272,11 +274,9 @@ public class DatabaseLoader{
 
         } else {
             widthToScale = (int)(1.1 * thumbnailWidth);
-            heightToScale = (int)((widthToScale * 1.0) / originalBufferedImage.getWidth()
-                    * originalBufferedImage.getHeight());
+            heightToScale = (int)((widthToScale * 1.0) / originalBufferedImage.getWidth() * originalBufferedImage.getHeight());
         }
-        BufferedImage resizedImage = new BufferedImage(widthToScale,
-                heightToScale, originalBufferedImage.getType());
+        BufferedImage resizedImage = new BufferedImage(widthToScale, heightToScale, originalBufferedImage.getType());
         Graphics2D g = resizedImage.createGraphics();
 
         g.setComposite(AlphaComposite.Src);
@@ -294,10 +294,10 @@ public class DatabaseLoader{
             throw new IllegalArgumentException("Width of new thumbnail is bigger than original image");
         }
 
-        BufferedImage thumbnailBufferedImage = resizedImage.getSubimage(x, y, thumbnailWidth, thumbnailWidth);
+        //BufferedImage thumbnailBufferedImage = resizedImage.getSubimage(x, y, thumbnailWidth, thumbnailheight);
 
         try {
-            ImageIO.write(thumbnailBufferedImage, "JPG", new File(REACT_PATH +"/Thumb/"+file.getName()));
+            ImageIO.write(resizedImage, "JPG", new File(REACT_PATH +"/Thumb/"+file.getName()));
         }
         catch (IOException ioe) {
             logger.error("Error writing image to file");
