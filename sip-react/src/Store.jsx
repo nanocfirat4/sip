@@ -17,6 +17,8 @@ const initialState = {
     searchTags: [],
     matchingTags: [],
     newTagTxt: "",
+
+    thumbnailSize: 150,
 };
 
 const Store = ({children}) => {

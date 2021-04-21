@@ -61,6 +61,9 @@ const Thumbnail = ({ image }) => {
                     className="thumbnail_img"
                     title={image.description}
                     alt={image.description}
+                    style={{
+                        width: state.thumbnailSize
+                    }}
                 />
             </div>
         </div>

@@ -1,5 +1,5 @@
 import { MenuItem, Paper, TextField } from '@material-ui/core'
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Context } from '../Store'
 
 import {
@@ -10,27 +10,12 @@ import {
     ValueAxis,
 } from '@devexpress/dx-react-chart-material-ui';
 import { Animation } from '@devexpress/dx-react-chart';
-import { TagService } from '../services/TagService';
-import keycloak from '../keycloak';
 
 const About = () => {
     const [state, dispatch] = useContext(Context)
 
-    const [fromIndex, setFromIndex] = useState(1)
-    const [toIndex, setToIndex] = useState(state.allTags.length > 20 ? 20 : state.allTags.length)
-    console.log(state.allTags)
-
-    useEffect(() => {
-        laodTags();
-    }, []);
-
-    // Load all tags
-    function laodTags() {
-        TagService.authToken(keycloak.token)
-        TagService.findAll().then((res) => {
-            dispatch({ type: "SET_ALL_TAGS", payload: res.data })
-        });
-    }
+    const [fromIndex, setFromIndex] = useState(0)
+    const [toIndex, setToIndex] = useState(15)
 
 
     return <div className='mt-3'>
@@ -42,7 +27,7 @@ const About = () => {
             onChange={(event) => setFromIndex(event.target.value)}
             style={{ margin: "20px", width: "100px" }}
         >
-            {Array.from({ length: toIndex }, (v, i) => i + 1).map((option) => (
+            {Array.from({ length: toIndex }, (v, i) => i).map((option) => (
                 <MenuItem key={option} value={option}>
                     {option}
                 </MenuItem>
@@ -63,9 +48,9 @@ const About = () => {
                 </MenuItem>
             ))}
         </TextField>
-
+        
         <Paper>
-            <Chart data={state.allTags.slice(fromIndex - 1, toIndex)}>
+            <Chart data={state.allTags.slice(fromIndex, toIndex)}>
                 <ArgumentAxis />
                 <ValueAxis may={7} />
 
