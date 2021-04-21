@@ -17,7 +17,12 @@ public class HashtagService {
 
     public List<Hashtag> findAll(){
         List<Hashtag> allHashtags = hashtagRepository.findAll();
-        for (Hashtag hashtag:allHashtags) {hashtag.countHashtags();}
+        for (Hashtag hashtag:allHashtags) {
+            hashtag.countHashtags();
+            if(hashtag.getHashtagCount()==0){
+                hashtagRepository.delete(hashtag);
+            }
+        }
         allHashtags.sort((h1, h2) -> Integer.compare(h2.getHashtagCount(), h1.getHashtagCount()));
         return allHashtags;
     }
@@ -28,4 +33,5 @@ public class HashtagService {
     public Hashtag save(Hashtag hashtag){
         return hashtagRepository.save(hashtag);
     }
+
 }
