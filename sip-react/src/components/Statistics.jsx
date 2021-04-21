@@ -11,7 +11,7 @@ import {
 } from '@devexpress/dx-react-chart-material-ui';
 import { Animation } from '@devexpress/dx-react-chart';
 
-const About = () => {
+const Statistics = () => {
     const [state, dispatch] = useContext(Context)
 
     const [fromIndex, setFromIndex] = useState(0)
@@ -64,4 +64,4 @@ const About = () => {
         </Paper>
     </div>
 }
-export default About
+export default Statistics

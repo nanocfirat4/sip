@@ -14,8 +14,8 @@ function AppNavBar({ setHide }) {
                     <LinkContainer to='/'>
                         <Nav.Link>Home</Nav.Link>
                     </LinkContainer>
-                    <LinkContainer to='/about'>
-                        <Nav.Link>About</Nav.Link>
+                    <LinkContainer to='/stats'>
+                        <Nav.Link>Statistics</Nav.Link>
                     </LinkContainer>
                 </Nav>
                 <Navbar.Text>

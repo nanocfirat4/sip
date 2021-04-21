@@ -6,7 +6,6 @@ import { Container } from 'react-bootstrap';
 import ViewMode from './components/ViewMode'
 import AppNavBar from './components/AppNavBar'
 import ThumbnailList from './components/ThumbnailList'
-import About from './components/About'
 // MAterial UI
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -18,6 +17,7 @@ import Store from './Store'
 // Styles
 import './App.css'
 import SearchFields from './components/SearchFields';
+import Statistics from './components/Statistics';
 
 
 const styles = (theme) => ({
@@ -74,12 +74,12 @@ const App = (props) => {
 
                             <ThumbnailList />
                         </Route>
-                        <Route path='/about'>
+                        <Route path='/stats'>
                             <AppBar>
                                 <AppNavBar setHide={false} />
                             </AppBar>
                             <div className={classes.toolbar} style={{ marginTop: "20px" }} />
-                            <About />
+                            <Statistics />
                         </Route>
                         <Route path='/view'>
                             <AppBar>
