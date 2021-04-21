@@ -3,6 +3,8 @@ import React from 'react'
 import { Navbar, Nav, Button } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 import keycloak from '../keycloak'
+import { ThemeProvider } from '@material-ui/styles';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 
 function AppNavBar({ setHide, buttonTheme }) {
     return (
