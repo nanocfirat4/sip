@@ -1,5 +1,5 @@
 import { MenuItem, Paper, TextField } from '@material-ui/core'
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Context } from '../Store'
 
 import {
@@ -10,20 +10,12 @@ import {
     ValueAxis,
 } from '@devexpress/dx-react-chart-material-ui';
 import { Animation } from '@devexpress/dx-react-chart';
-import { TagService } from '../services/TagService';
-import keycloak from '../keycloak';
 
 const About = () => {
     const [state, dispatch] = useContext(Context)
 
     const [fromIndex, setFromIndex] = useState(0)
     const [toIndex, setToIndex] = useState(15)
-    console.log(state.allTags)
-
-    useEffect(() => {
-        TagService.authToken(keycloak.token)
-        TagService.findAll().then(res => dispatch({ type: "SET_ALL_TAGS", payload: res.data }))
-    }, [])
 
 
     return <div className='mt-3'>
