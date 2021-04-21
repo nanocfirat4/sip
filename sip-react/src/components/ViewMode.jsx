@@ -12,7 +12,6 @@ import PhotoSizeSelectLargeIcon from '@material-ui/icons/PhotoSizeSelectLarge';
 import { ImageService } from '../services/ImageService'
 import { CommentService } from '../services/CommentService'
 import { TagService } from '../services/TagService'
-import { ThemeProvider } from '@material-ui/styles';
 
 
 const ViewMode = (buttonTheme) => {
