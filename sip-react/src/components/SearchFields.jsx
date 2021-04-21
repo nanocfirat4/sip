@@ -127,20 +127,6 @@ const SearchFields = () => {
                         />
                     }
                     onChange={handleTagChange}
-                    InputProps={{
-                        endAdornment: (
-                            <InputAdornment>
-                                <InfoTooltip
-                                    title="All the tags shown are 'AND' connected. With the search button only pictures with common tags will be selected."
-                                >
-                                    <HelpIcon
-                                        color="secondary"
-                                        alt="Fuck off"
-                                    />
-                                </InfoTooltip>
-                            </InputAdornment>
-                        )
-                    }}
                 />
             </Col>
             <Col md={3}>
