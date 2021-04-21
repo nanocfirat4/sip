@@ -27,7 +27,7 @@ import keycloak from './keycloak'
 
 
 //Initialization of the keycloak instance
-keycloak.init({ onLoad: 'login-required' }).success((authenticated) => {
+keycloak.init({ onLoad: 'login-required' }).then((authenticated) => {
   console.log(keycloak);
   console.log(authenticated);
   // console.log(getState().keycloakLogin);
@@ -45,22 +45,36 @@ keycloak.init({ onLoad: 'login-required' }).success((authenticated) => {
   sessionStorage.setItem('refreshToken', keycloak.refreshToken);
 
   //to regenerate token on expiry
-  setTimeout(() => {
-      keycloak.updateToken(70).success((refreshed) => {
+  /*setTimeout(() => {
+      keycloak.updateToken(298).then((refreshed) => {
           if (refreshed) {
               console.debug('Token refreshed' + refreshed);
           } else {
               console.warn('Token not refreshed, valid for '
                   + Math.round(keycloak.tokenParsed.exp + keycloak.timeSkew - new Date().getTime() / 1000) + ' seconds');
           }
-      }).error(() => {
+      }).catch(() => {
           console.error('Failed to refresh token');
       });
 
 
-  }, 60000)
+  }, 1000)*/
+    const refresh = async () => {
+        keycloak.updateToken(121).then((refreshed) => {
+            if (refreshed) {
+                console.debug('Token refreshed' + refreshed);
+            } else {
+                console.warn('Token not refreshed, valid for '
+                    + Math.round(keycloak.tokenParsed.exp + keycloak.timeSkew - new Date().getTime() / 1000) + ' seconds');
+            }
+        }).catch(() => {
+            console.error('Failed to refresh token');
+        });
+        setTimeout(refresh, 60 * 1000);
+    }
+    refresh()
 
-}).error(() => {
+}).catch(() => {
   console.error("Authenticated Failed");
 });
 
