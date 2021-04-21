@@ -147,7 +147,7 @@ const SearchFields = () => {
                                         title="Free text search for keywords in comments or image description. Use a colon ',' for an 'AND' request. For example 'Azan, tooth' for 'Azan' AND 'tooth'."
                                     >
                                         <HelpIcon
-                                            color="disabled"
+                                            color="secondary"
                                             alt="Fuck off"
                                         />
                                     </InfoTooltip>
@@ -212,7 +212,7 @@ const SearchFields = () => {
                     Thumbnail size
                 </Typography>
                 <Slider
-                    // getAriaValueText={this.valuetext}
+                    color = "secondary"
                     aria-labelledby="discrete-slider"
                     valueLabelDisplay="auto"
                     step={50}
