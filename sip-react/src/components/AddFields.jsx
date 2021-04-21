@@ -189,7 +189,8 @@ export default function AddFields({ currentImage , buttonTheme}) {
             />
 
             {currentImage ?
-            <ThemeProvider theme={buttonTheme}>                <Button
+            <ThemeProvider theme={buttonTheme}>                
+            <Button
                     variant="contained"
                     color="primary"
                     style={{ margin: "5px" }}
@@ -200,6 +201,7 @@ export default function AddFields({ currentImage , buttonTheme}) {
                 </ThemeProvider>
 
             : null}
+            <ThemeProvider theme={buttonTheme}>                
 
             <Button
                 variant="contained"
@@ -209,6 +211,7 @@ export default function AddFields({ currentImage , buttonTheme}) {
             >
                 Save for all
             </Button>
+            </ThemeProvider>                
 
             <TextField
                 id="add_comment"
@@ -219,6 +222,8 @@ export default function AddFields({ currentImage , buttonTheme}) {
                 onKeyDown={handleKeyDownComment}
             />
             {currentImage ?
+             <ThemeProvider theme={buttonTheme}>                
+
                 <Button
                     variant="contained"
                     color="primary"
@@ -227,8 +232,10 @@ export default function AddFields({ currentImage , buttonTheme}) {
                 >
                     Save for current
                 </Button>
-            : null}
+                </ThemeProvider>                
 
+            : null}
+            <ThemeProvider theme={buttonTheme}>                
             <Button
                 variant="contained"
                 color="primary"
@@ -237,6 +244,8 @@ export default function AddFields({ currentImage , buttonTheme}) {
             >
                 Save for all
             </Button>
+            </ThemeProvider>                
+
 
         </div>
     )
