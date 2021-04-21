@@ -74,7 +74,7 @@ For instance: %s 127.0.0.1 8042 .
     exit(-1)
 
 
-URL = 'https://%s/instances' % (sys.argv[1])
+URL = 'http://%s/instances' % (sys.argv[1])
 
 
 success_count = 0
