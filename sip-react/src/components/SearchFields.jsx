@@ -13,6 +13,7 @@ import { Context } from '../Store';
 import { ImageService } from '../services/ImageService';
 import keycloak from '../keycloak';
 import { LinkContainer } from 'react-router-bootstrap';
+import { ThemeProvider } from '@material-ui/styles';
 
 const CssTextField = withStyles({
     root: {
@@ -41,7 +42,7 @@ const InfoTooltip = withStyles((theme) => ({
 
 
 
-const SearchFields = () => {
+const SearchFields = (props) => {
     const [state, dispatch] = useContext(Context);
 
 
@@ -147,10 +148,12 @@ const SearchFields = () => {
                                     <InfoTooltip
                                         title="Free text search for keywords in comments or image description. Use a colon ',' for an 'AND' request. For example 'Azan, tooth' for 'Azan' AND 'tooth'."
                                     >
+                                        <ThemeProvider theme={props.buttonTheme}>
                                         <HelpIcon
-                                            color="disabled"
+                                            color="secondary"
                                             alt="Fuck off"
                                         />
+                                        </ThemeProvider>
                                     </InfoTooltip>
                                 </InputAdornment>
                             )
@@ -159,6 +162,7 @@ const SearchFields = () => {
                 </div>
             </Col>
             <Col md={4} xs={12}>
+                <ThemeProvider theme={props.buttonTheme}>
                 <Button
                     onClick={() => handleSearch()}
                     variant="contained"
@@ -167,6 +171,7 @@ const SearchFields = () => {
                 >
                     Search
                 </Button>
+                </ThemeProvider>
                 <Button
                     onClick={() => handleReset()}
                     variant="contained"
