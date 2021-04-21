@@ -180,7 +180,7 @@ const ViewMode = () => {
                             <h3>{currentImage.description}</h3>
                         </div>
 
-                        <AddFields/>
+                        <AddFields currentImage={currentImage}/>
 
                         {getTagList()}
                         {getCommentList()}
