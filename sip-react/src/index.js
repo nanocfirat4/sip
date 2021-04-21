@@ -45,20 +45,6 @@ keycloak.init({ onLoad: 'login-required' }).then((authenticated) => {
   sessionStorage.setItem('refreshToken', keycloak.refreshToken);
 
   //to regenerate token on expiry
-  /*setTimeout(() => {
-      keycloak.updateToken(298).then((refreshed) => {
-          if (refreshed) {
-              console.debug('Token refreshed' + refreshed);
-          } else {
-              console.warn('Token not refreshed, valid for '
-                  + Math.round(keycloak.tokenParsed.exp + keycloak.timeSkew - new Date().getTime() / 1000) + ' seconds');
-          }
-      }).catch(() => {
-          console.error('Failed to refresh token');
-      });
-
-
-  }, 1000)*/
     const refresh = async () => {
         keycloak.updateToken(121).then((refreshed) => {
             if (refreshed) {
