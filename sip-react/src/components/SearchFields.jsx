@@ -57,10 +57,10 @@ const SearchFields = () => {
     };
 
     // Search when button is clicked
-    function handleSearch() {
+    function handleSearch(tagValues) {
         dispatch({ type: "SET_LOADING", payload: true });
         ImageService.authToken(keycloak.token);
-        ImageService.findByFilter(state.searchComments, state.searchTags)
+        ImageService.findByFilter(state.searchComments, tagValues ? tagValues : state.searchTags)
             .then(res => dispatch({ type: "SET_ALL_IMAGES", payload: res.data }))
             .then(dispatch({ type: "SET_LOADING", payload: false }))
         dispatch({ type: "SET_SELECTED_IMAGES", payload: [] })
@@ -71,6 +71,12 @@ const SearchFields = () => {
         if (e.key === 'Enter') {
             handleSearch();
         }
+    }
+
+    // Automatically search when new Tag is selected
+    function handleTagChange(event, values) {
+        dispatch({ type: "SET_SEARCH_TAGS", payload: values });
+        handleSearch(values);
     }
 
 
@@ -119,7 +125,7 @@ const SearchFields = () => {
                             label="Tags"
                         />
                     }
-                    onChange={(event, values) => dispatch({ type: "SET_SEARCH_TAGS", payload: values })}
+                    onChange={handleTagChange}
                 />
             </Col>
             <Col md={3}>
