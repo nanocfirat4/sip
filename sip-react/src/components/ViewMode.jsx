@@ -12,6 +12,7 @@ import PhotoSizeSelectLargeIcon from '@material-ui/icons/PhotoSizeSelectLarge';
 import { ImageService } from '../services/ImageService'
 import { CommentService } from '../services/CommentService'
 import { TagService } from '../services/TagService'
+import Tag from './Tag';
 
 
 const ViewMode = () => {
@@ -123,8 +124,8 @@ const ViewMode = () => {
                 <h5>Tags</h5>
                 {currentImage.imageHashtagsList.map(tag =>
                     state.matchingTags.find(({ id }) => tag.id === id)
-                        ? console.log("show Common tag")
-                        : console.log("show unique tag")
+                        ? <Tag viewMode={true} updateSelected={updateSelected} common={true} selectedImages={state.selectedImages} tag={tag} currentImage={currentImage} />
+                        : <Tag viewMode={true} updateSelected={updateSelected} selectedImages={state.selectedImages} tag={tag} currentImage={currentImage} />
                 )}
             </div>
         )
