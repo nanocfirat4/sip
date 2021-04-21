@@ -48,11 +48,7 @@ const SearchFields = () => {
 
     // adjust thumbnail sizes
     function handleSliderChange(event, newValue) {
-        var items = document.getElementsByClassName("thumbnail_img")
-
-        for (var i = 0; i < items.length; i++) {
-            items[i].style.width = (newValue + "px");
-        }
+        dispatch({type: "SET_THUMBNAIL_SIZE", payload: newValue})
     };
 
     // Search when button is clicked

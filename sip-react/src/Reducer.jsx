@@ -71,6 +71,14 @@ const Reducer = (state, action) => {
                 newCommentTxt: action.payload
             };
 
+        // Thumbnail Size
+        case 'SET_THUMBNAIL_SIZE':
+            return {
+                ...state,
+                thumbnailSize: action.payload
+            };
+        
+
         default:
             return state;
     }
