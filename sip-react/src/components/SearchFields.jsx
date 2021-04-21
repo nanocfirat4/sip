@@ -52,7 +52,6 @@ const SearchFields = () => {
 
         for (var i = 0; i < items.length; i++) {
             items[i].style.width = (newValue + "px");
-            items[i].style.height = (newValue + "px");
         }
     };
 
