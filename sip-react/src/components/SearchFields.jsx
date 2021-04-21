@@ -52,10 +52,10 @@ const SearchFields = () => {
     };
 
     // Search when button is clicked
-    function handleSearch(tagValues) {
+    function handleSearch(tagValues, commentValues) {
         dispatch({ type: "SET_LOADING", payload: true });
         ImageService.authToken(keycloak.token);
-        ImageService.findByFilter(state.searchComments, tagValues ? tagValues : state.searchTags)
+        ImageService.findByFilter(commentValues === "" ? commentValues : state.searchComments, tagValues ? tagValues : state.searchTags)
             .then(res => dispatch({ type: "SET_ALL_IMAGES", payload: res.data }))
             .then(dispatch({ type: "SET_LOADING", payload: false }))
         dispatch({ type: "SET_SELECTED_IMAGES", payload: [] })
@@ -74,6 +74,13 @@ const SearchFields = () => {
         handleSearch(values);
     }
 
+    // Reset current search
+    function handleReset(){
+        dispatch({ type: "SET_SEARCH_COMMENTS", payload: "" });
+        dispatch({ type: "SET_SEARCH_TAGS", payload: [] });
+        handleSearch([], "");
+    }
+
 
     // Rendering
     return (
@@ -90,7 +97,7 @@ const SearchFields = () => {
                 <Autocomplete
                     multiple
                     options={state.allTags}
-                    defaultValue={state.searchTags}
+                    value={state.searchTags}
                     filterSelectedOptions
                     getOptionLabel={(option) => option.hashtagtxt}
                     renderOption={(option) => (
@@ -131,7 +138,7 @@ const SearchFields = () => {
                         id="comment-search"
                         label="Comments & Description"
                         type="search"
-                        defaultValue={state.searchComments}
+                        value={state.searchComments}
                         onChange={(event) => dispatch({ type: "SET_SEARCH_COMMENTS", payload: event.target.value })}
                         onKeyDown={handleKeyDown}
                         InputProps={{
@@ -153,12 +160,20 @@ const SearchFields = () => {
             </Col>
             <Col md={4} xs={12}>
                 <Button
-                    onClick={handleSearch}
+                    onClick={() => handleSearch()}
                     variant="contained"
                     color="primary"
                     style={{ margin: "5px" }}
                 >
                     Search
+                </Button>
+                <Button
+                    onClick={() => handleReset()}
+                    variant="contained"
+                    color="primary"
+                    style={{ margin: "5px" }}
+                >
+                    Reset
                 </Button>
                 <Button
                     variant="contained"
