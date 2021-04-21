@@ -15,19 +15,19 @@ class Tag extends Component {
 
         TagService.authToken(keycloak.token);
         this.props.selectedImages.map(image => {
-            TagService.remove(image.id, this.props.tag).then(() => {
-                i === this.props.selectedImages.length ? this.props.updateSelected() : i++;
-            })
+            TagService.remove(image.id, this.props.tag)
+                .then(() => {
+                    i === this.props.selectedImages.length ? this.props.updateSelected() : i++;
+                })
         })
     }
 
     handleDeleteTag() {
-        var i = 1;
-
         TagService.authToken(keycloak.token);
-        TagService.remove(this.props.currentImage.id, this.props.tag).then(() => {
-            i === this.props.selectedImages.length ? this.props.updateSelected() : i++;
-        });
+        TagService.remove(this.props.currentImage.id, this.props.tag)
+            .then(() => {
+                this.props.updateSelected();
+            });
     }
 
 
@@ -61,7 +61,7 @@ class Tag extends Component {
                     <IconButton aria-label="delete">
                         <DeleteForeverIcon
                             fontSize="medium"
-                            onClick={this.props.viewMode ? () => this.handleDeleteTag() : () => this.handleDeleteCommonTag()}
+                            onClick={() => this.handleDeleteCommonTag()}
                         />
                     </IconButton>
                 </Tooltip>

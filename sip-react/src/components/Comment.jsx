@@ -48,14 +48,14 @@ class Comment extends Component {
         return (
             <div className="comment"
                 style={{
-                    backgroundColor: this.props.isCommon ? "lightgray" : "white",
+                    backgroundColor: this.props.isCommon && this.props.selectedImages.length > 1 ? "lightgray" : "white",
                     padding: "10px",
                     borderTop: "1px solid",
                     borderBottom: "1px solid",
                 }}
             >
                 <Row>
-                    {!this.props.isCommon ?
+                    {!this.props.isCommon || this.props.selectedImages.length === 1 ?
                         this.getDeleteForCurrent()
                         :
                         <div>
