@@ -6,6 +6,9 @@ import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { ReactKeycloakProvider } from '@react-keycloak/web'
 import keycloak from './keycloak'
+import { createMuiTheme } from '@material-ui/core/styles';
+import { ThemeProvider } from '@material-ui/styles';
+
 
 // const eventLogger = (event, error) => {
 //   console.log('onKeycloakEvent', event, error)
@@ -28,23 +31,37 @@ import keycloak from './keycloak'
 
 //Initialization of the keycloak instance
 keycloak.init({ onLoad: 'login-required' }).then((authenticated) => {
-  console.log(keycloak);
-  console.log(authenticated);
-  // console.log(getState().keycloakLogin);
-  if (!authenticated) {
-      window.location.reload();
-  } else {
-      console.info("Authenticated");
-  }
+    console.log(keycloak);
+    console.log(authenticated);
+    // console.log(getState().keycloakLogin);
+    if (!authenticated) {
+        window.location.reload();
+    } else {
+        console.info("Authenticated");
+    }
+    const buttonTheme = createMuiTheme({
+        palette: {
+            primary: {
+                main: '#4a646c',
+            },
+            secondary: {
+                main: '#81c784',
+            },
+        },
+    });
+    //React Render on authentication
+    ReactDOM.render(
+        <ThemeProvider theme={buttonTheme}>
+            <App />
+        </ThemeProvider>
+        , document.getElementById('root'));
 
-  //React Render on authentication
-  ReactDOM.render(<App />, document.getElementById('root'));
+    //store authentication tokens in sessionStorage
+    sessionStorage.setItem('authentication', keycloak.token);
+    sessionStorage.setItem('refreshToken', keycloak.refreshToken);
 
-  //store authentication tokens in sessionStorage
-  sessionStorage.setItem('authentication', keycloak.token);
-  sessionStorage.setItem('refreshToken', keycloak.refreshToken);
 
-  //to regenerate token on expiry
+    //to regenerate token on expiry
     const refresh = async () => {
         keycloak.updateToken(121).then((refreshed) => {
             if (refreshed) {
@@ -61,7 +78,7 @@ keycloak.init({ onLoad: 'login-required' }).then((authenticated) => {
     refresh()
 
 }).catch(() => {
-  console.error("Authenticated Failed");
+    console.error("Authenticated Failed");
 });
 
 reportWebVitals();

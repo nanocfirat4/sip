@@ -10,10 +10,9 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 // Global states
 import { Context } from '../Store';
 import { ImageService } from '../services/ImageService';
-import { ThemeProvider } from '@material-ui/styles';
 
 
-export default function AddFields({ currentImage , buttonTheme}) {
+export default function AddFields({ currentImage }) {
     const [state, dispatch] = useContext(Context);
 
 
@@ -189,7 +188,6 @@ export default function AddFields({ currentImage , buttonTheme}) {
             />
 
             {currentImage ?
-            <ThemeProvider theme={buttonTheme}>                
             <Button
                     variant="contained"
                     color="primary"
@@ -198,10 +196,8 @@ export default function AddFields({ currentImage , buttonTheme}) {
                 >
                     Save for current
                 </Button>
-                </ThemeProvider>
 
             : null}
-            <ThemeProvider theme={buttonTheme}>                
 
             <Button
                 variant="contained"
@@ -211,7 +207,6 @@ export default function AddFields({ currentImage , buttonTheme}) {
             >
                 Save for all
             </Button>
-            </ThemeProvider>                
 
             <TextField
                 id="add_comment"
@@ -222,7 +217,6 @@ export default function AddFields({ currentImage , buttonTheme}) {
                 onKeyDown={handleKeyDownComment}
             />
             {currentImage ?
-             <ThemeProvider theme={buttonTheme}>                
 
                 <Button
                     variant="contained"
@@ -232,10 +226,8 @@ export default function AddFields({ currentImage , buttonTheme}) {
                 >
                     Save for current
                 </Button>
-                </ThemeProvider>                
 
             : null}
-            <ThemeProvider theme={buttonTheme}>                
             <Button
                 variant="contained"
                 color="primary"
@@ -244,7 +236,6 @@ export default function AddFields({ currentImage , buttonTheme}) {
             >
                 Save for all
             </Button>
-            </ThemeProvider>                
 
 
         </div>

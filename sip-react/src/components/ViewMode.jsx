@@ -14,7 +14,7 @@ import { CommentService } from '../services/CommentService'
 import { TagService } from '../services/TagService'
 
 
-const ViewMode = (buttonTheme) => {
+const ViewMode = () => {
     const [state, dispatch] = useContext(Context);
     const [currentIndex, setCurrentIndex] = useState(0)
     const [currentImage, setCurrentImage] = useState(state.selectedImages[0]);
@@ -179,7 +179,7 @@ const ViewMode = (buttonTheme) => {
                             <h3>{currentImage.description}</h3>
                         </div>
 
-                        <AddFields currentImage={currentImage} buttonTheme={buttonTheme}/>
+                        <AddFields/>
 
                         {getTagList()}
                         {getCommentList()}

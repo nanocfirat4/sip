@@ -6,14 +6,12 @@ import Button from '@material-ui/core/Button';
 import Slider from '@material-ui/core/Slider';
 import { Fade, Grid, Tooltip, Typography, withStyles, Zoom } from '@material-ui/core';
 import HelpIcon from '@material-ui/icons/Help';
-import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 import InputAdornment from '@material-ui/core/InputAdornment';
 // Global states
 import { Context } from '../Store';
 import { ImageService } from '../services/ImageService';
 import keycloak from '../keycloak';
 import { LinkContainer } from 'react-router-bootstrap';
-import { ThemeProvider } from '@material-ui/styles';
 
 const CssTextField = withStyles({
     root: {
@@ -42,7 +40,7 @@ const InfoTooltip = withStyles((theme) => ({
 
 
 
-const SearchFields = (props) => {
+const SearchFields = () => {
     const [state, dispatch] = useContext(Context);
 
 
@@ -148,12 +146,10 @@ const SearchFields = (props) => {
                                     <InfoTooltip
                                         title="Free text search for keywords in comments or image description. Use a colon ',' for an 'AND' request. For example 'Azan, tooth' for 'Azan' AND 'tooth'."
                                     >
-                                        <ThemeProvider theme={props.buttonTheme}>
                                         <HelpIcon
-                                            color="secondary"
+                                            color="disabled"
                                             alt="Fuck off"
                                         />
-                                        </ThemeProvider>
                                     </InfoTooltip>
                                 </InputAdornment>
                             )
@@ -162,7 +158,6 @@ const SearchFields = (props) => {
                 </div>
             </Col>
             <Col md={4} xs={12}>
-                <ThemeProvider theme={props.buttonTheme}>
                 <Button
                     onClick={() => handleSearch()}
                     variant="contained"
@@ -171,7 +166,6 @@ const SearchFields = (props) => {
                 >
                     Search
                 </Button>
-                </ThemeProvider>
                 <Button
                     onClick={() => handleReset()}
                     variant="contained"
@@ -217,8 +211,6 @@ const SearchFields = (props) => {
                 <Typography style={{ textAlign: "center" }}>
                     Thumbnail size
                 </Typography>
-                
-                <ThemeProvider theme={props.buttonTheme}>
                 <Slider
                     // getAriaValueText={this.valuetext}
                     aria-labelledby="discrete-slider"
@@ -232,8 +224,6 @@ const SearchFields = (props) => {
                     style={{ width: "100%" }}
                     onChange={handleSliderChange}
                 />
-                </ThemeProvider>
-                
             </Col>
         </Row>
     );
