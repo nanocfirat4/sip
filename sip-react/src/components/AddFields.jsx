@@ -13,7 +13,7 @@ import { ImageService } from '../services/ImageService';
 import { ThemeProvider } from '@material-ui/styles';
 
 
-export default function AddFields({ currentImage }) {
+export default function AddFields({ currentImage , buttonTheme}) {
     const [state, dispatch] = useContext(Context);
 
 
