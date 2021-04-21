@@ -18,6 +18,7 @@ import Store from './Store'
 // Styles
 import './App.css'
 import SearchFields from './components/SearchFields';
+import { createMuiTheme } from '@material-ui/core/styles';
 
 
 const styles = (theme) => ({
@@ -49,6 +50,18 @@ const App = (props) => {
         window: PropTypes.func,
     };
 
+    const buttonTheme = createMuiTheme({
+        palette: {
+            primary: {
+                main: '#4a646c',
+            },
+            secondary: {
+                // This is green.A700 as hex.
+                main: '#81c784',
+            },
+        },
+    });
+
 
     return (
         <Store>
@@ -62,9 +75,9 @@ const App = (props) => {
                         <Route exact path='/'>
                             <Toolbar>
                                 <HideOnScroll {...props}>
-                                    <AppBar position="fixed">
-                                        <AppNavBar setHide={setHide} />
-                                        <SearchFields />
+                                    <AppBar position="fixed" >                                        
+                                    <AppNavBar setHide={setHide} buttonTheme={buttonTheme}/>
+                                        <SearchFields buttonTheme={buttonTheme}/>
                                     </AppBar>
                                 </HideOnScroll>
                             </Toolbar>
@@ -81,7 +94,7 @@ const App = (props) => {
                         </Route>
                         <Route path='/view'>
                             <AppBar>
-                                <AppNavBar setHide={false} />
+                                <AppNavBar setHide={false} buttonTheme={buttonTheme}/>
                             </AppBar>
                             <div className={classes.toolbar} style={{ marginTop: "20px" }} />
                             <ViewMode />

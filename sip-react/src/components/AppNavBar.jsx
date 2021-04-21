@@ -3,8 +3,10 @@ import React from 'react'
 import { Navbar, Nav, Button } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 import keycloak from '../keycloak'
+import { ThemeProvider } from '@material-ui/styles';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 
-function AppNavBar({ setHide }) {
+function AppNavBar({ setHide, buttonTheme }) {
     return (
         <Navbar bg='dark' expand='lg' variant='dark' >
             <Navbar.Toggle aria-controls='basic-navbar-nav' />
@@ -27,13 +29,15 @@ function AppNavBar({ setHide }) {
                         Logout
                     </Button>
                     {setHide ?
-                        <Button
-                            style={{ margin: "5px" }}
-                            onClick={() => setHide(true)}
-                        >
-                            hide
-                        </Button>
-                    :
+                        <ThemeProvider theme={buttonTheme}>
+                            <ArrowBackIosIcon
+                                color='secondary'
+                                style={{ margin: "5px" }}
+                                onClick={() => setHide(true)}
+                            >
+                            </ArrowBackIosIcon>
+                        </ThemeProvider>
+                        :
                         null}
 
                 </Navbar.Text>

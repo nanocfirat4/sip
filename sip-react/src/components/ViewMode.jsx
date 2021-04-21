@@ -12,9 +12,10 @@ import PhotoSizeSelectLargeIcon from '@material-ui/icons/PhotoSizeSelectLarge';
 import { ImageService } from '../services/ImageService'
 import { CommentService } from '../services/CommentService'
 import { TagService } from '../services/TagService'
+import { ThemeProvider } from '@material-ui/styles';
 
 
-const ViewMode = () => {
+const ViewMode = (buttonTheme) => {
     const [state, dispatch] = useContext(Context);
     const [currentIndex, setCurrentIndex] = useState(0)
     const [currentImage, setCurrentImage] = useState(state.selectedImages[0]);
@@ -179,7 +180,7 @@ const ViewMode = () => {
                             <h3>{currentImage.description}</h3>
                         </div>
 
-                        <AddFields currentImage={currentImage} />
+                        <AddFields currentImage={currentImage} buttonTheme={buttonTheme}/>
 
                         {getTagList()}
                         {getCommentList()}
