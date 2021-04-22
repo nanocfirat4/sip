@@ -48,15 +48,18 @@ function AppNavBar({ setHide }) {
                 <InfoTooltip
                     title="Hide Navbar"
                 >
-                    <ArrowBackIosIcon
-                        color='secondary'
-                        style={{ margin: "5px" }}
-                        onClick={() => setHide(true)}
+                    <Button
+                        variant='dark'
+                        onClick={() =>
+                            keycloak.logout()
+                        }
                     >
-                    </ArrowBackIosIcon>
+                        <ArrowBackIosIcon
+                            color='secondary'
+                        />
+                    </Button>
                 </InfoTooltip>
-
-                :
+            :
                 null}
         </Navbar>
     )
