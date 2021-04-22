@@ -144,7 +144,9 @@ const SearchFields = () => {
                             endAdornment: (
                                 <InputAdornment>
                                     <InfoTooltip
-                                        title="Free text search for keywords in comments or image description. Use a colon ',' for an 'AND' request. For example 'Azan, tooth' for 'Azan' AND 'tooth'."
+                                        title="Free text search for keywords in comments or image description.
+                                            Use a colon ',' for an 'AND' request. For example 'Azan, tooth' for 'Azan' AND 'tooth'.
+                                            All the tags shown are 'AND' connected. With the search button only pictures with all tags will be selected."
                                     >
                                         <HelpIcon
                                             color="secondary"
