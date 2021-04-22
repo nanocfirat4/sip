@@ -51,7 +51,7 @@ function AppNavBar({ setHide }) {
                     <Button
                         variant='dark'
                         onClick={() =>
-                            keycloak.logout()
+                            setHide()
                         }
                     >
                         <ArrowBackIosIcon
