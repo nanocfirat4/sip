@@ -47,7 +47,7 @@ const SearchFields = () => {
 
     // adjust thumbnail sizes
     function handleSliderChange(event, newValue) {
-        dispatch({type: "SET_THUMBNAIL_SIZE", payload: newValue})
+        dispatch({ type: "SET_THUMBNAIL_SIZE", payload: newValue })
     };
 
     // Search when button is clicked
@@ -74,7 +74,7 @@ const SearchFields = () => {
     }
 
     // Reset current search
-    function handleReset(){
+    function handleReset() {
         dispatch({ type: "SET_SEARCH_COMMENTS", payload: "" });
         dispatch({ type: "SET_SEARCH_TAGS", payload: [] });
         handleSearch([], "");
@@ -83,82 +83,108 @@ const SearchFields = () => {
 
     // Rendering
     return (
-        <Row
-            id="searchfields"
-            style={{
-                padding: "10px",
-                backgroundColor: '#4e565e',
-                expand: 'lg',
-                variant: 'dark',
-            }}
-        >
-            <Col md={3}>
-                <Autocomplete
-                    multiple
-                    options={state.allTags}
-                    value={state.searchTags}
-                    filterSelectedOptions
-                    getOptionLabel={(option) => option.hashtagtxt}
-                    renderOption={(option) => (
-                        <React.Fragment>
-                            <div style={{
-                                width: "100%",
-                                overflow: "hidden",
-                            }}>
+        <div>
+            <Row
+                style={{
+                    padding: "10px",
+                    backgroundColor: '#4e565e',
+                    expand: 'lg',
+                    variant: 'dark',
+                }}
+            >
+                <Col md={5}>
+                    <Autocomplete
+                        multiple
+                        options={state.allTags}
+                        value={state.searchTags}
+                        filterSelectedOptions
+                        getOptionLabel={(option) => option.hashtagtxt}
+                        renderOption={(option) => (
+                            <React.Fragment>
                                 <div style={{
-                                    float: "left"
+                                    width: "100%",
+                                    overflow: "hidden",
                                 }}>
-                                    {option.hashtagtxt}
+                                    <div style={{
+                                        float: "left"
+                                    }}>
+                                        {option.hashtagtxt}
+                                    </div>
+                                    <div style={{
+                                        textAlign: "right",
+                                        float: "right",
+                                        color: "gray"
+                                    }}>
+                                        {option.hashtagCount}
+                                    </div>
                                 </div>
-                                <div style={{
-                                    textAlign: "right",
-                                    float: "right",
-                                    color: "gray"
-                                }}>
-                                    {option.hashtagCount}
-                                </div>
-                            </div>
-                        </React.Fragment>
-                    )}
-                    renderInput={(params) =>
-                        <CssTextField
-                            {...params}
-                            label="Tags"
-                        />
-                    }
-                    onChange={handleTagChange}
-                />
-            </Col>
-            <Col md={3}>
-                <div style={{
+                            </React.Fragment>
+                        )}
+                        renderInput={(params) =>
+                            <CssTextField
+                                {...params}
+                                label="Tags"
+                            />
+                        }
+                        onChange={handleTagChange}
+                    />
+                </Col>
+                <Col md={5}>
+                    <div style={{
 
-                }}>
-                    <CssTextField
-                        id="comment-search"
-                        label="Comments & Description"
-                        type="search"
-                        value={state.searchComments}
-                        onChange={(event) => dispatch({ type: "SET_SEARCH_COMMENTS", payload: event.target.value })}
-                        onKeyDown={handleKeyDown}
-                        InputProps={{
-                            endAdornment: (
-                                <InputAdornment>
-                                    <InfoTooltip
-                                        title="Free text search for keywords in comments or image description.
+                    }}>
+                        <CssTextField
+                            id="comment-search"
+                            label="Comments & Description"
+                            type="search"
+                            value={state.searchComments}
+                            onChange={(event) => dispatch({ type: "SET_SEARCH_COMMENTS", payload: event.target.value })}
+                            onKeyDown={handleKeyDown}
+                            InputProps={{
+                                endAdornment: (
+                                    <InputAdornment>
+                                        <InfoTooltip
+                                            title="Free text search for keywords in comments or image description.
                                             Use a colon ',' for an 'AND' request. For example 'Azan, tooth' for 'Azan' AND 'tooth'.
                                             All the tags shown are 'AND' connected. With the search button only pictures with all tags will be selected."
-                                    >
-                                        <HelpIcon
-                                            color="secondary"
-                                        />
-                                    </InfoTooltip>
-                                </InputAdornment>
-                            )
-                        }}
+                                        >
+                                            <HelpIcon
+                                                color="secondary"
+                                            />
+                                        </InfoTooltip>
+                                    </InputAdornment>
+                                )
+                            }}
+                        />
+                    </div>
+                </Col>
+                <Col md={2} xs={12}>
+                    <Typography style={{ textAlign: "center" }}>
+                        Thumbnail size
+                    </Typography>
+                    <Slider
+                        color="secondary"
+                        aria-labelledby="discrete-slider"
+                        valueLabelDisplay="auto"
+                        step={50}
+                        marks
+                        min={50}
+                        max={300}
+                        defaultValue={150}
+                        id="sizeSlider"
+                        style={{ width: "100%" }}
+                        onChange={handleSliderChange}
                     />
-                </div>
-            </Col>
-            <Col md={4} xs={12}>
+                </Col>
+            </Row>
+            <Row
+                style={{
+                    padding: "10px",
+                    backgroundColor: '#4e565e',
+                    expand: 'lg',
+                    variant: 'dark',
+                }}
+            >
                 <Button
                     onClick={() => handleSearch()}
                     variant="contained"
@@ -194,7 +220,7 @@ const SearchFields = () => {
                 {/* Display 'Show Images'-Button */}
                 {state.selectedImages.length > 0 ?
                     <LinkContainer to="/view"
-                        style={{color: "white"}}
+                        style={{ color: "white" }}
                     >
                         <Button
                             variant="contained"
@@ -206,27 +232,8 @@ const SearchFields = () => {
                         </Button>
                     </LinkContainer>
                     : null}
-
-            </Col>
-            <Col md={2} xs={12}>
-                <Typography style={{ textAlign: "center" }}>
-                    Thumbnail size
-                </Typography>
-                <Slider
-                    color = "secondary"
-                    aria-labelledby="discrete-slider"
-                    valueLabelDisplay="auto"
-                    step={50}
-                    marks
-                    min={50}
-                    max={300}
-                    defaultValue={150}
-                    id="sizeSlider"
-                    style={{ width: "100%" }}
-                    onChange={handleSliderChange}
-                />
-            </Col>
-        </Row>
+            </Row>
+        </div>
     );
 }
 export default SearchFields
