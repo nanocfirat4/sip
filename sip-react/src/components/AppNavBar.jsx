@@ -4,6 +4,19 @@ import { Navbar, Nav, Button } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 import keycloak from '../keycloak'
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import { Tooltip, withStyles } from '@material-ui/core';
+
+
+const InfoTooltip = withStyles((theme) => ({
+    tooltip: {
+        backgroundColor: '#d3d3d3',
+        color: 'rgba(0, 0, 0, 0.87)',
+        border: "1px solid gray",
+        maxWidth: 420,
+        fontSize: theme.typography.pxToRem(14),
+    },
+}))(Tooltip);
+
 
 function AppNavBar({ setHide }) {
     return (
@@ -27,18 +40,24 @@ function AppNavBar({ setHide }) {
                     >
                         Logout
                     </Button>
-                    {setHide ?
-                            <ArrowBackIosIcon
-                                color='secondary'
-                                style={{ margin: "5px" }}
-                                onClick={() => setHide(true)}
-                            >
-                            </ArrowBackIosIcon>
-                        :
-                        null}
 
                 </Navbar.Text>
             </Navbar.Collapse>
+            {setHide ?
+
+                <InfoTooltip
+                    title="Hide Navbar"
+                >
+                    <ArrowBackIosIcon
+                        color='secondary'
+                        style={{ margin: "5px" }}
+                        onClick={() => setHide(true)}
+                    >
+                    </ArrowBackIosIcon>
+                </InfoTooltip>
+
+                :
+                null}
         </Navbar>
     )
 }

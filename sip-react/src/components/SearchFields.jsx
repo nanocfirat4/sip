@@ -86,9 +86,7 @@ const SearchFields = () => {
         <div>
             <Row
                 style={{
-                    paddingTop: "10px",
-                    paddingLeft: "10px",
-                    paddingRight: "10px",
+                    padding: "0 20px 10px 20px",
                     backgroundColor: '#4e565e',
                     expand: 'lg',
                     variant: 'dark',
@@ -181,9 +179,7 @@ const SearchFields = () => {
             </Row>
             <Row
                 style={{
-                    paddingBottom: "10px",
-                    paddingLeft: "10px",
-                    paddingRight: "10px",
+                    padding: "0 20px 10px 20px",
                     backgroundColor: '#4e565e',
                     expand: 'lg',
                     variant: 'dark',

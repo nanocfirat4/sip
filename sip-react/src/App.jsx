@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import PropTypes from 'prop-types';
 import { Container } from 'react-bootstrap';
@@ -33,7 +33,7 @@ const App = (props) => {
     const [windowSize, setWindowSize] = useState(window.innerWidth)
 
     useEffect(() => {
-        window.addEventListener("resize", resize())
+        window.addEventListener('resize', resize);
     }, [])
 
     function resize() {
