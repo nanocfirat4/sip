@@ -70,7 +70,8 @@ const App = (props) => {
                                     </AppBar>
                                 </HideOnScroll>
                             </Toolbar>
-                            <div className={classes.toolbar} style={{ marginTop: "20px" }} />
+                            <div className={classes.toolbar} />
+                            <div className={classes.toolbar} />
 
                             <ThumbnailList />
                         </Route>
