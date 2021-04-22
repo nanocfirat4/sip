@@ -224,7 +224,7 @@ const SearchFields = () => {
                     >
                         <Button
                             variant="contained"
-                            color="primary"
+                            color="secondary"
                             style={{ margin: "5px" }}
                             onClick={() => dispatch({ type: "SET_LOADING", payload: true })}
                         >
