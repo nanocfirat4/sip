@@ -30,6 +30,15 @@ const App = (props) => {
     const { classes } = props;
 
     const [hide, setHide] = useState(false)
+    const [windowSize, setWindowSize] = useState(window.innerWidth)
+
+    useEffect(() => {
+        window.addEventListener("resize", resize())
+    }, [])
+
+    function resize() {
+        setWindowSize(window.innerWidth);
+    }
 
     function HideOnScroll(props) {
         const { children, window } = props;
@@ -64,14 +73,20 @@ const App = (props) => {
                         <Route exact path='/'>
                             <Toolbar>
                                 <HideOnScroll {...props}>
-                                    <AppBar position="fixed" >                                        
-                                    <AppNavBar setHide={setHide} />
+                                    <AppBar position="fixed" >
+                                        <AppNavBar setHide={setHide} />
                                         <SearchFields />
                                     </AppBar>
                                 </HideOnScroll>
                             </Toolbar>
                             <div className={classes.toolbar} />
                             <div className={classes.toolbar} />
+                            {windowSize < 770 ?
+                                <div>
+                                    <div className={classes.toolbar} />
+                                    <div className={classes.toolbar} />
+                                </div>
+                            : null}
 
                             <ThumbnailList />
                         </Route>
