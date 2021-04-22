@@ -148,7 +148,6 @@ const SearchFields = () => {
                                     >
                                         <HelpIcon
                                             color="secondary"
-                                            alt="Fuck off"
                                         />
                                     </InfoTooltip>
                                 </InputAdornment>
