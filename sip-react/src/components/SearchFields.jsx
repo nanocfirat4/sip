@@ -131,7 +131,7 @@ const SearchFields = () => {
                         onChange={handleTagChange}
                     />
                 </Col>
-                <Col md={5}>
+                <Col md={4}>
                     <div style={{
 
                     }}>
@@ -160,7 +160,7 @@ const SearchFields = () => {
                         />
                     </div>
                 </Col>
-                <Col md={2} xs={12}>
+                <Col md={3} xs={12}>
                     <Typography style={{ textAlign: "center" }}>
                         Thumbnail size
                     </Typography>
