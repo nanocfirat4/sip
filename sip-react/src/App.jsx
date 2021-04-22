@@ -86,8 +86,6 @@ const App = (props) => {
                                     <div className={classes.toolbar} />
                                     <div className={classes.toolbar} />
                                     <div className={classes.toolbar} />
-                                    <div className={classes.toolbar} />
-                                    <div className={classes.toolbar} />
                                 </div>
                             : null}
 
